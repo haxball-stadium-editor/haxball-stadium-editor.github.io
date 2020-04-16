@@ -1,4 +1,4 @@
-﻿﻿// AtnNn's HBS Editor
+﻿// AtnNn's HBS Editor, edited by Falafel
 //
 // Copyright 2011 Etienne Laurin
 // All rights reserved
@@ -510,7 +510,7 @@ $(function(){
     });
 
     $('#button_about').click(function(){
-        alert('v2.08, 2020 by Falafel');
+        alert('v2.09, 2020 by Falafel');
     });
 	
 	$('#button_contact').click(function(){
@@ -655,6 +655,7 @@ $(function(){
 	});
 	
 	$('#button_addJoint').click(function(){
+		if (total_selected_by_type.discs!=2) return;
 		document.getElementById("button_addJoint").innerHTML="Joint added!";
 		setTimeout(function(){
 			document.getElementById("button_addJoint").innerHTML="Add Joint";
@@ -681,6 +682,7 @@ $(function(){
 		if (isNaN(joint.strength)) joint.strength="rigid";
 		joint.color = document.getElementById("inputColor").value;
 		stadium.joints.push(joint);
+		queue_render();
 	});
 	
 	$('#button_newTrait').click(function(){
@@ -752,11 +754,17 @@ $(function(){
 		resize_canvas();
 		render(stadium);
 	});
+	
+	$('#button_powrot').click(function(){
+		document.getElementById("button_tab_advanced").click();
+	});
 
 
     define_tab('properties');
     define_tab('advanced');
     define_tab('edit');
+	define_tab('joints');
+	define_tab('spawnpoints');
 
     $(canvas).mousedown(handle_down);
     $(canvas).mouseup(handle_up);
@@ -1117,9 +1125,18 @@ function render(st){
 				ctx.stroke();
 			}
             ctx.strokeStyle = 'rgb(0,0,0)';
-			if (joint.color != "transparent") ctx.strokeStyle = "#"+joint.color;
-            ctx.lineWidth = 2;
-            ctx.stroke();
+			if (joint.color != "transparent") {
+				ctx.strokeStyle = "#"+joint.color;
+				ctx.lineWidth = 2;
+				ctx.stroke();
+			} else {
+				ctx.lineWidth = 2;
+				ctx.strokeStyle = colors.invisible_thick;
+				ctx.stroke();
+				ctx.lineWidth = 1;
+				ctx.strokeStyle = colors.invisible_thin;
+				ctx.stroke();
+			}
 			//console.log("Wykonałem transformację");
         });
     });
@@ -4109,7 +4126,8 @@ function parseMaskList(str){
 }
 
 function allowJoint() {
-	$('#button_addJoint').removeClass('hidden');
+	document.getElementById("button_addJoint").style="background-color: #347c40";
+	//$('#button_addJoint').removeClass('hidden');
 	/*$('#labelRigid').removeClass('hidden');
 	$('#inputRigid').removeClass('hidden');
 	$('#labelRigid').removeClass('prop');
@@ -4117,11 +4135,38 @@ function allowJoint() {
 }
 
 function disallowJoint() {
-	$('#button_addJoint').addClass('hidden');
+	document.getElementById("button_addJoint").style="background-color: #696969";
+	//$('#button_addJoint').addClass('hidden');
 	/*$('#labelRigid').addClass('hidden');
 	$('#inputRigid').addClass('hidden');
 	$('#labelRigid').addClass('prop');
 	$('#inputRigid').addClass('prop');*/
+}
+
+function jointAlertOn() {
+	if (total_selected_by_type.discs==2) {
+		allowJoint();
+	} else {
+		disallowJoint();
+		document.getElementById("joint_alert").innerHTML="⚠️ 2 discs must be selected. Now selected: "+total_selected_by_type.discs;
+		if (total_selected_by_type.discs==undefined) document.getElementById("joint_alert").innerHTML="⚠️ 2 discs must be selected. Now selected: 0";
+	}
+}
+
+function jointAlertOff() {
+	document.getElementById("joint_alert").innerHTML="";
+}
+
+function fileLoaded() {
+	var plik = document.getElementById("loadHBS");
+	var reader = new FileReader();
+	reader.readAsBinaryString(plik.files[0]);
+	reader.onload = function() {
+		if (plik.value.endsWith(".hbs")) {
+			console.log(reader.result);
+			$('#textarea_import').val(reader.result);
+		}
+	}
 }
 
 /*
