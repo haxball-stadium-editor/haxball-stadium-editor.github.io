@@ -1,4 +1,3 @@
-﻿
 <!-- saved from url=(0061)http://web.archive.org/web/20181112005722/http://haxpuck.com/ -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" async="" src="./HaxPuck.com_files/ga.js.다운로드"></script><script src="./HaxPuck.com_files/analytics.js.다운로드" type="text/javascript"></script>
   <script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app102.us.archive.org';v.server_ms=768;archive_analytics.send_pageview({});});</script>
@@ -56,7 +55,7 @@
   __wm.bt(600,27,25,2,"web","http://haxpuck.com/","2018-11-12",1996);
   </script><div class="wb-autocomplete-suggestions " style="left: 0px; top: 1px; width: 0px;"></div>
     <div class="header">
-      <span class="title">HBSE v2.08</span>
+      <span class="title">HBSE v2.09</span>
     <a href="https://www.haxball.com/play", target="_blank", style = color:#fff><img src="./HBSE_files/top-tools/top-tools_play.png" style="height: 12px; width: 12px;">HaxBall Play</a>
     <a href="https://www.haxball.com/headless", target="_blank" style = color:#fff><img src="./HBSE_files/top-tools/top-tools_host.png" style="height: 12px; width: 12px;">HaxBall Headless</a>
     <a href="http://blog.haxball.com/", target="_blank", style = color:#fff><img src="./HBSE_files/top-tools/top-tools_news.png" style="height: 12px; width: 12px;">HaxBall News</a>
@@ -249,15 +248,19 @@
                 </div>
                 <div id="tab_advanced" class="hidden">
 				<table><td>
-				<label class="prop" style="width: 25px;">x:</label><input class="prop" type="text" id="prop_spawnPointX">
+				<button id="button_tab_spawnpoints">SpawnPoints</button>
+				<button id="button_tab_joints">Joints</button>
+				<button id="button_mirror_mode"><img src="./HBSE_files/left-tools/left-tools_mirror.png" style="height: 12px; width: 12px">Automatic Mirror</button>
+				<button id="pref_preview"><img src="./HBSE_files/left-tools/left-tools_preview.png" style="height: 12px; width: 12px">Preview</button>
+				<!--<label class="prop" style="width: 25px;">x:</label><input class="prop" type="text" id="prop_spawnPointX">
 					<label class="prop" style="width: 25px;">y:</label><input class="prop" type="text" id="prop_spawnPointY">
-                  <button id="button_redSpawnPoint"; style="background-color: #e56e56">Add Spawn Point</button>
+                  <button id="button_tab_joints"; style="background-color: #e56e56">Add Spawn Point</button>
 				  <button id="button_blueSpawnPoint"; style="background-color: #598ae5">Add Spawn Point</button>
 				  <button id="button_resetRed"; style="background-color: #e56e56; color: black">Reset Spawnpoints</button>
 				  <button id="button_resetBlue"; style="background-color: #598ae5; color: black">Reset Spawnpoints</button>
 				  </td><td>
 				  <table><tr>
-				  <button id="button_mirror_mode"><img src="./HBSE_files/left-tools/left-tools_mirror.png" style="height: 12px; width: 12px">Automatic Mirrow</button>
+				  <button id="button_mirror_mode"><img src="./HBSE_files/left-tools/left-tools_mirror.png" style="height: 12px; width: 12px">Automatic Mirror</button>
 					
 					</tr><tr>
 					<label class="prop" style="width: 40px;">length:</label><input class="prop" type="text" id="inputLength" value="null">
@@ -266,9 +269,28 @@
 					<label class="prop" style="width: 35px;">color:</label><input class="prop" type="text" id="inputColor" value="transparent">
 					<label class="prop" style="width: 53px;">strength:</label><input class="prop" type="text" id="inputStrength" value="rigid">
 					<button id="button_addJoint" style="background-color: #347c40" class="hidden">Add Joint</button>
-					</tr></table>
+					</tr></table>-->
 					</td></table>
                 </div>
+				<div id="tab_joints" class="hidden">
+					<table><tr>
+					<label class="prop" style="width: 40px;">length:</label><input class="prop" type="text" id="inputLength" value="null">
+					<label class="prop" style="width: 35px;">color:</label><input class="prop" type="text" id="inputColor" value="transparent">
+					<label class="prop" style="width: 53px;">strength:</label><input class="prop" type="text" id="inputStrength" value="rigid">
+					<button id="button_addJoint" style="background-color: #696969" onmouseover="jointAlertOn()" onmouseout="jointAlertOff()">Add Joint</button>
+					<label id="joint_alert"></label>
+					</tr></table>
+				</div>
+				<div id="tab_spawnpoints" class="hidden">
+					<table><td>
+					<label class="prop" style="width: 25px;">x:</label><input class="prop" type="text" id="prop_spawnPointX">
+					<label class="prop" style="width: 25px;">y:</label><input class="prop" type="text" id="prop_spawnPointY">
+					<button id="button_redSpawnPoint"; style="background-color: #e56e56">Add Spawn Point</button>
+					<button id="button_blueSpawnPoint"; style="background-color: #598ae5">Add Spawn Point</button>
+					<button id="button_resetRed"; style="background-color: #e56e56; color: black">Reset Spawnpoints</button>
+					<button id="button_resetBlue"; style="background-color: #598ae5; color: black">Reset Spawnpoints</button>
+					</td></table>
+				</div>
         </div>
     </td><td>
           <div id="tab_parent">
@@ -400,6 +422,7 @@
       <button id="button_import_goto"><img src="./HBSE_files/general/general_goto.png" style="height: 12px; width: 12px" >Goto Character</button>
 	  <button id="button_import_select_all" style="background-color:green"><img src="./HBSE_files/general/general_all.png" style="height: 12px; width: 12px">Copy All</button>
 	  <button id="button_downloadMap" style="background-color:green">Download .hbs file</button>
+	  <label>Upload .hbs file -></label><input type="file" id="loadHBS" onchange="fileLoaded()">
         </td></tr>
       </tbody></table>
     </div>
@@ -413,7 +436,13 @@
         <h3>General info</h3>
         The <a href="http://web.archive.org/web/20181112005722/https://github.com/atnnn/haxpuck/">source code for HaxPuck</a> (created by AtnNn) was available on github. 
 		Haxball Stadium File (.hbs) wiki is available <a href="https://github.com/haxball/haxball-issues/wiki/Stadium-(.hbs)-File">HERE</a>
-        <h4>(2020-04-15) v2.08 by Falafel</h4>
+        <h4>(2020-04-16) v2.09 by Falafel</h4>
+			<ul>
+			<li>Changed "Tools" tab, it should be more clear and intuitive now</li>
+			<li>Changed displaying of transparent joints</li>
+			<li>Added "Upload .hbs file" button, which lets you upload the map fom your computer</li>
+			</ul>
+		<h4>(2020-04-15) v2.08 by Falafel</h4>
 			<ul>
 			<li>Fixed some bugs</li>
 			</ul>
@@ -462,17 +491,17 @@
 		<h4>(2019-08-06) v1.14 by GLH (Grandes Liga Haxball)</h4>
           <ul>
             <li>[Kick Recoil] was added in [Properties]> [Player Physics].</li>
-            <li>Gravity has been added in Properties> Player Physics.</li>
-            <li>Gravity has been added in Properties> Ball Physics.</li>
-            <li> Added icon in [Tools]> [Automatic Mirror]. </li>
-            <li> Added icon in [Tools]> [Preview]. </li>
-            <li> [Text Mode]> [Clear] has been changed to [Clear All]. </li>
-            <li> An alert window was added when you clicked [Text Mode]> [Clear All]. </li>
-            <li> The icon has been changed in [Top QuickTool]> [Bug Report / Contact]. </li>
-            <li> The icon has been changed in [Bottom QuickTool]> [Undo] and [Redo]. </li>
-            <li> Icon changed in [Text mode]. </li>
-            <li> [Help] has been updated. </li>
-            <li> Some translations have been improved. </li>
+            <li>Gravity has been added in Properties> Player Physics.</li>
+            <li>Gravity has been added in Properties> Ball Physics.</li>
+            <li> Added icon in [Tools]> [Automatic Mirror]. </li>
+            <li> Added icon in [Tools]> [Preview]. </li>
+            <li> [Text Mode]> [Clear] has been changed to [Clear All]. </li>
+            <li> An alert window was added when you clicked [Text Mode]> [Clear All]. </li>
+            <li> The icon has been changed in [Top QuickTool]> [Bug Report / Contact]. </li>
+            <li> The icon has been changed in [Bottom QuickTool]> [Undo] and [Redo]. </li>
+            <li> Icon changed in [Text mode]. </li>
+            <li> [Help] has been updated. </li>
+            <li> Some translations have been improved. </li>
 			<li> Added properties included in Haxball HTML5 update</li>
         </ul>
       </div>
