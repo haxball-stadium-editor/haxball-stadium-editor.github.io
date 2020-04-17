@@ -1358,8 +1358,8 @@ function handle_down(ev){
 var skala = 1;
 function translate_coords(p){
     var off = $(canvas).offset();
-    var pt = [(p[0] - off.left + canvas_rect[0])/skala,
-              (p[1] - off.top + canvas_rect[1])/skala];
+    var pt = [Math.round(p[0] - off.left + canvas_rect[0])/skala,
+              Math.round(p[1] - off.top + canvas_rect[1])/skala];
     return pt;
 }
 
@@ -2053,12 +2053,17 @@ var tool_disc = {
     click: function(pt){
         var shape = add_disc(stadium, pt);
         select_shape(stadium, shape);
+		if (total_selected_by_type.discs==2) allowJoint();
+		else disallowJoint();
         resize_canvas();
         modified();
     },
     end_drag: function(from, to, ev){
         var shape = add_disc(stadium, from, dist(from, to));
         select_shape(stadium, shape);
+		if (total_selected_by_type.discs==2) allowJoint();
+		else disallowJoint();
+		resize_canvas();
         modified();
     },
     key: function(){},
@@ -2987,7 +2992,6 @@ function resize_canvas(){
 		queue_render();
 		return;
 	}
-	
     canvas_rect = rect;
     var wh = { width: rect[2] - rect[0], height: rect[3] - rect[1]};
     $(canvas).attr(wh);
