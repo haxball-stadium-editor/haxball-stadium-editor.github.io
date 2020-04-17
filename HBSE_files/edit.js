@@ -510,7 +510,7 @@ $(function(){
     });
 
     $('#button_about').click(function(){
-        alert('v2.09, 2020 by Falafel');
+        alert('v2.10, 2020 by Falafel');
     });
 	
 	$('#button_contact').click(function(){
@@ -1027,6 +1027,7 @@ function render(st){
     }
 
     var ctx = canvas.getContext('2d');
+	//console.log(ctx.canvas.width);
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
@@ -2975,6 +2976,18 @@ function resize_canvas(){
         round(max(rect[3] + margin, canvas_div_size[1]/2))
     ];
 
+	if (rect[2] - rect[0] >= 65500 || rect[3] - rect[1] >= 65500) {
+		alert("Map is too big, it will be displayed in a limited way (8000x8000). Limits: height:65535, width:65535");
+		rect = [-4000, -4000, 4000, 4000];
+		canvas_rect = rect;
+		var wh = { width: rect[2] - rect[0], height: rect[3] - rect[1]};
+		$(canvas).attr(wh);
+		$(canvas).css(wh);
+
+		queue_render();
+		return;
+	}
+	
     canvas_rect = rect;
     var wh = { width: rect[2] - rect[0], height: rect[3] - rect[1]};
     $(canvas).attr(wh);
