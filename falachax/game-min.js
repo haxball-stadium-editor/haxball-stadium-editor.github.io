@@ -2632,10 +2632,11 @@ newCell.appendChild(newText);*/
       var d = this;
       M.zl(this.xr, 'token=' + this.Dg + '&rcr=' + a, M.vj).then(function (a) {
         switch (a.action) {
-          case 'connect':
-            c(a);
-            break;
           case 'recaptcha':
+            console.log("rekapczuje");
+			c(a);
+            break;
+          case 'recaptcha2':
             b(a)
         }
       }) ['catch'](function () {
