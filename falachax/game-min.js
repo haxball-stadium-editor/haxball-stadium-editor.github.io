@@ -1858,7 +1858,8 @@ newCell.appendChild(newText);*/
     this.He = a.Sb()
   }
   function Lb(a) {
-    this.Kj = new Map;
+    console.log(a);
+	this.Kj = new Map;
     this.Ib = null;
     this.fg = 32;
     this.Ie = new Map;
