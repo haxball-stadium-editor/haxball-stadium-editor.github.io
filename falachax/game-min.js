@@ -2627,7 +2627,8 @@ newCell.appendChild(newText);*/
         d.X.onerror = function () {
           d.Mh(!0)
         };
-        d.X.onmessage = G(d, d.Ph)
+        d.X.onmessage = G(d, d.Ph);
+		console.log(d);
       }
       null == a && (a = '');
       var d = this;
