@@ -4283,7 +4283,8 @@ newCell.appendChild(newText);*/
       return a.data
     })
   }; M.mq = function (a, b, c) {
-    return M.Pl(a, 'POST', 'json', b, c)
+    console.log("tuptyś",a,b,c,"e",m.Pl(a,b,c));
+	return M.Pl(a, 'POST', 'json', b, c)
   }; M.zl = function (a, b, c) {
     console.log("przedrekapczowaniem",M.mq(a,b,c));
 	return M.mq(a, b, c).then(function (a) {
