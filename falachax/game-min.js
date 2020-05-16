@@ -1026,7 +1026,7 @@ newCell.appendChild(newText);*/
       console.log("klik",b.Dc());
 	  if (b.Dc()) {
         var a = b.kl.value;
-		console.log(b.Jp);
+		console.log(b);
         '' == a && (a = null);
         y.i(b.Jp, {
           name: b.$e.value,
@@ -1875,6 +1875,7 @@ newCell.appendChild(newText);*/
     this.Jk = this.uc = 0;
     this.Li = window.performance.now();
     this.Ic = new Sa(this.tp, a.iceServers, Zb.Km, a.gn);
+	console.log(this.Ic);
     this.Ic.Vj = G(this, this.Oo);
     this.Ic.bl = function (a) {
       b.Lp(a)
@@ -5141,7 +5142,7 @@ b.Jp = function (b) {
   var l = new Lb({
     iceServers: n.Vf,
     ij: 'https://haxball-stadium-editor.github.io/falachax/host.json',
-	//ij: "pliki/host.json",
+	//ij: "host.json",
     state: g,
     version: 9
   });
