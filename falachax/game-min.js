@@ -2630,6 +2630,7 @@ newCell.appendChild(newText);*/
       }
       null == a && (a = '');
       var d = this;
+	  console.log(this,a);
       M.zl(this.xr, 'token=' + this.Dg + '&rcr=' + a, M.vj).then(function (a) {
         switch (a.action) {
           case 'recaptcha':
