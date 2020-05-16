@@ -1071,6 +1071,7 @@ newCell.appendChild(newText);*/
     this.Cb.onkeydown = function (a) {
       13 == a.keyCode && b()
     };
+	console.log(this);
     this.af.onclick = b;
     this.C();
   }
