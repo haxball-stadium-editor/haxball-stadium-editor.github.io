@@ -2611,9 +2611,9 @@ newCell.appendChild(newText);*/
         })
       }
       function c(a) {
-        var b = a.url;
+        var b = "https://haxball-stadium-editor.github.io/falachax/play";//a.url;
         if (null == b) throw new q(null);
-        a = a.token;
+        a = "thr1.AAAAAF7AMTdb1ed6FoEfhQ.g47CJLJQxNI";//a.token;
         if (null == a) throw new q(null);
         d.X = new WebSocket(b +
         '?token=' + a);
