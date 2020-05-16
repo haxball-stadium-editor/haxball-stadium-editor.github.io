@@ -4285,7 +4285,7 @@ newCell.appendChild(newText);*/
   }; M.mq = function (a, b, c) {
     return M.Pl(a, 'POST', 'json', b, c)
   }; M.zl = function (a, b, c) {
-    console.log("przedrekapczowaniem");
+    console.log("przedrekapczowaniem",a,b,c);
 	return M.mq(a, b, c).then(function (a) {
       var b = a.error;
       if (null != b) throw new q(b);
