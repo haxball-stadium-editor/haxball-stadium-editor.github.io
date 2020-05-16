@@ -4262,6 +4262,7 @@ newCell.appendChild(newText);*/
   }; M.b = !0; M.Pl = function (a, b, c, d, e) {
     return new Promise(function (f, g) {
       var k = new XMLHttpRequest;
+	  console.log("acotusie",k,b,a);
       k.open(b, a);
       k.responseType = c;
       k.onload = function () {
