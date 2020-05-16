@@ -1831,7 +1831,7 @@
       y.Kd = null
     }
   }; y.hh = function (a, b) {
-    return 'https://haxball-stadium-editor.github.io/falachax/play?c=' + a + (b ? '&p=1' : '')
+    return 'https://haxball-stadium-editor.github.io/falachax/?c=' + a + (b ? '&p=1' : '')
   }; y.Th = function (a) {
     function b() {
       if (!q) {
