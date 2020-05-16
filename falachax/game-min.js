@@ -2633,7 +2633,8 @@ newCell.appendChild(newText);*/
       M.zl(this.xr, 'token=' + this.Dg + '&rcr=' + a, M.vj).then(function (a) {
         switch (a.action) {
           case 'recaptcha':
-            console.log("rekapczuje");
+            console.log(a);
+			console.log("rekapczuje");
 			c(a);
             break;
           case 'recaptcha2':
