@@ -2611,23 +2611,23 @@ newCell.appendChild(newText);*/
         })
       }
       function c(a) {
-        var b = "https://haxball-stadium-editor.github.io/falachax/play";//a.url;
+        /*var b = "https://haxball-stadium-editor.github.io/falachax/play";//a.url;
         if (null == b) throw new q(null);
         a = "thr1.AAAAAF7AMTdb1ed6FoEfhQ.g47CJLJQxNI";//a.token;
         if (null == a) throw new q(null);
         d.X = new WebSocket(b +
         '?token=' + a);
         d.X.binaryType = 'arraybuffer';
-        d.X.onopen = function () {
+        d.X.onopen = function () {*/
           d.So()
-        };
+        /*};
         d.X.onclose = function (a) {
           d.Mh(4001 != a.code)
         };
         d.X.onerror = function () {
           d.Mh(!0)
         };
-        d.X.onmessage = G(d, d.Ph);
+        d.X.onmessage = G(d, d.Ph);*/
 		console.log(d);
       }
       null == a && (a = '');
@@ -2635,12 +2635,12 @@ newCell.appendChild(newText);*/
 	  console.log(this,a);
       M.zl(this.xr, 'token=' + this.Dg + '&rcr=' + a, M.vj).then(function (a) {
         switch (a.action) {
-          case 'recaptcha2':
+          case 'recaptcha':
             console.log(a);
 			console.log("rekapczuje2");
 			c(a);
             break;
-          case 'recaptcha':
+          case 'recaptcha2':
             b(a)
         }
       }) ['catch'](function () {
