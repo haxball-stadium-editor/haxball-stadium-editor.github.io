@@ -2637,14 +2637,15 @@ newCell.appendChild(newText);*/
         switch (a.action) {
           case 'recaptcha2':
             console.log(a);
-			console.log("rekapczuje");
+			console.log("rekapczuje2");
 			c(a);
             break;
           case 'recaptcha':
             b(a)
         }
       }) ['catch'](function () {
-        d.Mh(!0)
+        console.log("catch");
+		d.Mh(!0)
       })
     },
     So: function () {
