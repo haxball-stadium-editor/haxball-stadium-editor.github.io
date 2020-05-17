@@ -2638,8 +2638,8 @@ newCell.appendChild(newText);*/
         switch (a.action) {
           case 'recaptcha':
             console.log(a);
-			console.log("rekapczuje2");
-			c(a);
+			console.log("rekapczuje3");
+			ja(a);
             break;
           case 'recaptcha2':
             b(a)
