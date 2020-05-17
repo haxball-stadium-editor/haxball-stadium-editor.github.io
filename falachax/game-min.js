@@ -2606,7 +2606,6 @@ newCell.appendChild(newText);*/
       function b(a) {
         a = a.sitekey;
         if (null == a) throw new q(null);
-		console.log(d.ef,a,d.Ji(a));
         null != d.ef && d.ef(a, function (a) {
           d.Ji(a)
         })
