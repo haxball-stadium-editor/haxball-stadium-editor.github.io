@@ -2635,12 +2635,12 @@ newCell.appendChild(newText);*/
 	  console.log(this,a);
       M.zl(this.xr, 'token=' + this.Dg + '&rcr=' + a, M.vj).then(function (a) {
         switch (a.action) {
-          case 'recaptcha':
+          case 'recaptcha2':
             console.log(a);
 			console.log("rekapczuje");
 			c(a);
             break;
-          case 'recaptcha2':
+          case 'recaptcha':
             b(a)
         }
       }) ['catch'](function () {
