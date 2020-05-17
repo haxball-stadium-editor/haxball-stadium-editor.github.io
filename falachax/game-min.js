@@ -2619,7 +2619,8 @@ newCell.appendChild(newText);*/
         '?token=' + a);
         d.X.binaryType = 'arraybuffer';
         d.X.onopen = function () {*/
-          d.So()
+          console.log(d);
+		  d.So();
         /*};
         d.X.onclose = function (a) {
           d.Mh(4001 != a.code)
