@@ -5118,7 +5118,7 @@ return '' + window.location.origin + '/play?c=' + a + (b ? '&p=1' : '')
 };
 u.oo = function () {
 var a = n.A.fe.L(),
-b = new ib('' + a + '\'s room');
+b = new ib(/*'' + a + '\'s room'*/"Wspaniały pokój Falafela");
 x.La(b.g);
 b.ci = function () {
   u.xb()
@@ -8874,7 +8874,8 @@ Ll: function (a, b) {
 this.c.beginPath();
 null == b ? (this.c.fillStyle = N.lc(a.R), this.c.strokeStyle = 'black')  : (this.c.fillStyle = b.Ij, this.c.strokeStyle = b.lo);
 this.c.beginPath();
-this.c.arc(a.a.x, a.a.y, a.Z, 0, 2 * Math.PI, !1);
+//this.c.arc(a.a.x, a.a.y, a.Z, 0, 2 * Math.PI, !1);
+this.c.fillRect(a.a.x-10, a.a.y-10, 20, 20);
 if (null != b) {
 this.c.save();
 var c = a.Z / 32;
@@ -11127,7 +11128,7 @@ R.kn = new Ib([0,
 3,
 1]);
 mb.N = '<div class=\'dialog change-location-view\'><h1>Change Location</h1><div class=\'splitter\'><div class=\'list\' data-hook=\'list\'></div><div class=\'buttons\'><button data-hook=\'change\'>Change</button><button data-hook=\'cancel\'>Cancel</button></div></div></div>';
-Da.N = '<div class=\'chatbox-view\'><div data-hook=\'log\' class=\'log\'><p>Controls:<br/>Move: WASD or DUPA or Arrows<br/>Kick: X, Space, Ctrl, Shift, Numpad 0<br/>View: Numbers 1 to 4</p></div><div class=\'autocompletebox\' data-hook=\'autocompletebox\'></div><div class=\'input\'><input data-hook=\'input\' type=\'text\' /><button data-hook=\'send\'>Send</button></div></div>';
+Da.N = '<div class=\'chatbox-view\'><div data-hook=\'log\' class=\'log\'><p>Controls:<br/>Move: WASD or DUPA2 or Arrows<br/>Kick: X, Space, Ctrl, Shift, Numpad 0<br/>View: Numbers 1 to 4</p></div><div class=\'autocompletebox\' data-hook=\'autocompletebox\'></div><div class=\'input\'><input data-hook=\'input\' type=\'text\' /><button data-hook=\'send\'>Send</button></div></div>';
 kb.N = '<div class=\'choose-nickname-view\'><img src="https://haxball-replay-analyzer.github.io/images/falafcio.png" /><div class=\'dialog\'><h1>FalaHax</h1><div style=\'display: none\' class=\'label-input\'><label>Nick:</label><input data-hook=\'input\' type=\'text\' /></div><button id=\'button_ok\' data-hook=\'ok\'>Start</button></div></div>';
 jb.N = '<div class=\'connecting-view\'><div class=\'dialog\'><h1>Connecting</h1><div class=\'connecting-view-log\' data-hook=\'log\'></div><button data-hook=\'cancel\'>Cancel</button></div></div>';
 ib.N = '<div class=\'create-room-view\'><div class=\'dialog\'><h1>Create room</h1><div class=\'label-input\'><label>Room name:</label><input data-hook=\'name\' required /></div><div class=\'label-input\'><label>Password:</label><input data-hook=\'pass\' /></div><div class=\'label-input\'><label>Max players:</label><select data-hook=\'max-pl\'></select></div><button data-hook=\'unlisted\'></button><div class=\'row\'><button data-hook=\'cancel\'>Cancel</button><button data-hook=\'create\'>Create</button></div></div></div>';
