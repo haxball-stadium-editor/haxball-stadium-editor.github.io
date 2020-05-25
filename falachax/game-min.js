@@ -1,6 +1,6 @@
 (function (qc) {
   var kicker, lastKicker, goals=[], match = [{started: true, stopped: false,kicks:[],kicksRed:0,kicksBlue:0, possRed:0, possBlue:0,scoreRed: 0, scoreBlue: 0, player: [], goals: []}], player=[], players=[], playerList=[], czyAktualizowacGraczy = true;
-  var czasGry = 0, czasik=[], mtc=0, playSounds = false;
+  var czasGry = 0, czasik=[], mtc=0, playSounds = false, zaladowalo=false;
   function dupa() {
 	  console.log("łado");
   }
@@ -310,7 +310,8 @@
       A.i(b.Pp)
     };
     this.Bj(!1);
-    this.Cj(!1)
+    this.Cj(!1);
+	zaladowalo = true;
   }
   function Za() {
     var a = this;
@@ -2604,7 +2605,8 @@ newCell.appendChild(newText);*/
       null == this.Ql && (b(), this.Ql = window.setTimeout(b, 1000))
     },
     Ji: function (a) {
-      function b(a) {
+      if (zaladowalo) return;
+	  function b(a) {
         a = a.sitekey;
         if (null == a) throw new q(null);
         null != d.ef && d.ef(a, function (a) {
