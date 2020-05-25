@@ -242,7 +242,8 @@
     }
   }
   function Ya(a) {
-    this.fk = !1;
+    console.log("tutej coś");
+	this.fk = !1;
     this.qm = new za(p.Ia);
     this.Lj = new za(p.xa);
     this.Hl = new za(p.fa);
