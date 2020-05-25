@@ -1175,8 +1175,8 @@ newCell.appendChild(newText);*/
     'Up!'], 16777215);
     this.Gq = new R(['Red is',
     'Victorious!'], 15035990);
-    this.Fq = new R(['Red',
-    "Scores!"], 15035990);
+    this.Fq = new R(['Falafel',
+    "Szczelił bramkie!"], 15035990);
     this.Cn = new R(['Blue is',
     'Victorious!'], 625603);
     this.Bn = new R(['Blue',
