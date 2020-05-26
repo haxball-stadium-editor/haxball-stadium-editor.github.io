@@ -4849,7 +4849,7 @@ b.ub = a.code.toLowerCase();
 return b
 };
 T.Fo = function () {
-return M.tk(n.Ee + 'api/geo).then(function (a) {
+return M.tk(n.Ee + 'api/geo').then(function (a) {
   return T.Rf(a)
 })
 //return false;
