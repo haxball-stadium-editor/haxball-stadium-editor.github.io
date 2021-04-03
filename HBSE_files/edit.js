@@ -528,7 +528,7 @@ $(function () {
     });
 
     $('#button_about').click(function () {
-        alert('v2.10, 2020 by Falafel');
+        alert('v2.11, 2021 by Falafel');
     });
 
     $('#button_contact').click(function () {
