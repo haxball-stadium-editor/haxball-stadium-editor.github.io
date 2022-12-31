@@ -520,7 +520,7 @@ $(function () {
     });
 
     $('#button_contact').click(function () {
-        alert('Discord: Falafel#3895\nYou can find me at discord.io/haxracing');
+        alert('Discord: Falafel#3895\nYou can find me at discord.io/haxracing\nemail: turbofalafel@gmail.com');
     });
 
     $('#button_import_goto').click(function () {

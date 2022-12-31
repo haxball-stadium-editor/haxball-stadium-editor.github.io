@@ -3,7 +3,8 @@
     margin: 0;
 }
 
-ul, li {
+ul,
+li {
     margin-left: 10px;
 }
 
@@ -11,13 +12,11 @@ body {
     color: white;
     font: 14px Noto Sans CJK KR, 맑은 고딕, 나눔고딕, Verdana, sans;
     line-height: 21px;
-    background: repeating-linear-gradient(
-		315deg,
-		#7b8b5f,
-		#7b8b5f 37px,
-		#76865a 37px,
-		#76865a 74px
-	);
+    background: repeating-linear-gradient(315deg,
+            #7b8b5f,
+            #7b8b5f 37px,
+            #76865a 37px,
+            #76865a 74px);
 }
 
 #header {
@@ -30,8 +29,7 @@ body {
     background-color: #1a2125;
 }
 
-.header
-{
+.header {
     width: 100%;
     height: 35px;
     line-height: 35px;
@@ -40,8 +38,8 @@ body {
     font-family: 'Noto Sans CJK KR Bold', '맑은 고딕 Bold', '나눔고딕 Bold', 'Nobile', arial, sans-serif;
     font-size: 15px;
 }
-.header .title
-{
+
+.header .title {
     display: inline-block;
     height: 35px;
     background-color: #244967;
@@ -52,8 +50,7 @@ body {
     font-weight: 600;
 }
 
-.header>*
-{
+.header>* {
     margin-right: 15px;
 }
 
@@ -88,7 +85,10 @@ ul.menu li a:visited {
     display: none;
 }
 
-#topbox, #leftbox, #rightbox, #box {
+#topbox,
+#leftbox,
+#rightbox,
+#box {
     background-color: #1a2125;
     border-radius: 8px;
     padding: 10px;
@@ -130,7 +130,8 @@ button:hover {
     border: 1px solid #A0887A;
 }
 
-button:active, button.active {
+button:active,
+button.active {
     background-color: #2F5E85;
 }
 
@@ -138,7 +139,12 @@ button:active, button.active {
     border-bottom: 3px solid #c13535;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     border-bottom: 3px solid #244967;
     margin-top: 20px;
 }
@@ -148,7 +154,8 @@ a {
     color: #c0c0ff;
 }
 
-a:visited, a:hover { }
+a:visited,
+a:hover {}
 
 #input_name {
     border: 0px;
@@ -255,7 +262,8 @@ label.prop {
     padding: 0 10px;
 }
 
-input.prop, select.prop {
+input.prop,
+select.prop {
     display: block;
     float: left;
     height: 24px;
@@ -265,13 +273,15 @@ input.prop, select.prop {
     background-color: #1a2125;
     width: 100px;
     clear: right;
-    border: 3px solid #244967; /* was 3px */
+    border: 3px solid #244967;
+    /* was 3px */
     margin: 2px 0;
     color: white;
     padding: 0 14px;
 }
 
-input.prop.error, select.prop.error {
+input.prop.error,
+select.prop.error {
     border: 3px solid #dd0000;
 }
 
@@ -284,6 +294,7 @@ input.prop.error, select.prop.error {
     height: 86px;
     overflow: auto;
 }
+
 #tab_sub {
     height: 30px;
     overflow: auto;
@@ -315,7 +326,8 @@ table.center-content td {
     text-align: center;
 }
 
-#boxlogin, #boxregister {
+#boxlogin,
+#boxregister {
     width: 100%;
     height: 100%;
 }
@@ -335,7 +347,8 @@ label.form {
     font-size: 17px;
 }
 
-input.form, select.form {
+input.form,
+select.form {
     display: inline-block;
     height: 24px;
     border-top-right-radius: 8px;
@@ -349,7 +362,8 @@ input.form, select.form {
     font-size: 17px;
 }
 
-input.form.error, select.form.error {
+input.form.error,
+select.form.error {
     border: 3px solid #dd0000;
 }
 
@@ -423,6 +437,7 @@ body.logged-out .valid-user {
     padding-top: 10px;
     float: left;
 }
+
 /*
      FILE ARCHIVED ON 08:23:54 Nov 28, 2018 AND RETRIEVED FROM THE
      INTERNET ARCHIVE ON 04:50:58 Mar 23, 2019.
