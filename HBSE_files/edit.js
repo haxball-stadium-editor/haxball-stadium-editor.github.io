@@ -224,7 +224,7 @@ var debug_render = [];
 var field_setters = [];
 
 // can leave without prompt
-var can_leave = false;
+var can_leave = true;
 
 // Triggers
 
