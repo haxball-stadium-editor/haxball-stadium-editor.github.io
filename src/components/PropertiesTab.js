@@ -5,7 +5,7 @@ function PropertiesTab(props) {
   if (props.mainMode !== 'propertiesTab') return null;
 
   return (
-    <table id="table" cellSpacing="7px" style={{ height: 864 }}>
+    <table id="table" cellSpacing="7px" style={{ height: '95vh' }}>
       <tbody>
         <tr>
           <td colspan="2" id="topbox" valign="top">

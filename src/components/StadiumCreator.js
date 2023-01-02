@@ -1,22 +1,43 @@
 import CreatorHeader from "./CreatorHeader";
+import logoSelect from "../HBSE_files/right-tools/right-tools_select.png"
+import logoRotate from "../HBSE_files/right-tools/right-tools_rotate.png"
+import logoDisc from "../HBSE_files/right-tools/right-tools_disc.png"
+import logoScale from "../HBSE_files/right-tools/right-tools_scale.png"
+import logoSegment from "../HBSE_files/right-tools/right-tools_segment.png"
+import logoVertex from "../HBSE_files/right-tools/right-tools_vertex.png"
+import logoGoal from "../HBSE_files/right-tools/right-tools_goal.png"
+import logoPlane from "../HBSE_files/right-tools/right-tools_plane.png"
+import logoProperties from "../HBSE_files/left-tools/left-tools_pr.png"
+import logoTools from "../HBSE_files/left-tools/left-tools_board.png"
+import imgUndo from "../HBSE_files/always-tools/always-tools_undo.png"
+import imgRedo from "../HBSE_files/always-tools/always-tools_redo.png"
+import imgCopy from "../HBSE_files/always-tools/always-tools_copy.png"
+import imgPaste from "../HBSE_files/always-tools/always-tools_paste.png"
+import imgDelete from "../HBSE_files/always-tools/always-tools_del.png"
+import imgSelectAll from "../HBSE_files/always-tools/always-tools_all.png"
+import imgSelectNone from "../HBSE_files/always-tools/always-tools_cancel.png"
+import imgInverse from "../HBSE_files/always-tools/always-tools_inverse.png"
+import imgDuplicate from "../HBSE_files/always-tools/always-tools_CaP.png"
+import imgClear from "../HBSE_files/always-tools/always-tools_cut.png"
+
+import { useEffect } from "react";
 
 function StadiumCreator(props) {
+
+  useEffect(() => {
+    console.log('mounted stadium creator');
+    var canvas = document.getElementById('canvas');
+    console.log(canvas);
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgb(113,140,90)';
+    ctx.fillRect(0, 0, 600, 500);
+  }, []);
 
   if (props.mainMode !== 'stadiumCreator') return null;
 
   return (
 
-    // <table id="table" cellspacing="7px" style={{ height: 700 }}>
-    //   <tbody>
-    //     <tr>
-    //       <td colspan="2" id="topbox" valign="top">
-    //         EEEE
-    //       </td>
-    //     </tr>
-    //   </tbody>
-    // </table >
-
-    <table id="table" cellSpacing="7px" style={{ height: 864 }}>
+    <table id="table" cellSpacing="7px" style={{ height: '95vh' }}>
       <tbody>
         <tr>
           <td colspan="2" id="topbox" valign="top">
@@ -27,7 +48,8 @@ function StadiumCreator(props) {
                   <td style={{ height: "100%" }}>
                     <div id="canvas_div_placeholder"></div>
                     <div id="canvas_div" style={{ top: 86, left: 49, width: 860, height: 612 }}>
-                      <canvas id="canvas" width="840" height="592" style={{ width: 840, height: 592, cursor: "default" }}></canvas>
+                      {/* <canvas id="canvas" style={{ width: 840, height: 592, cursor: "default" }}></canvas> */}
+                      <canvas id="canvas" width="840" height="592"></canvas>
                       <div id="stadium_properties" className="hidden">
                         <div className="prop_group">
                           <div className="prop_group_title">General</div>
@@ -185,11 +207,11 @@ function StadiumCreator(props) {
                 <tr>
                   <td id="left_tabs">
                     <button id="button_tab_properties" className="active">
-                      <img alt='img' src="./HBSE_files/left-tools/left-tools_pr.png" style={{ height: 12, width: 12 }} />Properties
+                      <img alt='img' src={logoProperties} style={{ height: 12, width: 12 }} />Properties
                     </button>
                     {/* <button id="button_tab_edit">Edit</button> */}
                     <button id="button_tab_advanced">
-                      <img alt='img' src="./HBSE_files/left-tools/left-tools_board.png" style={{ height: 12, width: 12 }} />Tools
+                      <img alt='img' src={logoTools} style={{ height: 12, width: 12 }} />Tools
                     </button>
                     {/* <button id="button_tab_spawnpoints">SpawnPoints</button> */}
                   </td>
@@ -259,16 +281,16 @@ function StadiumCreator(props) {
                       </div>
                     </div>
                     <div id="tab_sub" className="active" style={{ position: 'fixed', bottom: 5, left: 37, height: 27.5, width: '100%', display: 'inline' }}>
-                      <button id="button_undo" style={{ backgroundColor: '#5872A5' }}><img alt='img' src="./HBSE_files/always-tools/always-tools_undo.png" style={{ height: 12, width: 12 }} />Undo</button>
-                      <button id="button_redo" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src="./HBSE_files/always-tools/always-tools_redo.png" style={{ height: 12, width: 12 }} />Redo</button>
-                      <button id="button_copy" style={{ backgroundColor: "#5872A5" }} > <img alt='img' src="./HBSE_files/always-tools/always-tools_copy.png" style={{ height: 12, width: 12 }} />Copy</button>
-                      <button id="button_paste" style={{ backgroundColor: "#5872A5" }} > <img alt='img' src="./ HBSE_files / always - tools / always - tools_paste.png" style={{ height: 12, width: 12 }} />Paste</button>
-                      <button id="button_delete" style={{ backgroundColor: "#BB2929" }}> <img alt='img' src="./HBSE_files/always-tools/always-tools_del.png" style={{ height: 12, width: 12 }} />Delete</button>
-                      <button id="button_select_all" style={{ backgroundColor: "#5872A5" }} > <img alt='img' src="./ HBSE_files / always - tools / always - tools_all.png" style={{ height: 12, width: 12 }} />Select All</button>
-                      <button id="button_select_none" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src="./HBSE_files/always-tools/always-tools_cancel.png" style={{ height: 12, width: 12 }} />Select None</button>
-                      <button id="button_inverse_selection" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src="./ HBSE_files / always - tools / always - tools_inverse.png" style={{ height: 12, width: 12 }} />Inverse Selection</button>
-                      <button id="button_duplicate" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src="./HBSE_files/always-tools/always-tools_CaP.png" style={{ height: 12, width: 12 }} />Duplicate</button >
-                      <button id="button_cut" style={{ backgroundColor: "#BB2929" }}> <img alt='img' src="./ HBSE_files / always - tools / always - tools_cut.png" style={{ height: 12, width: 12 }} />Clear</button >
+                      <button id="button_undo" style={{ backgroundColor: '#5872A5' }}><img alt='img' src={imgUndo} style={{ height: 12, width: 12 }} />Undo</button>
+                      <button id="button_redo" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgRedo} style={{ height: 12, width: 12 }} />Redo</button>
+                      <button id="button_copy" style={{ backgroundColor: "#5872A5" }} > <img alt='img' src={imgCopy} style={{ height: 12, width: 12 }} />Copy</button>
+                      <button id="button_paste" style={{ backgroundColor: "#5872A5" }} > <img alt='img' src={imgPaste} style={{ height: 12, width: 12 }} />Paste</button>
+                      <button id="button_delete" style={{ backgroundColor: "#BB2929" }}> <img alt='img' src={imgDelete} style={{ height: 12, width: 12 }} />Delete</button>
+                      <button id="button_select_all" style={{ backgroundColor: "#5872A5" }} > <img alt='img' src={imgSelectAll} style={{ height: 12, width: 12 }} />Select All</button>
+                      <button id="button_select_none" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgSelectNone} style={{ height: 12, width: 12 }} />Select None</button>
+                      <button id="button_inverse_selection" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgInverse} style={{ height: 12, width: 12 }} />Inverse Selection</button>
+                      <button id="button_duplicate" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgDuplicate} style={{ height: 12, width: 12 }} />Duplicate</button >
+                      <button id="button_cut" style={{ backgroundColor: "#BB2929" }}> <img alt='img' src={imgClear} style={{ height: 12, width: 12 }} />Clear</button >
                       <button id="button_zoom05" style={{ backgroundColor: '#9b009b' }}>Zoom x0.5</button>
                       <button id="button_zoom1" style={{ backgroundColor: '#9b009b' }}> Zoom x1</button >
                       <button id="button_zoom2" style={{ backgroundColor: '#9b009b' }}>Zoom x2</button>
@@ -281,14 +303,14 @@ function StadiumCreator(props) {
           </td >
           <td id="rightbox" valign="top">
             <pre id="mousepos" className="right">285, 23</pre>
-            <button id="button_tool_select" className="active" style={{ width: 95 }}><img alt='img' src="./HBSE_files/right-tools/right-tools_select.png" style={{ height: 12, width: 12 }} />Select</button>
-            <button id="button_tool_rotate" style={{ width: 100 }}><img alt='img' src="./HBSE_files/right-tools/right-tools_rotate.png" style={{ height: 12, width: 12 }} />Rotate</button>
-            <button id="button_tool_scale" style={{ width: 100 }}><img alt='img' src="./HBSE_files/right-tools/right-tools_scale.png" style={{ height: 12, width: 12 }} />Scale</button>
-            <button id="button_tool_segment" style={{ width: 130 }}><img alt='img' src="./HBSE_files/right-tools/right-tools_segment.png" style={{ height: 12, width: 12 }} />Segment</button>
-            <button id="button_tool_vertex" style={{ width: 137 }}><img alt='img' src="./HBSE_files/right-tools/right-tools_vertex.png" style={{ height: 12, width: 12 }} />Vertex</button>
-            <button id="button_tool_disc" style={{ width: 95 }}><img alt='img' src="./HBSE_files/right-tools/right-tools_disc.png" style={{ height: 12, width: 12 }} />Disc</button>
-            <button id="button_tool_goal" style={{ width: 95 }}><img alt='img' src="./HBSE_files/right-tools/right-tools_goal.png" style={{ height: 12, width: 12 }} />Goal</button>
-            <button id="button_tool_plane" style={{ width: 100 }}><img alt='img' src="./HBSE_files/right-tools/right-tools_plane.png" style={{ height: 12, width: 12 }} />Plane</button>
+            <button id="button_tool_select" className="active" style={{ width: 95 }}><img alt='img' src={logoSelect} style={{ height: 12, width: 12 }} />Select</button>
+            <button id="button_tool_rotate" style={{ width: 100 }}><img alt='img' src={logoRotate} style={{ height: 12, width: 12 }} />Rotate</button>
+            <button id="button_tool_scale" style={{ width: 100 }}><img alt='img' src={logoScale} style={{ height: 12, width: 12 }} />Scale</button>
+            <button id="button_tool_segment" style={{ width: 130 }}><img alt='img' src={logoSegment} style={{ height: 12, width: 12 }} />Segment</button>
+            <button id="button_tool_vertex" style={{ width: 137 }}><img alt='img' src={logoVertex} style={{ height: 12, width: 12 }} />Vertex</button>
+            <button id="button_tool_disc" style={{ width: 95 }}><img alt='img' src={logoDisc} style={{ height: 12, width: 12 }} />Disc</button>
+            <button id="button_tool_goal" style={{ width: 95 }}><img alt='img' src={logoGoal} style={{ height: 12, width: 12 }} />Goal</button>
+            <button id="button_tool_plane" style={{ width: 100 }}><img alt='img' src={logoPlane} style={{ height: 12, width: 12 }} />Plane</button>
           </td>
         </tr >
       </tbody >
