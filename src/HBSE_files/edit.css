@@ -202,12 +202,13 @@ textarea {
     color: white;
 }
 
+/* 
 #canvas_div {
     position: absolute;
     left: 100px;
     right: 100px;
     overflow: auto;
-}
+} */
 
 #canvas_div_placeholder {
     width: 100%;

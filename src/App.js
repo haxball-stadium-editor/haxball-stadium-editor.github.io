@@ -1,6 +1,6 @@
 import './App.css';
 import './HBSE_files/edit.css';
-// import './HBSE_files/edit.js';
+import './HBSE_files/edit.js';
 import Header from './components/Header'
 import StadiumCreator from './components/StadiumCreator';
 import TextMode from './components/TextMode';
