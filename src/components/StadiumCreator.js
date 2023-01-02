@@ -28,9 +28,10 @@ function StadiumCreator(props) {
     console.log('mounted stadium creator');
     var canvas = document.getElementById('canvas');
     console.log(canvas);
+    console.log(document.getElementById('canvas_div').clientWidth, document.getElementById('canvas_div').clientHeight);
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = 'rgb(113,140,90)';
-    ctx.fillRect(0, 0, 600, 500);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
   }, []);
 
   if (props.mainMode !== 'stadiumCreator') return null;
@@ -47,9 +48,9 @@ function StadiumCreator(props) {
                 <tr>
                   <td style={{ height: "100%" }}>
                     <div id="canvas_div_placeholder"></div>
-                    <div id="canvas_div" style={{ top: 86, left: 49, width: 860, height: 612 }}>
+                    <div id="canvas_div" style={{ top: 86, left: 49, width: '90vw', height: '60vh' }}>
                       {/* <canvas id="canvas" style={{ width: 840, height: 592, cursor: "default" }}></canvas> */}
-                      <canvas id="canvas" width="840" height="592"></canvas>
+                      <canvas id="canvas" width='90vw' height='50vh'></canvas>
                       <div id="stadium_properties" className="hidden">
                         <div className="prop_group">
                           <div className="prop_group_title">General</div>

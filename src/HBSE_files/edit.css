@@ -214,6 +214,7 @@ textarea {
     height: 100%;
 }
 
+/* 
 #canvas {
     display: block;
     height: 150px;
@@ -221,7 +222,7 @@ textarea {
     margin: 0 auto;
     position: relative;
     padding: 0 0;
-}
+} */
 
 #helpcontents {
     overflow: auto;
