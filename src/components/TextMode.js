@@ -1,11 +1,38 @@
 function TextMode(props) {
 
   function handleClick(e) {
-    console.log(e.target.id);
-    props.setMainMode('stadiumCreator');
+    if (e.target.id == 'button_import_import') {
+      var st;
+      try {
+        JSON.parse(props.stadiumText);
+      } catch (error) {
+        st = 0;
+      }
+      if (st == 0) {
+        alert('Can not load changes - text is not a proper JSON Object. Please fix errors or click button Cancel Changes');
+        return;
+      }
+      st = JSON.parse(props.stadiumText);
+      if (st.joints) {
+        for (var i = 0; i < st.joints.length; i++) {
+          if (st.joints[i]._length) {
+            st.joints[i].length = st.joints[i]._length;
+          }
+        }
+      }
+      // załaduj zmiany w stadionie
+      props.setMainMode('stadiumCreator');
+    } else if (e.target.id == 'button_import_cancel') {
+      // setStadiumText()
+    }
   }
 
   if (props.mainMode !== 'textMode') return null;
+
+  function handleChange(e) {
+    // console.log(e);
+    props.setStadiumText(e.target.value);
+  }
 
   return (
     <div id="box" style={{ height: '80vh' }} >
@@ -13,28 +40,23 @@ function TextMode(props) {
         <table style={{ height: '100%', width: '100%' }}>
           <tbody>
             <tr>
-              <td style={{ height: '75vh' }}><textarea id="textarea_import"></textarea></td>
+              <td style={{ height: '75vh' }}><textarea id="textarea_import" value={props.stadiumText} onChange={handleChange}></textarea></td>
             </tr>
             <tr>
               <td>
                 <button id="button_import_import" onClick={handleClick}>
-                  <img src="./HBSE_files/general/general_save.png" style={{ height: 12, width: 12 }} alt='img' />
                   Save
                 </button>
-                <button id="button_import_cancel">
-                  <img src="./HBSE_files/general/general_vis.png" style={{ height: 12, width: 12 }} alt='img' />
+                <button id="button_import_cancel" onClick={handleClick}>
                   Cancel Changes
                 </button>
                 <button id="button_import_clear">
-                  <img src="./HBSE_files/general/general_del.png" style={{ height: 12, width: 12 }} alt='img' />
                   Clear
                 </button>
                 <button id="button_import_goto">
-                  <img src="./HBSE_files/general/general_goto.png" style={{ height: 12, width: 12 }} alt='img' />
                   Goto Character
                 </button>
                 <button id="button_import_select_all" style={{ backgroundColor: 'green' }}>
-                  <img src="./HBSE_files/general/general_all.png" style={{ height: 12, width: 12 }} alt='img' />
                   Copy All
                 </button>
                 <button id="button_downloadMap" style={{ backgroundColor: 'green' }}>Download .hbs file</button>

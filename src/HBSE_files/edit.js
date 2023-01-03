@@ -282,14 +282,10 @@ $(function () {
     connect_field($('#prop_bp_color'), 'ballPhysics.color', parseColor);
     connect_field($('#prop_bp_cMask'), 'ballPhysics.cMask', parseMaskList);
     connect_field($('#prop_bp_cGroup'), 'ballPhysics.cGroup', parseMaskList);
-    load(new_stadium());
-    modified();
+    // load(new_stadium());
+    // modified();
 
     set_tool(tool_select);
-
-    function buttonTextModeClick() {
-        console.log('klikło');
-    }
 
     // $('#button_import').click(function () {
     //     console.log('click na text mode');
@@ -364,13 +360,14 @@ $(function () {
     $('#button_import_import').click(function () {
 
         var st;
+        console.log('kliknięto Save')
         try {
             st = eval('[' + $('#textarea_import').val() + ']')[0];
         } catch (error) {
             st = undefined;
         }
         if (!st) {
-            alert('맵에 예기치 않은 오류가 발생했습니다.');
+            alert('Bład w mapie');
             return;
         }
         if (st.joints) {
@@ -708,7 +705,6 @@ function resize() {
     resize_canvas();
 }
 
-// 맵 기본값
 function new_stadium() {
 
     return {

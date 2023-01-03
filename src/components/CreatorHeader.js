@@ -9,6 +9,7 @@ function CreatorHeader(props) {
     // console.log(e.target.id);
     if (e.target.id === 'button_import' || e.target.parentElement.id === 'button_import') {
       props.setMainMode('textMode');
+      // console.log('obecny stadion', props.stadium);
     } else if (e.target.id === 'button_properties' || e.target.parentElement.id === 'button_properties') {
       if (props.mainMode === 'propertiesTab') {
         props.setMainMode('stadiumCreator');
