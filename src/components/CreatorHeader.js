@@ -27,8 +27,8 @@ function CreatorHeader(props) {
         <table className="underline" style={{ width: "100%" }}>
           <tbody>
             <tr>
-              <td style={{ width: "100%" }} id="right_tabs"><input id="input_name" value="" autoComplete="off" /></td>
-              <td><button id="button_save" className="valid-user modified" style={{ width: 120 }}>저장</button></td>
+              <td style={{ width: "100%" }} id="right_tabs">  </td>
+              <td></td>
               <td>
                 <button id="button_import" style={{ width: 125 }} onClick={handleClick}>
                   <img alt='img' src={logoTextMode} style={{ height: 12, width: 12 }} />

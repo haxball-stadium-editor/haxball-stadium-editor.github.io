@@ -8,7 +8,7 @@ function Header() {
 
   return (
     <div className="header">
-      <span class="title">HBSE v2.10</span>
+      <span className="title">HBSE v2.10</span>
       <a href="https://www.haxball.com/play" target="_blank" rel='noreferrer'>
         <img src={logoHaxball} alt="Haxball Play" className='header-logo' />HaxBall Play</a>
       <a href="https://www.haxball.com/headless" target="_blank" rel='noreferrer'>

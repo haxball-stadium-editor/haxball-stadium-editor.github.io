@@ -171,6 +171,24 @@ function TextMode(props) {
     return "JSON ERROR";
   }
 
+  function handleFileLoad() {
+    var plik = document.getElementById("loadHBS");
+    var reader = new FileReader();
+    reader.readAsBinaryString(plik.files[0]);
+    reader.onload = function () {
+      if (plik.value.endsWith(".hbs")) {
+        try {
+          JSON.parse(reader.result);
+        } catch (error) {
+          return alert("Incorrect file content - not a JSON Object")
+        }
+        props.setStadium(JSON.parse(reader.result));
+        props.setStadiumText(pprint(JSON.parse(reader.result)));
+      } else {
+        alert('Incorrect extension, file name should end with .hbs');
+      }
+    }
+  }
 
   function handleClick(e) {
     if (e.target.id == 'button_import_import') {
@@ -227,6 +245,21 @@ function TextMode(props) {
       if (stadium.canBeStored == true) stadium.canBeStored = "true";
       else stadium.canBeStored = "false";
       for (let joint of stadium.joints) if (joint.length == null) joint.length = "null";
+    } else if (e.target.id == 'button_downloadMap') {
+      var stadium = props.stadium;
+      for (let joint of stadium.joints) if (joint.length == "null") joint.length = null;
+      if (stadium.canBeStored == "true" || stadium.canBestored == true) stadium.canBeStored = true;
+      else stadium.canBeStored = false;
+      var blob = new Blob([JSON.stringify(stadium)], { type: 'text' });
+      var a = window.document.createElement("a");
+      a.href = window.URL.createObjectURL(blob);
+      a.download = stadium.name + ".hbs";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      if (stadium.canBeStored == true) stadium.canBeStored = "true";
+      else stadium.canBeStored = "false";
+      for (let joint of stadium.joints) if (joint.length == null) joint.length = "null";
     }
   }
 
@@ -270,7 +303,7 @@ function TextMode(props) {
                 </button>
                 <button id="button_downloadMap" onClick={handleClick} style={{ backgroundColor: 'green' }}>Download .hbs file</button>
                 <label>{'Upload .hbs file ->'}</label>
-                <input type="file" id="loadHBS" onchange="fileLoaded()" />
+                <input type="file" id="loadHBS" onChange={handleFileLoad} />
               </td>
             </tr>
           </tbody>
