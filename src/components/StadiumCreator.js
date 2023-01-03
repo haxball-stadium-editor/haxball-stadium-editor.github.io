@@ -25,9 +25,7 @@ import { useEffect } from "react";
 function StadiumCreator(props) {
 
   useEffect(() => {
-    console.log('mounted stadium creator');
     var canvas = document.getElementById('canvas');
-    console.log(canvas);
     var div = document.getElementById('canvas_div');
     canvas.width = div.clientWidth;
     canvas.height = div.clientHeight;

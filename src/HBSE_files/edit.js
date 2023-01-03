@@ -1,67 +1,3 @@
-// AtnNn's HBS Editor, edited by Falafel
-//
-// Copyright 2011 Etienne Laurin
-// All rights reserved
-
-// TODO:
-// when looking for mirrors, segments aren't found
-// cut/delete in mirror mode: delete enabled mirrors, save enabled directions list in snippet
-// paste in mirror mode: paste in all enabled directions from snippet
-// TODO: automatic mirroring of property edits
-// TODO: snap curves and segments to same tangent as other curves and segments on the vertex
-// TODO: add default values when completing
-// TODO: remove property from object
-// TODO: pasting a snippet with a segment whose vertex is not snipped should reconnect the segment with that vertex
-// TODO: snap vertex to circle formed by tangents of its segments
-// TODO: snap begin point of move,scale or rotate to disc, vertex or plane inside the selection
-// TODO: snap end point of move, scale or rotate to objects and snap points outside the selection
-// TODO: snap both points of other tool to snap points
-// TODO: custom ui for each type or property
-// TODO: window.onerror catch exceptions and log them on server
-//
-// TODO: initial position of players is wrong if there are planes involved
-// TODO: lines in hockey stadium have different color and are dashed
-// TODO: simple mode with only trait and color as properties (with a list of pre-made traits)
-// TODO: sometimes the canvas or the stadium property page doesnt show. resizing the window fixes it
-// TODO: after load, scroll the canvas_div to the center of the stadium
-// TODO: full screen mode
-// TODO: group and lock
-// TODO: hover text on buttons and properties
-// TODO: save stadium to local browser cache
-// TODO: change layers
-// TODO: set center tool for multiple selected curved segments
-// TODO: add 'create trait', 'save trait' and 'load trait' button to properties tab's trait input box
-// TODO: don't set properties if they ara the same in the trait
-// TODO: anti-aliasing and zoom
-// TODO: split segment at any point, and possibility to merge to adjacent points
-// TODO: properties of stadium (including traits and background)
-// TODO: color picker with palette of common haxball colors
-// TODO: better source editor (highlighting, intergrated consistency check, color picker, autocompletion, etc..)
-// TODO: comment and organise code
-// TODO: import stadiums from hbr files
-// TODO: don't use relative difference when moving.. snap the cursor to the object
-// TODO: style the scrollbars to be like haxball
-// TODO: edit traits
-// TODO: color palette: clicking on color changes color of selection
-// TODO: advanced tool for editing background
-// TODO: there is a minimum to the visible height and width
-// TODO: auto lift common properties as traits
-// TODO: replace magic numbers with constants
-// TODO: commmon x and y property for vertex.{x, y}, disc.pos and goal.{p0, p1}
-// TODO: tool to swap vertices of a segment
-// TODO: copy properties/paste properties
-
-// DEBUG
-//console={log:function(){}};
-
-// var script = document.createElement("script");
-// script.src = "./jquery.min.js";
-// document.head.appendChild(script);
-
-// script = document.createElement("script");
-// script.src = "./jquery-ui.min.js";
-// document.head.appendChild(script);
-
 import $ from 'jquery';
 
 function tracef(name, f) {
@@ -105,7 +41,6 @@ var colors = {
         thin: 'rgba(0,0,255,0.8)'
     }
 };
-
 
 
 //===== Haxball Values
@@ -170,7 +105,6 @@ var type_properties = {
     joints: ['d0', 'd1', '_length', 'strength', 'color']
 };
 
-// TODO: complete this table
 var defaults = {
     discs: {
         radius: 10
@@ -283,98 +217,23 @@ var library = {
 //===== Aliases
 
 var pi = Math.PI;
-var tau = Math.PI * 2;
 var abs = Math.abs;
 var round = Math.round;
 var max = Math.max;
 var min = Math.min;
-var cos = Math.cos;
-var sin = Math.sin;
 
 var czyTekst = false;
 
-
-
-//==== Initilisation
+//==== Initialisation
 
 $(function () {
-    check_logged_in();
-
-    $('#stadium_editor_link').click(function () {
-        hide_box();
-        return false;
-    });
-
-    $('#library_link').click(function () {
-        show_box('library');
-        if (!library.initialised) {
-            library_query();
-            library.initialised = true;
-        }
-        return false;
-    });
-
-    $('#library_button_public').click(function () {
-        if (!$(this).hasClass('active')) {
-            $(this).addClass('active').siblings().removeClass('active');
-            library.query = 'public';
-            library_query();
-        }
-    });
-
-    $('#library_button_saved').click(function () {
-        if (!$(this).hasClass('active')) {
-            $(this).addClass('active').siblings().removeClass('active');
-            library.query = 'saved';
-            library_query();
-        }
-    });
-
-    $('#button_library_edit').click(function () {
-        library_edit();
-    });
-
-    $('#button_library_delete').click(function () {
-        library_delete();
-    });
-
-    $('#login_link').click(function () {
-        show_box('login');
-        return false;
-    });
-
-    $('#register_link').click(function () {
-        show_box('register');
-        return false;
-    });
-
-    $('#logout_link').click(function () {
-        logout();
-        return false;
-    });
-
-    $('#button_login_login').click(function () {
-        login();
-    });
-
-    $('#button_login_close').click(function () {
-        hide_box();
-    });
-
-    $('#button_register_register').click(function () {
-        register();
-    });
-
-    $('#button_register_close').click(function () {
-        hide_box();
-    });
 
     load_tile('grass');
     load_tile('hockey');
 
     $(window).bind('beforeunload', function () {
         if (!can_leave)
-            return "Haxball Stadium Editor를 닫을까요?";
+            return "Please confirm closing Haxball Stadium Editor";
     });
 
     reset_selection();
@@ -428,23 +287,23 @@ $(function () {
 
     set_tool(tool_select);
 
-    $('#button_library_new').click(function () {
-        load(new_stadium());
-        hide_box();
-        modified();
-    });
+    function buttonTextModeClick() {
+        console.log('klikło');
+    }
 
-    $('#button_import').click(function () {
-        console.log('click na text mode');
-        for (var i = 0; i < stadium.joints.length; i++) {
-            if (stadium.joints[i]._length) {
-                stadium.joints[i].length = stadium.joints[i]._length;
-            }
-        }
-        $('#textarea_import').val(pprint(stadium));
-        show_box('import');
-        czyTekst = true;
-    });
+    // $('#button_import').click(function () {
+    //     console.log('click na text mode');
+    //     for (var i = 0; i < stadium.joints.length; i++) {
+    //         if (stadium.joints[i]._length) {
+    //             stadium.joints[i].length = stadium.joints[i]._length;
+    //         }
+    //     }
+    //     console.log(pprint(stadium))
+    //     // $('#textarea_import').val(pprint(stadium));
+    //     document.getElementById("textarea_import").value = pprint(stadium);
+    //     show_box('import');
+    //     czyTekst = true;
+    // });
 
     $('#button_import_cancel').click(function () {
         var detect_desn = window.confirm('Do you want to return to visual mode without saving changes?');
@@ -528,7 +387,8 @@ $(function () {
     });
 
     $('#button_about').click(function () {
-        alert('v2.10, 2020 by Falafel');
+        alert('v2.10, 2020 by Faladasasdasdfel');
+        alert('ddd')
     });
 
     $('#button_contact').click(function () {
@@ -943,7 +803,7 @@ function order_keys(parent, keys) {
 }
 
 function pprint(j, l, tag, parent) {
-    //console.log(j, l, tag, parent);
+    // console.log('pprint', j, l, tag, parent);
     if (!l) l = 0;
     if (parent == "length" && j == null) return j;
     if (parent == "canBeStored") {
@@ -2957,6 +2817,8 @@ function resize_canvas() {
     // TODO: use scrollLeft and scrollTop to recenter the view
     var st = stadium;
 
+    // console.log('resize ', stadium);
+
     var rect;
 
     rect = [-st.width * skala, -st.height * skala, st.width * skala, st.height * skala];
@@ -2989,6 +2851,8 @@ function resize_canvas() {
                 var ext = plane_extremes(st, obj);
                 consider(midpoint(ext.a, ext.b), 0);
                 break;
+            default:
+                console.log('default case');
         }
     });
 
@@ -3278,6 +3142,10 @@ function populate_tab_properties() {
                     var inp = $('<input type="text" class="prop">').appendTo(div);
                     property_data[prop] = inp;
                     inp.change(apply);
+                    break;
+                default:
+                    console.log('default case');
+                    break;
             }
         }
     });
@@ -3922,20 +3790,6 @@ function set_logged_out() {
 function logout() {
     $.ajax({ type: 'POST', url: 'http://web.archive.org/web/20181129142757/http://haxpuck.com/action/logout', data: { sessionid: session_id } });
     set_logged_out();
-}
-
-function check_logged_in() {
-    $.ajax({
-        type: 'GET',
-        url: 'http://web.archive.org/web/20181129142757/http://haxpuck.com/action/session',
-        dataType: 'jsonp',
-        success: function (session) {
-            session_id = session.sessionid;
-            if (session && session.username !== null && session.userid !== null) {
-                set_logged_in(session.userid, session.username);
-            }
-        },
-    });
 }
 
 function save(success_continuation) {

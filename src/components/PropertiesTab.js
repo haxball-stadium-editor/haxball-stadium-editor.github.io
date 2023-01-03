@@ -12,7 +12,7 @@ function PropertiesTab(props) {
             <table style={{ width: '100%', height: '100%' }}>
               <tbody>
                 <CreatorHeader mainMode={props.mainMode} setMainMode={props.setMainMode} />
-                <div id="stadium_properties">
+                <div id="stadium_properties" >
                   <div className="prop_group">
                     <div className="prop_group_title">General</div>
                     <label className="prop" style={{ width: 90 }}>Spawn Distance:</label>
