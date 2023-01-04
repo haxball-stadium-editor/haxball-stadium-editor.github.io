@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 
 function TextMode(props) {
 
-
   function new_stadium() {
 
     return {

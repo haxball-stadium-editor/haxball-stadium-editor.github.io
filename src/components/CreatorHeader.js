@@ -13,6 +13,7 @@ function CreatorHeader(props) {
     } else if (e.target.id === 'button_properties' || e.target.parentElement.id === 'button_properties') {
       if (props.mainMode === 'propertiesTab') {
         props.setMainMode('stadiumCreator');
+        props.reloadStadium();
       } else {
         props.setMainMode('propertiesTab');
       }
