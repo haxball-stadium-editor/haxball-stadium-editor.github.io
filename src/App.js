@@ -27,6 +27,7 @@ function App() {
   const [width, height] = useWindowSize();
   const [stadium, setStadium] = useState("");
   const [stadiumText, setStadiumText] = useState("");
+  const [updateStadium, setUpdateStadium] = useState(false);
 
   useEffect(() => {
     // console.log('mounted')
@@ -36,10 +37,33 @@ function App() {
     <body className="logged-out">
       <Header />
       {/* {width}, {height} */}
-      <StadiumCreator mainMode={mainMode} setMainMode={setMainMode} stadium={stadium} setStadium={setStadium} stadiumText={stadiumText} setStadiumText={setStadiumText} />
+      <StadiumCreator
+        mainMode={mainMode}
+        setMainMode={setMainMode}
+        stadium={stadium}
+        setStadium={setStadium}
+        stadiumText={stadiumText}
+        setStadiumText={setStadiumText}
+        updateStadium={updateStadium}
+        setUpdateStadium={setUpdateStadium}
+      />
       <TextMode mainMode={mainMode} setMainMode={setMainMode} stadium={stadium} setStadium={setStadium} stadiumText={stadiumText} setStadiumText={setStadiumText} />
-      <PropertiesTab mainMode={mainMode} setMainMode={setMainMode} stadium={stadium} setStadium={setStadium} stadiumText={stadiumText} setStadiumText={setStadiumText} />
-      <HelpTab mainMode={mainMode} setMainMode={setMainMode} />
+      <PropertiesTab
+        mainMode={mainMode}
+        setMainMode={setMainMode}
+        stadium={stadium}
+        setStadium={setStadium}
+        stadiumText={stadiumText}
+        setStadiumText={setStadiumText}
+        updateStadium={updateStadium}
+        setUpdateStadium={setUpdateStadium}
+      />
+      <HelpTab
+        mainMode={mainMode}
+        setMainMode={setMainMode}
+        updateStadium={updateStadium}
+        setUpdateStadium={setUpdateStadium}
+      />
     </body>
   );
 }

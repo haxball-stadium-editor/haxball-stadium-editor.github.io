@@ -8,9 +8,9 @@ function HelpTab(props) {
   if (props.mainMode !== 'helpTab') return null;
 
   function handleClick(e) {
-    console.log(e.target);
     if (e.target.id === 'button_help_close' || e.target.parentElement.id === 'button_help_close') {
       props.setMainMode('stadiumCreator');
+      props.setUpdateStadium(true)
     } else if (e.target.id === 'button_about' || e.target.parentElement.id === 'button_about') {
       alert('v2.10, 2020 by Falafel');
     } else if (e.target.id === 'button_contact' || e.target.parentElement.id === 'button_contact') {

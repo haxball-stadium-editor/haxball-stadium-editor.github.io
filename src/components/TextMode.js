@@ -192,8 +192,10 @@ function TextMode(props) {
   function handleClick(e) {
     if (e.target.id == 'button_import_import') {
       var st;
+      // console.log(props.stadiumText)
       try {
-        JSON.parse(props.stadiumText);
+        // JSON.parse(props.stadiumText);
+        st = eval('[' + props.stadiumText + ']')[0];
       } catch (error) {
         st = 0;
       }
@@ -201,7 +203,7 @@ function TextMode(props) {
         alert('Can not load changes - text is not a proper JSON Object. Please fix errors or click button Cancel Changes');
         return;
       }
-      st = JSON.parse(props.stadiumText);
+      // st = JSON.parse(props.stadiumText);
       if (st.joints) {
         for (var i = 0; i < st.joints.length; i++) {
           if (st.joints[i]._length) {
@@ -209,7 +211,8 @@ function TextMode(props) {
           }
         }
       }
-      props.setStadium(JSON.parse(props.stadiumText));
+      // props.setStadium(JSON.parse(props.stadiumText));
+      props.setStadium(st);
       props.setMainMode('stadiumCreator');
     } else if (e.target.id == 'button_import_cancel') {
       props.setStadiumText(pprint(props.stadium));
@@ -266,6 +269,12 @@ function TextMode(props) {
     props.setStadium(new_stadium);
     props.setStadiumText(pprint(new_stadium()));
   }, []);
+
+  useEffect(() => {
+    // props.setStadium(props.stadium)
+    props.setStadiumText(pprint(props.stadium));
+    // console.log('zmiana w tekst modzie')
+  }, [props.stadium]);
 
   if (props.mainMode !== 'textMode') return null;
 

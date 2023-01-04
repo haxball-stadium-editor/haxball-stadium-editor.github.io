@@ -360,8 +360,8 @@ function normalise(v) {
 }
 
 function handle_down(ev) {
-  console.log('1', ev)
   $(document.activeElement).blur();
+  console.log('klik')
   if (ev.which != 1)
     return;
   mouse_left_down = true;
@@ -663,7 +663,6 @@ function set_tool(t) {
   current_tool = t;
   $('#button_tool_' + t.name).siblings('button').removeClass('active');
   $('#button_tool_' + t.name).addClass('active');
-  console.log('tool ', t);
   $(canvas).css('cursor', t.cursor);
   t.init();
   trigger('set_tool', t, old_tool);
@@ -1980,9 +1979,6 @@ define_tab('spawnpoints');
 function resize_canvas() {
   // TODO: use scrollLeft and scrollTop to recenter the view
   var st = stadium;
-
-  // console.log('resize ', stadium);
-
   var rect;
 
   rect = [-st.width * skala, -st.height * skala, st.width * skala, st.height * skala];
@@ -2016,7 +2012,7 @@ function resize_canvas() {
         consider(midpoint(ext.a, ext.b), 0);
         break;
       default:
-        console.log('default case');
+      // console.log('default case');
     }
   });
 
@@ -3252,9 +3248,68 @@ function new_stadium() {
 
 function StadiumCreator(props) {
 
+  const [counter, setCounter] = useState(0);
 
+  useEffect(() => {
+    // console.log('zmiana w stadionieeee');
+    // console.log(counter);
+    var can = document.getElementById('canvas');
+    // console.log(counter, can)
+    if (can == null) return;
+    setCounter(counter + 1);
+    if (counter > 1) {
+      resize();
+      load(props.stadium);
+      // console.log('próbuję zmienić', props.stadium)
+      canvas = document.getElementById('canvas')
 
-  // var [current_tool, setCurrentTool] = useState('dasas');
+      props.setStadium(props.stadium);
+      $(canvas).mousedown(handle_down);
+      $(canvas).mouseup(handle_up);
+      $(canvas).mousemove(handle_move);
+      $(document).bind('keydown', handle_key);
+
+      add_tool(tool_select);
+      add_tool(tool_segment);
+      add_tool(tool_disc);
+      add_tool(tool_vertex);
+      add_tool(tool_plane);
+      add_tool(tool_goal);
+      add_tool(tool_rotate);
+      add_tool(tool_scale);
+
+      set_tool(tool_select);
+      modified();
+    }
+  }, [props.stadium]);
+
+  useEffect(() => {
+    if (props.updateStadium) {
+      props.setUpdateStadium(false);
+      resize();
+      load(props.stadium);
+      // console.log('próbuję zmienić', props.stadium)
+      canvas = document.getElementById('canvas')
+
+      props.setStadium(props.stadium);
+      $(canvas).mousedown(handle_down);
+      $(canvas).mouseup(handle_up);
+      $(canvas).mousemove(handle_move);
+      $(document).bind('keydown', handle_key);
+
+      add_tool(tool_select);
+      add_tool(tool_segment);
+      add_tool(tool_disc);
+      add_tool(tool_vertex);
+      add_tool(tool_plane);
+      add_tool(tool_goal);
+      add_tool(tool_rotate);
+      add_tool(tool_scale);
+
+      set_tool(tool_select);
+      modified();
+    }
+  }, [props.updateStadium]);
 
   useEffect(() => {
     // var canvas = document.getElementById('canvas');
@@ -3353,9 +3408,14 @@ function StadiumCreator(props) {
                 <CreatorHeader
                   mainMode={props.mainMode}
                   setMainMode={props.setMainMode}
-                  stadium={props.stadium}
+                  stadium={stadium}
+                  setStadium={props.setStadium}
                   stadiumText={props.stadiumText}
-                  setStadiumText={props.setStadiumText} />
+                  setStadiumText={props.setStadiumText}
+                  onClick={testFunction}
+                  updateStadium={props.updateStadium}
+                  setUpdateStadium={props.setUpdateStadium}
+                />
                 <tr>
                   <td style={{ height: "100%" }}>
                     <div id="canvas_div_placeholder">

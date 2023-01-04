@@ -11,7 +11,16 @@ function PropertiesTab(props) {
           <td colSpan="2" id="topbox" valign="top">
             <table style={{ width: '100%', height: '100%' }}>
               <tbody>
-                <CreatorHeader mainMode={props.mainMode} setMainMode={props.setMainMode} />
+                <CreatorHeader
+                  mainMode={props.mainMode}
+                  setMainMode={props.setMainMode}
+                  stadium={props.stadium}
+                  setStadium={props.setStadium}
+                  stadiumText={props.stadiumText}
+                  setStadiumText={props.setStadiumText}
+                  updateStadium={props.updateStadium}
+                  setUpdateStadium={props.setUpdateStadium}
+                />
                 <div id="stadium_properties" >
                   <div className="prop_group">
                     <div className="prop_group_title">General</div>
