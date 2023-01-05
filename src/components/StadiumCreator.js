@@ -20,6 +20,8 @@ import imgSelectNone from "../HBSE_files/always-tools/always-tools_cancel.png"
 import imgInverse from "../HBSE_files/always-tools/always-tools_inverse.png"
 import imgDuplicate from "../HBSE_files/always-tools/always-tools_CaP.png"
 import imgClear from "../HBSE_files/always-tools/always-tools_cut.png"
+import imgPreview from "../HBSE_files/left-tools/left-tools_preview.png"
+import imgMirror from "../HBSE_files/left-tools/left-tools_mirror.png"
 import grassTile from "../HBSE_files/grasstile.bmp"
 import hockeyTile from "../HBSE_files/hockeytile.png"
 import $ from 'jquery'
@@ -233,7 +235,52 @@ function starting(props) {
   $(canvas).mouseup(handle_up);
   $(canvas).mousemove(handle_move);
   $(document).bind('keydown', handle_key);
+  $('#button_mirror_mode').click(function () {
+    mirror_mode = mirror_mode ? false : true;
+    if (mirror_mode) {
+      $('#button_mirror_mode').addClass('active');
+      reset_mirror_data(stadium);
+    } else {
+      $('#button_mirror_mode').removeClass('active');
+      clear_mirror_data(stadium);
+    }
+  });
 
+  $('#pref_preview').click(function () {
+    $('#pref_preview').toggleClass('active');
+    settings.preview = $('#pref_preview').hasClass('active');
+    queue_render();
+  });
+  $('#button_addJoint').click(function () {
+    if (total_selected_by_type.discs != 2) return;
+    document.getElementById("button_addJoint").innerHTML = "Joint added!";
+    setTimeout(function () {
+      document.getElementById("button_addJoint").innerHTML = "Add Joint";
+    }, 1200);
+    var joint = {}
+    for (var i = 0; i < stadium.discs.length; i++) {
+      if (stadium.discs[i]._selected) {
+        if (joint.d0) joint.d1 = i + 1
+        else joint.d0 = i + 1;
+      }
+    }
+    var le = document.getElementById("inputLength").value;
+    if (le = "null") joint.length = "null";
+    else {
+      var tap = le.split(",");
+      if (tap.length == 2) {
+        joint.length = [];
+        joint.length[0] = Number(tap[0]);
+        joint.length[1] = Number(tap[1]);
+      } else joint.length = Number(le);
+    }
+    if (document.getElementById("inputStrength").value == "rigid") joint.strength = "rigid";
+    else joint.strength = Number(document.getElementById("inputStrength").value);
+    if (isNaN(joint.strength)) joint.strength = "rigid";
+    joint.color = document.getElementById("inputColor").value;
+    stadium.joints.push(joint);
+    queue_render();
+  });
 
   define_tab('properties');
   define_tab('advanced');
@@ -3236,6 +3283,52 @@ function StadiumCreator(props) {
     $(canvas).mouseup(handle_up);
     $(canvas).mousemove(handle_move);
     $(document).bind('keydown', handle_key);
+    $('#button_mirror_mode').click(function () {
+      mirror_mode = mirror_mode ? false : true;
+      if (mirror_mode) {
+        $('#button_mirror_mode').addClass('active');
+        reset_mirror_data(stadium);
+      } else {
+        $('#button_mirror_mode').removeClass('active');
+        clear_mirror_data(stadium);
+      }
+    });
+
+    $('#pref_preview').click(function () {
+      $('#pref_preview').toggleClass('active');
+      settings.preview = $('#pref_preview').hasClass('active');
+      queue_render();
+    });
+    $('#button_addJoint').click(function () {
+      if (total_selected_by_type.discs != 2) return;
+      document.getElementById("button_addJoint").innerHTML = "Joint added!";
+      setTimeout(function () {
+        document.getElementById("button_addJoint").innerHTML = "Add Joint";
+      }, 1200);
+      var joint = {}
+      for (var i = 0; i < stadium.discs.length; i++) {
+        if (stadium.discs[i]._selected) {
+          if (joint.d0) joint.d1 = i + 1
+          else joint.d0 = i + 1;
+        }
+      }
+      var le = document.getElementById("inputLength").value;
+      if (le = "null") joint.length = "null";
+      else {
+        var tap = le.split(",");
+        if (tap.length == 2) {
+          joint.length = [];
+          joint.length[0] = Number(tap[0]);
+          joint.length[1] = Number(tap[1]);
+        } else joint.length = Number(le);
+      }
+      if (document.getElementById("inputStrength").value == "rigid") joint.strength = "rigid";
+      else joint.strength = Number(document.getElementById("inputStrength").value);
+      if (isNaN(joint.strength)) joint.strength = "rigid";
+      joint.color = document.getElementById("inputColor").value;
+      stadium.joints.push(joint);
+      queue_render();
+    });
 
     define_tab('properties');
     define_tab('advanced');
@@ -3290,7 +3383,6 @@ function StadiumCreator(props) {
                   setStadium={props.setStadium}
                   stadiumText={props.stadiumText}
                   setStadiumText={props.setStadiumText}
-                  onClick={testFunction}
                   updateStadium={props.updateStadium}
                   setUpdateStadium={props.setUpdateStadium}
                 />
@@ -3461,7 +3553,7 @@ function StadiumCreator(props) {
                       <img alt='img' src={logoProperties} style={{ height: 12, width: 12 }} />Properties
                     </button>
                     {/* <button id="button_tab_edit">Edit</button> */}
-                    <button id="button_tab_advanced" onClick={testFunction}>
+                    <button id="button_tab_advanced" >
                       <img alt='img' src={logoTools} style={{ height: 12, width: 12 }} />Tools
                     </button>
                     {/* <button id="button_tab_spawnpoints">SpawnPoints</button> */}
@@ -3476,10 +3568,10 @@ function StadiumCreator(props) {
                             <button id="button_tab_spawnpoints">SpawnPoints</button>
                             <button id="button_tab_joints">Joints</button>
                             <button id="button_mirror_mode">
-                              <img alt='img' src="./HBSE_files/left-tools/left-tools_mirror.png" style={{ height: 12, width: 12 }} />Automatic Mirror
+                              <img alt='img' src={imgMirror} style={{ height: 12, width: 12 }} />Automatic Mirror
                             </button>
                             <button id="pref_preview">
-                              <img alt='img' src="./HBSE_files/left-tools/left-tools_preview.png" style={{ height: 12, width: 12 }} />Preview
+                              <img alt='img' src={imgPreview} style={{ height: 12, width: 12 }} />Preview
                             </button>
                           </td>
                         </table>
@@ -3493,7 +3585,7 @@ function StadiumCreator(props) {
                             <input className="prop" type="text" id="inputColor" value="transparent" />
                             <label className="prop" style={{ width: 53 }}>strength:</label>
                             <input className="prop" type="text" id="inputStrength" value="rigid" />
-                            <button id="button_addJoint" style={{ backgroundColor: "#696969", onmouseover: "jointAlertOn()", onmouseout: "jointAlertOff()" }}>
+                            <button id="button_addJoint" style={{ backgroundColor: "#696969" }} onMouseOver={jointAlertOn} onMouseOut={jointAlertOff} >
                               Add Joint
                             </button>
                             <label id="joint_alert"></label>
@@ -3525,12 +3617,6 @@ function StadiumCreator(props) {
                     </div>
                   </td>
                   <td>
-                    <div id="tab_parent">
-                      <div id="tab_advanced" className="hidden">
-                        <button id="button_mirror_mode">Automatic Mirrow</button>
-                        <button id="pref_preview">미리보기</button>
-                      </div>
-                    </div>
                     <div id="tab_sub" className="active" style={{ position: 'fixed', bottom: 5, left: 37, height: 27.5, width: '100%', display: 'inline' }}>
                       <button id="button_undo" style={{ backgroundColor: '#5872A5' }}><img alt='img' src={imgUndo} style={{ height: 12, width: 12 }} />Undo</button>
                       <button id="button_redo" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgRedo} style={{ height: 12, width: 12 }} />Redo</button>
