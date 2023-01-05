@@ -22,7 +22,7 @@ function HelpTab(props) {
     <table id="table" cellSpacing="7px" style={{ height: '95vh' }}>
       <tbody>
         <tr>
-          <td colspan="2" id="topbox" valign="top">
+          <td colSpan="2" id="topbox" valign="top">
             <table style={{ width: '100%', height: '100%' }}>
               <tbody>
                 <div id="boxhelp" style={{ height: '82vh' }}>

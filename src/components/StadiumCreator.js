@@ -20,6 +20,8 @@ import imgSelectNone from "../HBSE_files/always-tools/always-tools_cancel.png"
 import imgInverse from "../HBSE_files/always-tools/always-tools_inverse.png"
 import imgDuplicate from "../HBSE_files/always-tools/always-tools_CaP.png"
 import imgClear from "../HBSE_files/always-tools/always-tools_cut.png"
+import grassTile from "../HBSE_files/grasstile.bmp"
+import hockeyTile from "../HBSE_files/hockeytile.png"
 import $ from 'jquery'
 
 import { useEffect, useState } from "react";
@@ -262,11 +264,15 @@ function renderbg(st, ctx) {
   if (bg.type == 'grass' || bg.type == 'hockey') {
 
     ctx.fillStyle = haxball[bg.type].bg_color;
+    if (bg.color.match('^[A-Fa-f0-9]{6}$')) ctx.fillStyle = '#' + bg.color;
     //ctx.fillStyle = prop_bg_color;
     ctx.fillRect(-st.width, -st.height,
       2 * st.width, 2 * st.height);
 
     ctx.beginPath();
+
+    if (bg.cornerRadius == undefined) bg.cornerRadius = 0;
+    if (bg.kickOffRadius == undefined) bg.kickOffRadius = 0;
 
     ctx.moveTo(-bg.width + bg.cornerRadius, -bg.height);
     // TODO: this border doesn't render well in iceweasel
@@ -295,7 +301,6 @@ function renderbg(st, ctx) {
     ctx.fillStyle = haxball.grass.bg_color;
     ctx.fillRect(-st.width, -st.height, 2 * st.width, 2 * st.height);
   }
-
   ctx.restore();
 }
 
@@ -1164,11 +1169,13 @@ function load_tile(name) {
   var tile = new Image(128, 128);
   tile.onload = function () {
     var ctx = canvas.getContext('2d');
-    bg_patterns[name] = ctx.createPattern(tile, 'repeat');
+    bg_patterns['grass'] = ctx.createPattern(tile, 'repeat');
+    // console.log(bg_patterns);
     // queue_render();
   };
-  tile.src = "./HBSE_Files/" + name + 'tile.png';
-  // console.log(tile.src);
+  tile.src = "https://raw.githubusercontent.com/haxball-stadium-editor/haxball-stadium-editor.github.io/master/grasstile.png"
+  // var ctx = canvas.getContext('2d');
+  // bg_patterns['grass'] = ctx.createPattern(grassTile, 'repeat');
 }
 
 function color_to_style(color, def) {
@@ -3223,7 +3230,7 @@ function StadiumCreator(props) {
     props.setStadium(stadium);
     saveCanvas();
     load_tile('grass');
-    // load_tile('hockey');
+    // load_tile(hockeyTile);
 
     $(canvas).mousedown(handle_down);
     $(canvas).mouseup(handle_up);
