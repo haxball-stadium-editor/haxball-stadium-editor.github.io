@@ -22,7 +22,7 @@ function Changelog() {
       The < a href="http://web.archive.org/web/20181112005722/https://github.com/atnnn/haxpuck/" > source code for
         HaxPuck</a > (created by AtnNn) was available on github.
       Haxball Stadium File(.hbs) wiki is available < a
-        href="https://github.com/haxball/haxball-issues/wiki/Stadium-(.hbs)-File" > HERE</a >
+        href="https://github.com/haxball/haxball-issues/wiki/Stadium-(.hbs)-File" target='_blank' rel='noreferrer' > HERE</a >
       {newChanges}
       <h4>(2020-04-17) v2.10 by Falafel</h4>
       <ul>
