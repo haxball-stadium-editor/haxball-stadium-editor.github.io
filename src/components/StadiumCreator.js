@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import CreatorHeader from "./CreatorHeader";
 import logoSelect from "../HBSE_files/right-tools/right-tools_select.png"
 import logoRotate from "../HBSE_files/right-tools/right-tools_rotate.png"
@@ -219,6 +220,40 @@ var min = Math.min;
 
 var czyTekst = false;
 
+function starting(props) {
+  resize();
+  load(props.stadium);
+  // console.log('próbuję zmienić', props.stadium)
+  canvas = document.getElementById('canvas')
+
+  props.setStadium(props.stadium);
+  $(canvas).mousedown(handle_down);
+  $(canvas).mouseup(handle_up);
+  $(canvas).mousemove(handle_move);
+  $(document).bind('keydown', handle_key);
+
+
+  define_tab('properties');
+  define_tab('advanced');
+  define_tab('edit');
+  define_tab('joints');
+  define_tab('spawnpoints');
+
+  initialise_properties_css();
+  populate_tab_properties();
+
+  add_tool(tool_select);
+  add_tool(tool_segment);
+  add_tool(tool_disc);
+  add_tool(tool_vertex);
+  add_tool(tool_plane);
+  add_tool(tool_goal);
+  add_tool(tool_rotate);
+  add_tool(tool_scale);
+
+  set_tool(tool_select);
+  modified();
+}
 
 function renderbg(st, ctx) {
   var bg = st.bg;
@@ -361,7 +396,7 @@ function normalise(v) {
 
 function handle_down(ev) {
   $(document.activeElement).blur();
-  console.log('klik')
+  // console.log('klik')
   if (ev.which != 1)
     return;
   mouse_left_down = true;
@@ -1970,12 +2005,6 @@ function sign(n) {
   return n < 0 ? -1 : 1;
 }
 
-define_tab('properties');
-define_tab('advanced');
-define_tab('edit');
-define_tab('joints');
-define_tab('spawnpoints');
-
 function resize_canvas() {
   // TODO: use scrollLeft and scrollTop to recenter the view
   var st = stadium;
@@ -3258,56 +3287,14 @@ function StadiumCreator(props) {
     if (can == null) return;
     setCounter(counter + 1);
     if (counter > 1) {
-      resize();
-      load(props.stadium);
-      // console.log('próbuję zmienić', props.stadium)
-      canvas = document.getElementById('canvas')
-
-      props.setStadium(props.stadium);
-      $(canvas).mousedown(handle_down);
-      $(canvas).mouseup(handle_up);
-      $(canvas).mousemove(handle_move);
-      $(document).bind('keydown', handle_key);
-
-      add_tool(tool_select);
-      add_tool(tool_segment);
-      add_tool(tool_disc);
-      add_tool(tool_vertex);
-      add_tool(tool_plane);
-      add_tool(tool_goal);
-      add_tool(tool_rotate);
-      add_tool(tool_scale);
-
-      set_tool(tool_select);
-      modified();
+      starting(props);
     }
   }, [props.stadium]);
 
   useEffect(() => {
     if (props.updateStadium) {
       props.setUpdateStadium(false);
-      resize();
-      load(props.stadium);
-      // console.log('próbuję zmienić', props.stadium)
-      canvas = document.getElementById('canvas')
-
-      props.setStadium(props.stadium);
-      $(canvas).mousedown(handle_down);
-      $(canvas).mouseup(handle_up);
-      $(canvas).mousemove(handle_move);
-      $(document).bind('keydown', handle_key);
-
-      add_tool(tool_select);
-      add_tool(tool_segment);
-      add_tool(tool_disc);
-      add_tool(tool_vertex);
-      add_tool(tool_plane);
-      add_tool(tool_goal);
-      add_tool(tool_rotate);
-      add_tool(tool_scale);
-
-      set_tool(tool_select);
-      modified();
+      starting(props);
     }
   }, [props.updateStadium]);
 
@@ -3330,6 +3317,12 @@ function StadiumCreator(props) {
     $(canvas).mouseup(handle_up);
     $(canvas).mousemove(handle_move);
     $(document).bind('keydown', handle_key);
+
+    define_tab('properties');
+    define_tab('advanced');
+    define_tab('edit');
+    define_tab('joints');
+    define_tab('spawnpoints');
 
     initialise_properties_css();
     populate_tab_properties();

@@ -1,8 +1,28 @@
+import { useEffect, useState } from "react";
 import CreatorHeader from "./CreatorHeader";
 
 function PropertiesTab(props) {
 
+  const [stadiumProperties, setStadiumProperties] = useState(props.stadium);
+  // setStadiumProperties(props.stadium);
+
+  useEffect(() => {
+    setStadiumProperties(props.stadium);
+  }, [props.stadium]);
+
   if (props.mainMode !== 'propertiesTab') return null;
+
+  var stadiumBackup = { ...props.stadium };
+  var stadiumF = { ...props.stadium }
+
+  function handlePropertiesChange(e) {
+    var prop = e.target.id.substring(5);
+    stadiumF.spawnDistance = e.target.value;
+    console.log(stadiumF)
+    setStadiumProperties(prevState => {
+      return { ...prevState, [prop]: e.target.value }
+    });
+  }
 
   return (
     <table id="table" cellSpacing="7px" style={{ height: '95vh' }}>
@@ -25,29 +45,29 @@ function PropertiesTab(props) {
                   <div className="prop_group">
                     <div className="prop_group_title">General</div>
                     <label className="prop" style={{ width: 90 }}>Spawn Distance:</label>
-                    <input className="prop" type="text" id="prop_spawnDistance" />
+                    <input className="prop" type="text" id="prop_spawnDistance" value={stadiumProperties.spawnDistance} onChange={handlePropertiesChange} />
                     <label className="prop" style={{ width: 90 }}>Width:</label>
-                    <input className="prop" type="text" id="prop_width" />
+                    <input className="prop" type="text" id="prop_width" value={stadiumProperties.width} onChange={handlePropertiesChange} />
                     <label className="prop" style={{ width: 90 }}>Height:</label>
-                    <input className="prop" type="text" id="prop_height" />
+                    <input className="prop" type="text" id="prop_height" value={stadiumProperties.height} onChange={handlePropertiesChange} />
                     <label className="prop" style={{ width: 90 }}>Camera Width:</label>
-                    <input className="prop" type="text" id="prop_cameraWidth" />
+                    <input className="prop" type="text" id="prop_cameraWidth" value={stadiumProperties.cameraWidth} onChange={handlePropertiesChange} />
                     <label className="prop" style={{ width: 90 }}>Camera Height:</label>
-                    <input className="prop" type="text" id="prop_cameraHeight" />
+                    <input className="prop" type="text" id="prop_cameraHeight" value={stadiumProperties.cameraHeight} onChange={handlePropertiesChange} />
                     <label className="prop" style={{ width: 90 }}>maxViewWidth:</label>
-                    <input className="prop" type="text" id="prop_maxViewWidth" />
+                    <input className="prop" type="text" id="prop_maxViewWidth" value={stadiumProperties.maxViewWidth} onChange={handlePropertiesChange} />
                     <label className="prop" style={{ width: 90 }}>canBeStored:</label>
-                    <select className="prop" style={{ width: 104 }} id="prop_canBeStored">
+                    <select className="prop" style={{ width: 104 }} id="prop_canBeStored" value={stadiumProperties.canBeStored} onChange={handlePropertiesChange}>
                       <option value='true'>True</option>
                       <option value='false'>False</option>
                     </select>
                     <label className="prop" style={{ width: 90 }}>Camera Follow:</label>
-                    <select className="prop" style={{ width: 104 }} id="prop_cameraFollow">
+                    <select className="prop" style={{ width: 104 }} id="prop_cameraFollow" value={stadiumProperties.cameraFollow} onChange={handlePropertiesChange}>
                       <option value="ball">Ball</option>
                       <option value="player">Player</option>
                     </select>
                     <label className="prop" style={{ width: 90 }}>kickOffReset:</label>
-                    <select className="prop" style={{ width: 104 }} id="prop_kickOffReset">
+                    <select className="prop" style={{ width: 104 }} id="prop_kickOffReset" value={stadiumProperties.kickOffReset} onChange={handlePropertiesChange}>
                       <option value="partial">Partial</option>
                       <option value="full">Full</option>
                     </select>
