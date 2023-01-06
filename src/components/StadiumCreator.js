@@ -223,64 +223,16 @@ var max = Math.max;
 var min = Math.min;
 
 var czyTekst = false;
+var customUpdate;
 
 function starting(props) {
   resize();
   load(props.stadium);
   // console.log('próbuję zmienić', props.stadium)
-  canvas = document.getElementById('canvas')
+  canvas = document.getElementById('canvas');
+  customUpdate = props.setStadium;
 
   props.setStadium(props.stadium);
-  $(canvas).mousedown(handle_down);
-  $(canvas).mouseup(handle_up);
-  $(canvas).mousemove(handle_move);
-  $(document).bind('keydown', handle_key);
-  $('#button_mirror_mode').click(function () {
-    mirror_mode = mirror_mode ? false : true;
-    if (mirror_mode) {
-      $('#button_mirror_mode').addClass('active');
-      reset_mirror_data(stadium);
-    } else {
-      $('#button_mirror_mode').removeClass('active');
-      clear_mirror_data(stadium);
-    }
-  });
-
-  $('#pref_preview').click(function () {
-    $('#pref_preview').toggleClass('active');
-    settings.preview = $('#pref_preview').hasClass('active');
-    queue_render();
-  });
-  $('#button_addJoint').click(function () {
-    if (total_selected_by_type.discs != 2) return;
-    document.getElementById("button_addJoint").innerHTML = "Joint added!";
-    setTimeout(function () {
-      document.getElementById("button_addJoint").innerHTML = "Add Joint";
-    }, 1200);
-    var joint = {}
-    for (var i = 0; i < stadium.discs.length; i++) {
-      if (stadium.discs[i]._selected) {
-        if (joint.d0) joint.d1 = i + 1
-        else joint.d0 = i + 1;
-      }
-    }
-    var le = document.getElementById("inputLength").value;
-    if (le = "null") joint.length = "null";
-    else {
-      var tap = le.split(",");
-      if (tap.length == 2) {
-        joint.length = [];
-        joint.length[0] = Number(tap[0]);
-        joint.length[1] = Number(tap[1]);
-      } else joint.length = Number(le);
-    }
-    if (document.getElementById("inputStrength").value == "rigid") joint.strength = "rigid";
-    else joint.strength = Number(document.getElementById("inputStrength").value);
-    if (isNaN(joint.strength)) joint.strength = "rigid";
-    joint.color = document.getElementById("inputColor").value;
-    stadium.joints.push(joint);
-    queue_render();
-  });
 
   define_tab('properties');
   define_tab('advanced');
@@ -301,7 +253,7 @@ function starting(props) {
   add_tool(tool_scale);
 
   set_tool(tool_select);
-  modified();
+  modified(true);
 }
 
 function renderbg(st, ctx) {
@@ -448,9 +400,8 @@ function normalise(v) {
 
 function handle_down(ev) {
   $(document.activeElement).blur();
-  // console.log('klik')
-  if (ev.which != 1)
-    return;
+  // if (ev.which != 1)
+  //   return;
   mouse_left_down = true;
   mouse_dragging = false;
   var pt = translate_coords([ev.pageX, ev.pageY]);
@@ -469,8 +420,8 @@ function translate_coords(p) {
 
 function handle_up(ev) {
   var ret;
-  if (ev.which != 1)
-    return;
+  // if (ev.which != 1)
+  //   return;
   mouse_left_down = false;
   var pt = translate_coords([ev.pageX, ev.pageY]);
   if (mouse_dragging) {
@@ -486,7 +437,7 @@ function handle_up(ev) {
 function handle_key(ev) {
   //console.log('key', ev.which);
   if (ev.ctrlKey && ev.which == 67 && czyTekst) {
-    console.log(document.getElementById("boximport"));
+    // console.log(document.getElementById("boximport"));
     alert("Keep in mind that stadium might not be copied properly using that method. Please use \"Copy All\" button");
   }
 
@@ -621,6 +572,7 @@ var tool_select = {
       }
     }
     update_savepoint();
+    // savepoint();
     if (total_selected_by_type.discs == 2) allowJoint();
     else disallowJoint();
   },
@@ -631,6 +583,7 @@ var tool_select = {
     if (!shape) {
       select_rect(stadium, from, to);
       update_savepoint();
+      // savepoint();
     } else if (shape.type == 'segments') {
       curve_segment_to_point(stadium, shape.object, to);
       modified();
@@ -1561,6 +1514,7 @@ function load(st) {
   //var trejts = stadium.traits;
   stadium = st;
   //stadium.traits = trejts;
+  // console.log(stadium.discs)
 
   if (!st.bg) st.bg = {};
   if (!st.vertexes) st.vertexes = {};
@@ -1595,12 +1549,12 @@ function load(st) {
 
 function update_savepoint() {
   if (undo_savepoints.length)
-    undo_savepoints[0] = stadium;
+    undo_savepoints[0] = JSON.parse(JSON.stringify(stadium));
   queue_render();
 }
 
 function savepoint() {
-  undo_savepoints.unshift(stadium);
+  undo_savepoints.unshift(JSON.parse(JSON.stringify(stadium)))
   undo_savepoints.splice(undo_levels);
   redo_savepoints = [];
 }
@@ -1610,8 +1564,8 @@ function undo() {
     return false;
   redo_savepoints.unshift(undo_savepoints.shift());
   redo_savepoints.splice(undo_levels);
-
-  load(eval('[' + undo_savepoints[0] + ']')[0]);
+  load(undo_savepoints[0]);
+  customUpdate(undo_savepoints[0]);
   modified(true);
   return true;
 }
@@ -1619,10 +1573,11 @@ function undo() {
 function redo() {
   if (redo_savepoints.length <= 0)
     return false;
-  var state = redo_savepoints.shift();
-  undo_savepoints.unshift(state);
+  var state1 = redo_savepoints.shift();
+  undo_savepoints.unshift(state1);
   undo_savepoints.splice(undo_levels);
-  load(eval('[' + state + ']')[0]);
+  load(state1);
+  customUpdate(undo_savepoints[0]);
   modified(true);
   return true;
 }
@@ -2541,8 +2496,7 @@ function equal(a, b) {
 }
 
 function modified(do_not_save) {
-  if (!do_not_save)
-    savepoint(stadium);
+  if (!do_not_save) savepoint(stadium);
   update_props(stadium);
   $('#button_save').addClass('modified');
   queue_render();
@@ -2966,7 +2920,6 @@ function plane_extremes(st, plane) {
 // handler for the window resize event
 function resize() {
   var h = $(window).height();
-  console.log('resajzuj')
   // console.log(h, document.getElementById('table'));
   $('#table').height(h - 96);
   // console.log(document.getElementById('table'))
@@ -3243,6 +3196,102 @@ function new_stadium() {
   };
 }
 
+function handleButtonClick(e) {
+  var a = e.target.id;
+  if (a == 'button_mirror_mode') {
+    mirror_mode = mirror_mode ? false : true;
+    if (mirror_mode) {
+      $('#button_mirror_mode').addClass('active');
+      reset_mirror_data(stadium);
+    } else {
+      $('#button_mirror_mode').removeClass('active');
+      clear_mirror_data(stadium);
+    }
+  } else if (a == 'button_redSpawnPoint') {
+    var xxx = document.getElementById('prop_spawnPointX').value;
+    var yyy = document.getElementById('prop_spawnPointY').value;
+    document.getElementById("prop_spawnPointX").value = "";
+    document.getElementById("prop_spawnPointY").value = "";
+    stadium.redSpawnPoints.push([Number(xxx), Number(yyy)]);
+  } else if (a == 'button_blueSpawnPoint') {
+    var xxx = document.getElementById('prop_spawnPointX').value;
+    var yyy = document.getElementById('prop_spawnPointY').value;
+    document.getElementById("prop_spawnPointX").value = "";
+    document.getElementById("prop_spawnPointY").value = "";
+    stadium.blueSpawnPoints.push([Number(xxx), Number(yyy)]);
+  } else if (a == 'button_resetRed') {
+    stadium.redSpawnPoints = [];
+    //console.log(button_resetRed);
+    //console.log(document.getElementById("button_resetRed"));
+    document.getElementById("button_resetRed").innerHTML = "Spawnpoints resetted!";
+    setTimeout(function () {
+      document.getElementById("button_resetRed").innerHTML = "Reset Spawnpoints";
+    }, 1200);
+  } else if (a == 'button_resetBlue') {
+    stadium.blueSpawnPoints = [];
+    document.getElementById("button_resetBlue").innerHTML = "Spawnpoints resetted!";
+    setTimeout(function () {
+      document.getElementById("button_resetBlue").innerHTML = "Reset Spawnpoints";
+    }, 1200);
+  } else if (a == 'prev_preview') {
+    $('#pref_preview').toggleClass('active');
+    settings.preview = $('#pref_preview').hasClass('active');
+    queue_render();
+  } else if (a == 'button_addJoint') {
+    if (total_selected_by_type.discs != 2) return;
+    document.getElementById("button_addJoint").innerHTML = "Joint added!";
+    setTimeout(function () {
+      document.getElementById("button_addJoint").innerHTML = "Add Joint";
+    }, 1200);
+    var joint = {}
+    for (var i = 0; i < stadium.discs.length; i++) {
+      if (stadium.discs[i]._selected) {
+        if (joint.d0) joint.d1 = i + 1
+        else joint.d0 = i + 1;
+      }
+    }
+    var le = document.getElementById("inputLength").value;
+    if (le = "null") joint.length = "null";
+    else {
+      var tap = le.split(",");
+      if (tap.length == 2) {
+        joint.length = [];
+        joint.length[0] = Number(tap[0]);
+        joint.length[1] = Number(tap[1]);
+      } else joint.length = Number(le);
+    }
+    if (document.getElementById("inputStrength").value == "rigid") joint.strength = "rigid";
+    else joint.strength = Number(document.getElementById("inputStrength").value);
+    if (isNaN(joint.strength)) joint.strength = "rigid";
+    joint.color = document.getElementById("inputColor").value;
+    stadium.joints.push(joint);
+    queue_render();
+  } else if (a == 'button_delete') {
+    if (delete_selected(stadium))
+      modified();
+  } else if (a == 'button_select_all') {
+    select_all();
+  } else if (a == 'button_select_none') {
+    select_all(function () { return false; });
+  } else if (a == 'button_inverse_selection') {
+    select_all(function (shape) { return !selected(shape.object); });
+  } else if (a == 'copy') {
+    copy();
+  } else if (a == 'button_paste') {
+    paste();
+    modified();
+  } else if (a == 'button_cut') {
+    cut();
+    modified();
+  } else if (a == 'button_duplicate') {
+    duplicate();
+    modified();
+  } else if (a.startsWith('button_zoom')) {
+    skala = Number(a.substring(11));
+    resize_canvas();
+    renderStadium(stadium);
+  }
+}
 
 function StadiumCreator(props) {
 
@@ -3268,70 +3317,16 @@ function StadiumCreator(props) {
   }, [props.updateStadium]);
 
   useEffect(() => {
-    // var canvas = document.getElementById('canvas');
-    // var div = document.getElementById('canvas_div');
-    // canvas.width = div.clientWidth;
-    // canvas.height = div.clientHeight;
-    // console.log(div.clientWidth, div.clientHeight, div.width, div.height);
-    // var ctx = canvas.getContext('2d');
-    // ctx.fillStyle = 'rgb(113,140,90)';
-    // ctx.fillRect(0, 0, div.clientWidth, div.clientHeight);
     stadium = new_stadium();
     props.setStadium(stadium);
     saveCanvas();
     load_tile('grass');
     // load_tile(hockeyTile);
 
-    $(canvas).mousedown(handle_down);
-    $(canvas).mouseup(handle_up);
-    $(canvas).mousemove(handle_move);
-    $(document).bind('keydown', handle_key);
-    $('#button_mirror_mode').click(function () {
-      mirror_mode = mirror_mode ? false : true;
-      if (mirror_mode) {
-        $('#button_mirror_mode').addClass('active');
-        reset_mirror_data(stadium);
-      } else {
-        $('#button_mirror_mode').removeClass('active');
-        clear_mirror_data(stadium);
-      }
-    });
+    customUpdate = props.setStadium;
 
-    $('#pref_preview').click(function () {
-      $('#pref_preview').toggleClass('active');
-      settings.preview = $('#pref_preview').hasClass('active');
-      queue_render();
-    });
-    $('#button_addJoint').click(function () {
-      if (total_selected_by_type.discs != 2) return;
-      document.getElementById("button_addJoint").innerHTML = "Joint added!";
-      setTimeout(function () {
-        document.getElementById("button_addJoint").innerHTML = "Add Joint";
-      }, 1200);
-      var joint = {}
-      for (var i = 0; i < stadium.discs.length; i++) {
-        if (stadium.discs[i]._selected) {
-          if (joint.d0) joint.d1 = i + 1
-          else joint.d0 = i + 1;
-        }
-      }
-      var le = document.getElementById("inputLength").value;
-      if (le = "null") joint.length = "null";
-      else {
-        var tap = le.split(",");
-        if (tap.length == 2) {
-          joint.length = [];
-          joint.length[0] = Number(tap[0]);
-          joint.length[1] = Number(tap[1]);
-        } else joint.length = Number(le);
-      }
-      if (document.getElementById("inputStrength").value == "rigid") joint.strength = "rigid";
-      else joint.strength = Number(document.getElementById("inputStrength").value);
-      if (isNaN(joint.strength)) joint.strength = "rigid";
-      joint.color = document.getElementById("inputColor").value;
-      stadium.joints.push(joint);
-      queue_render();
-    });
+    $(document).bind('keydown', handle_key);
+
 
     define_tab('properties');
     define_tab('advanced');
@@ -3394,7 +3389,7 @@ function StadiumCreator(props) {
                     <div id="canvas_div_placeholder">
                       <div id="canvas_div" style={{ top: 86, left: 49, width: 860, height: 612 }}>
                         {/* <canvas id="canvas" style={{ width: 840, height: 592, cursor: "default" }}></canvas> */}
-                        <canvas id="canvas" style={{ width: 840, height: 592 }} onMouseMove={handle_move} ></canvas>
+                        <canvas id="canvas" onMouseUpCapture={handle_up} style={{ width: 840, height: 592 }} onMouseDownCapture={handle_down} onMouseMove={handle_move} ></canvas>
                         <div id="stadium_properties" className="hidden">
                           <div className="prop_group">
                             <div className="prop_group_title">General</div>
@@ -3570,10 +3565,10 @@ function StadiumCreator(props) {
                           <td>
                             <button id="button_tab_spawnpoints">SpawnPoints</button>
                             <button id="button_tab_joints">Joints</button>
-                            <button id="button_mirror_mode">
+                            <button id="button_mirror_mode" onClick={handleButtonClick}>
                               <img alt='img' src={imgMirror} style={{ height: 12, width: 12 }} />Automatic Mirror
                             </button>
-                            <button id="pref_preview">
+                            <button id="pref_preview" onClick={handleButtonClick}>
                               <img alt='img' src={imgPreview} style={{ height: 12, width: 12 }} />Preview
                             </button>
                           </td>
@@ -3588,7 +3583,7 @@ function StadiumCreator(props) {
                             <input className="prop" type="text" id="inputColor" value="transparent" />
                             <label className="prop" style={{ width: 53 }}>strength:</label>
                             <input className="prop" type="text" id="inputStrength" value="rigid" />
-                            <button id="button_addJoint" style={{ backgroundColor: "#696969" }} onMouseOver={jointAlertOn} onMouseOut={jointAlertOff} >
+                            <button id="button_addJoint" onClick={handleButtonClick} style={{ backgroundColor: "#696969" }} onMouseOver={jointAlertOn} onMouseOut={jointAlertOff} >
                               Add Joint
                             </button>
                             <label id="joint_alert"></label>
@@ -3602,16 +3597,16 @@ function StadiumCreator(props) {
                             <input className="prop" type="text" id="prop_spawnPointX" />
                             <label className="prop" style={{ width: 25 }}>y:</label>
                             <input className="prop" type="text" id="prop_spawnPointY" />
-                            <button id="button_redSpawnPoint" style={{ backgroundColor: "#e56e56" }}>
+                            <button id="button_redSpawnPoint" onClick={handleButtonClick} style={{ backgroundColor: "#e56e56" }}>
                               Add Spawn Point
                             </button>
-                            <button id="button_blueSpawnPoint" style={{ backgroundColor: "#598ae5" }}>
+                            <button id="button_blueSpawnPoint" onClick={handleButtonClick} style={{ backgroundColor: "#598ae5" }}>
                               Add Spawn Point
                             </button>
-                            <button id="button_resetRed" style={{ backgroundColor: "#e56e56", color: 'black' }}>
+                            <button id="button_resetRed" onClick={handleButtonClick} style={{ backgroundColor: "#e56e56", color: 'black' }}>
                               Reset Spawnpoints
                             </button>
-                            <button id="button_resetBlue" style={{ backgroundColor: "#598ae5", color: 'black' }}>
+                            <button id="button_resetBlue" onClick={handleButtonClick} style={{ backgroundColor: "#598ae5", color: 'black' }}>
                               Reset Spawnpoints
                             </button>
                           </td>
@@ -3621,20 +3616,20 @@ function StadiumCreator(props) {
                   </td>
                   <td>
                     <div id="tab_sub" className="active" style={{ position: 'fixed', bottom: 5, left: 37, height: 27.5, width: '100%', display: 'inline' }}>
-                      <button id="button_undo" style={{ backgroundColor: '#5872A5' }}><img alt='img' src={imgUndo} style={{ height: 12, width: 12 }} />Undo</button>
-                      <button id="button_redo" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgRedo} style={{ height: 12, width: 12 }} />Redo</button>
-                      <button id="button_copy" style={{ backgroundColor: "#5872A5" }} > <img alt='img' src={imgCopy} style={{ height: 12, width: 12 }} />Copy</button>
-                      <button id="button_paste" style={{ backgroundColor: "#5872A5" }} > <img alt='img' src={imgPaste} style={{ height: 12, width: 12 }} />Paste</button>
-                      <button id="button_delete" style={{ backgroundColor: "#BB2929" }}> <img alt='img' src={imgDelete} style={{ height: 12, width: 12 }} />Delete</button>
-                      <button id="button_select_all" style={{ backgroundColor: "#5872A5" }} > <img alt='img' src={imgSelectAll} style={{ height: 12, width: 12 }} />Select All</button>
-                      <button id="button_select_none" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgSelectNone} style={{ height: 12, width: 12 }} />Select None</button>
-                      <button id="button_inverse_selection" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgInverse} style={{ height: 12, width: 12 }} />Inverse Selection</button>
-                      <button id="button_duplicate" style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgDuplicate} style={{ height: 12, width: 12 }} />Duplicate</button >
-                      <button id="button_cut" style={{ backgroundColor: "#BB2929" }}> <img alt='img' src={imgClear} style={{ height: 12, width: 12 }} />Clear</button >
-                      <button id="button_zoom05" style={{ backgroundColor: '#9b009b' }}>Zoom x0.5</button>
-                      <button id="button_zoom1" style={{ backgroundColor: '#9b009b' }}> Zoom x1</button >
-                      <button id="button_zoom2" style={{ backgroundColor: '#9b009b' }}>Zoom x2</button>
-                      <button id="button_zoom3" style={{ backgroundColor: '#9b009b' }}> Zoom x3</button >
+                      <button id="button_undo" onClick={undo} style={{ backgroundColor: '#5872A5' }}><img alt='img' src={imgUndo} style={{ height: 12, width: 12 }} />Undo</button>
+                      <button id="button_redo" onClick={redo} style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgRedo} style={{ height: 12, width: 12 }} />Redo</button>
+                      <button id="button_copy" onClick={handleButtonClick} style={{ backgroundColor: "#5872A5" }} > <img alt='img' src={imgCopy} style={{ height: 12, width: 12 }} />Copy</button>
+                      <button id="button_paste" onClick={handleButtonClick} style={{ backgroundColor: "#5872A5" }} > <img alt='img' src={imgPaste} style={{ height: 12, width: 12 }} />Paste</button>
+                      <button id="button_delete" onClick={handleButtonClick} style={{ backgroundColor: "#BB2929" }}> <img alt='img' src={imgDelete} style={{ height: 12, width: 12 }} />Delete</button>
+                      <button id="button_select_all" onClick={handleButtonClick} style={{ backgroundColor: "#5872A5" }} > <img alt='img' src={imgSelectAll} style={{ height: 12, width: 12 }} />Select All</button>
+                      <button id="button_select_none" onClick={handleButtonClick} style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgSelectNone} style={{ height: 12, width: 12 }} />Select None</button>
+                      <button id="button_inverse_selection" onClick={handleButtonClick} style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgInverse} style={{ height: 12, width: 12 }} />Inverse Selection</button>
+                      <button id="button_duplicate" onClick={handleButtonClick} style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgDuplicate} style={{ height: 12, width: 12 }} />Duplicate</button >
+                      <button id="button_cut" onClick={handleButtonClick} style={{ backgroundColor: "#BB2929" }}> <img alt='img' src={imgClear} style={{ height: 12, width: 12 }} />Cut</button >
+                      <button id="button_zoom0.5" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}>Zoom x0.5</button>
+                      <button id="button_zoom1" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}> Zoom x1</button >
+                      <button id="button_zoom2" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}>Zoom x2</button>
+                      <button id="button_zoom3" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}> Zoom x3</button >
                     </div >
                   </td >
                 </tr >

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Changes from './Changes.js';
 const changelog = [
   {
@@ -9,11 +10,29 @@ const changelog = [
     ]
   }
 ];
-const currentVersion = changelog[0].version;
+// const currentVersion = changelog[0].version;
 
 const newChanges = changelog.map(change => <Changes key={change.version} change={change} />)
 
-function Changelog() {
+function Changelog(props) {
+
+  useEffect(() => {
+    var version = {
+      version: changelog[0].version,
+      year: changelog[0].date.substring(0, 4)
+    }
+    console.log(version);
+
+    props.setCurrentVersion(version);
+  }, [])
+
+  var version = {
+    version: changelog[0].version,
+    year: changelog[0].date.substring(0, 4)
+  }
+  console.log(version)
+
+  // props.setCurrentVersion({ version });
 
   return (
     <div id="helpcontents" style={{ height: '90%' }}>

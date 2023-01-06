@@ -126,13 +126,21 @@ function CreatorHeader(props) {
     }
   }
 
+  function handleChange(e) {
+    props.setStadium(prevState => {
+      return { ...prevState, name: e.target.value }
+    });
+  }
+
   return (
     <tr>
       <td>
         <table className="underline" style={{ width: "100%" }}>
           <tbody>
             <tr>
-              <td style={{ width: "100%" }} id="right_tabs">  </td>
+              <td style={{ width: "100%" }} id="right_tabs">
+                <input id="input_name" value={props.stadium ? props.stadium.name : ''} onChange={handleChange} autocomplete="off" />
+              </td>
               <td></td>
               <td>
                 <button id="button_import" style={{ width: 125 }} onClick={handleClick}>

@@ -2,8 +2,11 @@ import logoHelp from "../HBSE_files/top-tools/top-tools_help.png";
 import logoHaxRacing from "../HBSE_files/top-tools/haxracing.png";
 import logoClose from "../HBSE_files/general/general_close.png"
 import Changelog from "./changelog/Changelog.js";
+import { useState } from "react";
 
 function HelpTab(props) {
+
+  const [currentVersion, setCurrentVersion] = useState({ version: '2.1.1', year: 2020 })
 
   if (props.mainMode !== 'helpTab') return null;
 
@@ -12,7 +15,8 @@ function HelpTab(props) {
       props.setMainMode('stadiumCreator');
       props.setUpdateStadium(true)
     } else if (e.target.id === 'button_about' || e.target.parentElement.id === 'button_about') {
-      alert('v2.10, 2020 by Falafel');
+      alert('v' + currentVersion.version + ', ' + currentVersion.year);
+      console.log(Changelog);
     } else if (e.target.id === 'button_contact' || e.target.parentElement.id === 'button_contact') {
       alert('Discord: Falafel#3895\nYou can find me at discord.io/haxracing\nemail: turbofalafel@gmail.com');
     }
@@ -36,7 +40,7 @@ function HelpTab(props) {
                   <button id="button_contact" style={{ width: 100 }} onClick={handleClick}>Contact</button>
                   <button id="button_help_close" style={{ width: 100 }} onClick={handleClick}>Close
                     <img src={logoClose} style={{ height: 10, width: 14 }} alt='img' onClick={handleClick} /></button>
-                  <Changelog />
+                  <Changelog currentVersion={currentVersion} setCurrentVersion={setCurrentVersion} />
                 </div >
               </tbody>
             </table>
