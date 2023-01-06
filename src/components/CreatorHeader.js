@@ -45,22 +45,18 @@ function order_keys(parent, keys) {
   var okeys = [];
   $.each(order, function (i, k) {
     if ($.inArray(k, keys) != -1) {
-      //console.log('order', k);
       okeys.push(k);
     }
   });
   $.each(keys, function (i, k) {
     if ($.inArray(k, order) == -1) {
-      //console.log('other', k);
       okeys.push(k);
     }
   });
-  //console.log(parent, order, keys, okeys);
   return okeys;
 }
 
 function pprint(j, l, tag, parent) {
-  // console.log('pprint', j, l, tag, parent);
   if (!l) l = 0;
   if (parent == "length" && j == null) return j;
   if (parent == "canBeStored") {
@@ -106,7 +102,6 @@ function pprint(j, l, tag, parent) {
       }
     });
 
-    //j.traits = stadium.traits;
     return ret + indent(l - 1, true) + "}";
   }
   return "JSON ERROR";
@@ -119,7 +114,6 @@ function CreatorHeader(props) {
     if (e.target.id === 'button_import' || e.target.parentElement.id === 'button_import') {
       props.setMainMode('textMode');
       props.setStadiumText(pprint(props.stadium));
-      // console.log('obecny stadion', props.stadium);
     } else if (e.target.id === 'button_properties' || e.target.parentElement.id === 'button_properties') {
       if (props.mainMode === 'propertiesTab') {
         props.setMainMode('stadiumCreator');

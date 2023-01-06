@@ -8,11 +8,22 @@ li {
     margin-left: 10px;
 }
 
-body {
+/* body {
     margin: 0;
     color: white;
     font: 14px Noto Sans CJK KR, 맑은 고딕, 나눔고딕, Verdana, sans;
     height: 100vh;
+    background: repeating-linear-gradient(315deg,
+            #7b8b5f,
+            #7b8b5f 37px,
+            #76865a 37px,
+            #76865a 74px);
+} */
+
+body {
+    color: white;
+    font: 14px Noto Sans CJK KR, 맑은 고딕, 나눔고딕, Verdana, sans;
+    line-height: 21px;
     background: repeating-linear-gradient(315deg,
             #7b8b5f,
             #7b8b5f 37px,
@@ -32,34 +43,43 @@ body {
 
 .header {
     width: 100%;
-    /* height: 35px; */
-    height: 4.5vh;
-    line-height: 4.5vh;
+    height: 35px;
+    /* height: 4.5vh; */
+    line-height: 35px;
+    /* line-height: 4.5vh; */
     background-color: black;
     color: white;
     font-family: 'Noto Sans CJK KR Bold', '맑은 고딕 Bold', '나눔고딕 Bold', 'Nobile', arial, sans-serif;
-    font-size: 2vh;
-    display: inline-block;
+    font-size: 15px;
+    /* font-size: 2vh; */
+    /* display: inline-block; */
+    overflow: hidden;
 }
 
 .header-logo {
-    height: 1.6vh;
-    width: 1.6vh;
+    height: 12px;
+    /* height: 1.6vh; */
+    width: 12px;
+    /* width: 1.6vh; */
 }
 
 .header-logoHax {
-    height: 1.6vh;
-    width: 3.2vh;
+    height: 12px;
+    /* height: 1.6vh; */
+    width: 16px;
+    /* width: 3.2vh; */
 }
 
 .header .title {
     display: inline-block;
-    height: 4.5vh;
+    /* height: 4.5vh; */
+    height: 35px;
     background-color: #244967;
     padding: 0 25px;
     color: #fff;
     font-family: 'Noto Sans CJK KR Bold', '맑은 고딕 Bold', '나눔고딕 Bold', 'Nobile', arial, sans-serif;
-    font-size: 2vh;
+    font-size: 15px;
+    /* font-size: 2vh; */
     font-weight: 600;
 }
 
@@ -202,20 +222,20 @@ textarea {
     color: white;
 }
 
-/* 
+
 #canvas_div {
     position: absolute;
     left: 100px;
     right: 100px;
     overflow: auto;
-} */
+}
 
 #canvas_div_placeholder {
     width: 100%;
     height: 100%;
 }
 
-/* 
+
 #canvas {
     display: block;
     height: 150px;
@@ -223,7 +243,7 @@ textarea {
     margin: 0 auto;
     position: relative;
     padding: 0 0;
-} */
+}
 
 #helpcontents {
     overflow: auto;
@@ -287,7 +307,7 @@ input.prop,
 select.prop {
     display: block;
     float: left;
-    height: 24px;
+    height: 19px;
     line-height: 19px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -299,6 +319,10 @@ select.prop {
     margin: 2px 0;
     color: white;
     padding: 0 14px;
+}
+
+select.prop {
+    height: 24px;
 }
 
 input.prop.error,

@@ -2966,7 +2966,10 @@ function plane_extremes(st, plane) {
 // handler for the window resize event
 function resize() {
   var h = $(window).height();
-  $('#table').height(h - 46);
+  console.log('resajzuj')
+  // console.log(h, document.getElementById('table'));
+  $('#table').height(h - 96);
+  // console.log(document.getElementById('table'))
   $('#box').height(h - 126);
   var w = $(window).width();
   window_width = w;
@@ -3370,7 +3373,7 @@ function StadiumCreator(props) {
 
   return (
 
-    <table id="table" cellSpacing="7px" style={{ height: '95vh' }}>
+    <table id="table" cellSpacing="7px" style={{ height: 864 }}>
       <tbody>
         <tr>
           <td colSpan="2" id="topbox" valign="top">
@@ -3389,9 +3392,9 @@ function StadiumCreator(props) {
                 <tr>
                   <td style={{ height: "100%" }}>
                     <div id="canvas_div_placeholder">
-                      <div id="canvas_div" style={{ width: '100%', height: '100%' }}>
+                      <div id="canvas_div" style={{ top: 86, left: 49, width: 860, height: 612 }}>
                         {/* <canvas id="canvas" style={{ width: 840, height: 592, cursor: "default" }}></canvas> */}
-                        <canvas id="canvas" width='100%' height='100%' onMouseMove={handle_move} ></canvas>
+                        <canvas id="canvas" style={{ width: 840, height: 592 }} onMouseMove={handle_move} ></canvas>
                         <div id="stadium_properties" className="hidden">
                           <div className="prop_group">
                             <div className="prop_group_title">General</div>
@@ -3545,7 +3548,7 @@ function StadiumCreator(props) {
         </tr>
         <tr id="bottomboxes">
           <td id="leftbox" valign="top">
-            <table>
+            <table style={{ width: '100%' }}>
               <tbody>
                 <tr>
                   <td id="left_tabs">
@@ -3576,7 +3579,7 @@ function StadiumCreator(props) {
                           </td>
                         </table>
                       </div>
-                      <div id="tab_joints" className="hidden">
+                      <div id="tab_joints" className="hidden" style={{ width: '100%' }}>
                         <table>
                           <tr>
                             <label className="prop" style={{ width: 40 }}>length:</label>
