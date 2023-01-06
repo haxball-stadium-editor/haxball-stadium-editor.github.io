@@ -1,137 +1,9 @@
 import { useEffect, useState } from "react";
 import CreatorHeader from "./CreatorHeader";
-import $ from 'jquery'
 
 function PropertiesTab(props) {
 
   const [stadiumProperties, setStadiumProperties] = useState(props.stadium);
-
-  var stadium = props.stadium;
-
-  // var field_setters = [];
-
-  // function connect_field(input, p, parse, unparse) {
-  //   input.change(function () {
-  //     var val = input.val();
-  //     if (parse) {
-  //       val = parse(val);
-  //       input.val(val);
-  //     }
-  //     set_prop(stadium, p, val);
-  //   });
-
-  //   field_setters.push(function () {
-  //     if (input.closest('body').length === 0)
-  //       return false;
-  //     var val = get_prop(stadium, p);
-  //     if (unparse)
-  //       val = unparse(val);
-  //     input.val(val);
-
-  //     return true;
-  //   });
-  // }
-
-  // function set_prop(object, path, val) {
-  //   var list = path.split('.');
-  //   while (list.length > 1) {
-  //     var step = list.shift();
-  //     var next = object[step];
-  //     if (next == undefined) {
-  //       next = {};
-  //       object[step] = next;
-  //     }
-  //     object = next;
-  //   }
-  //   object[list.shift()] = val;
-  // }
-
-  // function get_prop(object, path) {
-  //   var list = path.split('.');
-  //   while (list.length) {
-  //     if (object == undefined)
-  //       return undefined;
-  //     object = object[list.shift()];
-  //   }
-  //   return object;
-  // }
-
-
-  // function parseColor(str) {
-  //   if (!str.match('^[A-Fa-f0-9]{6}$'))
-  //     return '';
-  //   return str;
-  // }
-
-  // function parseCameraFollow(str) {
-  //   if (str.match('ball') || str.match('player')) return str;
-  //   else return '';
-  // }
-
-  // function parseDetectedCommand(str) {
-  //   if (str.match('true')) return "true";
-  //   else return "false";
-  // }
-
-  // function parseKickOff(str) {
-  //   if (str.match('full')) return str;
-  //   else return 'partial';
-  // }
-
-  // function parseTab(str) {
-  //   var pstryk1 = str.split(",");
-  //   var pstryk2 = [];
-  //   pstryk2[0] = Number(pstryk1[0]);
-  //   pstryk2[1] = Number(pstryk1[1]);
-  //   return pstryk2;
-  // }
-
-  // function parseMaskList(str) {
-  //   var list = str.split(',');
-  //   var out = [];
-  //   $.each(list, function (i, w) {
-  //     if ($.inArray(w, ['ball', 'red', 'blue', 'wall', 'redKO', 'blueKO', 'all', 'kick', 'score', 'c0', 'c1', 'c2', 'c3']) != -1) {
-  //       out.push(w);
-  //     }
-  //   });
-  //   return out;
-  // }
-
-
-  // connect_field($('#input_name'), 'name');
-  // connect_field($('#prop_spawnDistance'), 'spawnDistance', parseFloat);
-  // connect_field($('#prop_width'), 'width', parseFloat);
-  // connect_field($('#prop_height'), 'height', parseFloat);
-  // connect_field($('#prop_maxViewWidth'), 'maxViewWidth', parseFloat);
-  // connect_field($('#prop_cameraWidth'), 'cameraWidth', parseFloat);
-  // connect_field($('#prop_cameraHeight'), 'cameraHeight', parseFloat);
-  // connect_field($('#prop_cameraFollow'), 'cameraFollow', parseCameraFollow);
-  // connect_field($('#prop_canBeStored'), 'canBeStored', parseDetectedCommand);
-  // connect_field($('#prop_kickOffReset'), 'kickOffReset', parseKickOff);
-  // connect_field($('#prop_bg_type'), 'bg.type');
-  // connect_field($('#prop_bg_height'), 'bg.height', parseFloat);
-  // connect_field($('#prop_bg_width'), 'bg.width', parseFloat);
-  // connect_field($('#prop_bg_cornerRadius'), 'bg.cornerRadius', parseFloat);
-  // connect_field($('#prop_bg_kickOffRadius'), 'bg.kickOffRadius', parseFloat);
-  // connect_field($('#prop_bg_color'), 'bg.color', parseColor);
-  // connect_field($('#prop_pp_radius'), 'playerPhysics.radius', parseFloat);
-  // connect_field($('#prop_pp_bCoef'), 'playerPhysics.bCoef', parseFloat);
-  // connect_field($('#prop_pp_invMass'), 'playerPhysics.invMass', parseFloat);
-  // connect_field($('#prop_pp_damping'), 'playerPhysics.damping', parseFloat);
-  // connect_field($('#prop_pp_acceleration'), 'playerPhysics.acceleration', parseFloat);
-  // connect_field($('#prop_pp_gravity'), 'playerPhysics.gravity', parseTab);
-  // connect_field($('#prop_pp_kickingAcceleration'), 'playerPhysics.kickingAcceleration', parseFloat);
-  // connect_field($('#prop_pp_kickingDamping'), 'playerPhysics.kickingDamping', parseFloat);
-  // connect_field($('#prop_pp_kickStrength'), 'playerPhysics.kickStrength', parseFloat);
-  // connect_field($('#prop_pp_kickback'), 'playerPhysics.kickback', parseFloat);
-  // connect_field($('#prop_bp_radius'), 'ballPhysics.radius', parseFloat);
-  // connect_field($('#prop_bp_bCoef'), 'ballPhysics.bCoef', parseFloat);
-  // connect_field($('#prop_bp_invMass'), 'ballPhysics.invMass', parseFloat);
-  // connect_field($('#prop_bp_damping'), 'ballPhysics.damping', parseFloat);
-  // connect_field($('#prop_bp_gravity'), 'ballPhysics.gravity', parseTab);
-  // connect_field($('#prop_bp_color'), 'ballPhysics.color', parseColor);
-  // connect_field($('#prop_bp_cMask'), 'ballPhysics.cMask', parseMaskList);
-  // connect_field($('#prop_bp_cGroup'), 'ballPhysics.cGroup', parseMaskList);
 
   useEffect(() => {
     setStadiumProperties(props.stadium);
@@ -140,7 +12,6 @@ function PropertiesTab(props) {
 
   if (props.mainMode !== 'propertiesTab') return null;
 
-  var stadiumBackup = { ...props.stadium };
   var stadiumF = { ...props.stadium };
   // var stadiumF = props.stadium;
 

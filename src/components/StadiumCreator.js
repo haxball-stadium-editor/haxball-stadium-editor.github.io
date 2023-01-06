@@ -22,8 +22,6 @@ import imgDuplicate from "../HBSE_files/always-tools/always-tools_CaP.png"
 import imgClear from "../HBSE_files/always-tools/always-tools_cut.png"
 import imgPreview from "../HBSE_files/left-tools/left-tools_preview.png"
 import imgMirror from "../HBSE_files/left-tools/left-tools_mirror.png"
-import grassTile from "../HBSE_files/grasstile.bmp"
-import hockeyTile from "../HBSE_files/hockeytile.png"
 import $ from 'jquery'
 
 import { useEffect, useState } from "react";

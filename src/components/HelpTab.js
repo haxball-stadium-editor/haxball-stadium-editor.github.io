@@ -2,7 +2,6 @@ import logoHelp from "../HBSE_files/top-tools/top-tools_help.png";
 import logoHaxRacing from "../HBSE_files/top-tools/haxracing.png";
 import logoClose from "../HBSE_files/general/general_close.png"
 import Changelog from "./changelog/Changelog.js";
-import { useState } from "react";
 
 function HelpTab(props) {
 

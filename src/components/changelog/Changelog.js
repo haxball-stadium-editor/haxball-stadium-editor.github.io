@@ -9,11 +9,6 @@ const changelog = [
     ]
   }
 ];
-// const currentVersion = changelog[0].version;
-// document.onload = function () {
-//   console.log('zaladowano')
-//   document.getElementById('globalTitle').innerHTML = 'HBSE 3';
-// }
 
 const newChanges = changelog.map(change => <Changes key={change.version} change={change} />)
 
@@ -30,8 +25,6 @@ function Changelog(props) {
   }, [])
 
   if (props.hide) return null;
-
-  // props.setCurrentVersion({ version });
 
   return (
     <div id="helpcontents" style={{ height: '90%' }}>
