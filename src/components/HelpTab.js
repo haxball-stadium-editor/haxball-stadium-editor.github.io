@@ -6,8 +6,6 @@ import { useState } from "react";
 
 function HelpTab(props) {
 
-  const [currentVersion, setCurrentVersion] = useState({ version: '2.1.1', year: 2020 })
-
   if (props.mainMode !== 'helpTab') return null;
 
   function handleClick(e) {
@@ -15,7 +13,7 @@ function HelpTab(props) {
       props.setMainMode('stadiumCreator');
       props.setUpdateStadium(true)
     } else if (e.target.id === 'button_about' || e.target.parentElement.id === 'button_about') {
-      alert('v' + currentVersion.version + ', ' + currentVersion.year);
+      alert('v' + props.version.version + ', ' + props.version.year);
       console.log(Changelog);
     } else if (e.target.id === 'button_contact' || e.target.parentElement.id === 'button_contact') {
       alert('Discord: Falafel#3895\nYou can find me at discord.io/haxracing\nemail: turbofalafel@gmail.com');
@@ -40,7 +38,7 @@ function HelpTab(props) {
                   <button id="button_contact" style={{ width: 100 }} onClick={handleClick}>Contact</button>
                   <button id="button_help_close" style={{ width: 100 }} onClick={handleClick}>Close
                     <img src={logoClose} style={{ height: 10, width: 14 }} alt='img' onClick={handleClick} /></button>
-                  <Changelog currentVersion={currentVersion} setCurrentVersion={setCurrentVersion} />
+                  <Changelog hide={false} />
                 </div >
               </tbody>
             </table>

@@ -4,11 +4,11 @@ import logoNews from '../HBSE_files/top-tools/top-tools_news.png';
 import logoGeneralFeed from '../HBSE_files/general/general_feed.png';
 import logoHaxRacing from '../HBSE_files/top-tools/haxracing.png';
 
-function Header() {
+function Header(props) {
 
   return (
     <div className="header">
-      <span className="title">HBSE v2.10</span>
+      <span className="title" id="globalTitle">HBSE v{props.version.version}</span>
       <a href="https://www.haxball.com/play" target="_blank" rel='noreferrer'>
         <img src={logoHaxball} alt="Haxball Play" className='header-logo' />HaxBall Play</a>
       <a href="https://www.haxball.com/headless" target="_blank" rel='noreferrer'>
@@ -20,6 +20,8 @@ function Header() {
       <a href="https://discord.io/haxracing" target="_blank" rel='noreferrer'>
         <img src={logoHaxRacing} alt='Haxball Replay Analyzer' className='header-logoHax' />HaxRacing</a>
       <a href="https://haxball-replay-analyzer.github.io/" target="_blank" rel='noreferrer'>Replay Analyzer</a>
+      <a href="https://github.com/haxball-stadium-editor/haxball-stadium-editor.github.io/issues" target="_blank" rel='noreferrer'>Report Bugs</a>
+      <a href="https://haxball-stadium-editor.github.io/old-version/" target="_blank" rel='noreferrer'>OLD VERSION</a>
     </div>
   );
 }

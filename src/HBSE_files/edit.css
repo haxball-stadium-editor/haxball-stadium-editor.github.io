@@ -345,6 +345,10 @@ select.prop.error {
     overflow: auto;
 }
 
+#tab_sub button {
+    padding: 0px 10px;
+}
+
 #left_tabs button {
     width: 85px;
     height: 40px;

@@ -168,7 +168,11 @@ function PropertiesTab(props) {
 
   function handlePropertiesChange(e) {
     // console.log(e)
-    var prop = e.target.id.substring(5);
+    if (e.target.id.startsWith('trait')) {
+      var prop = e.target.id.substring(6);
+    } else {
+      var prop = e.target.id.substring(5);
+    }
     var secondProp = false;
     if (prop.startsWith('bg')) {
       secondProp = prop.substring(3);
@@ -195,7 +199,7 @@ function PropertiesTab(props) {
       setStadiumProperties(prevState => {
         return { ...prevState, [prop]: { ...prevState[prop], [secondProp]: e.target.value } }
       });
-    } else {
+    } else if (!e.target.id.startsWith('trait')) {
       setStadiumProperties(prevState => {
         return { ...prevState, [prop]: e.target.value }
       });
@@ -239,6 +243,15 @@ function PropertiesTab(props) {
     }
   }
 
+  function handleTraitBlur(e) {
+    // var prop = e.target.id.substring(6);
+    // var v = parseValue(e.target);
+    // if (!v) {
+    //   e.target.classList.remove('error');
+    // } else {
+    // }
+  }
+
   function handleSelect(e) {
     var prop = e.target.id.substring(5);
     if (prop == "bg_type") {
@@ -252,6 +265,47 @@ function PropertiesTab(props) {
       props.setStadium(stadiumF);
       setStadiumProperties(stadiumF);
     }
+  }
+
+  function addNewTrait() {
+    var zet = {};
+    zet.vis = document.getElementById('trait_vis').value;
+    if (zet.vis == "true") zet.vis = true;
+    else zet.vis = false;
+    if (document.getElementById('trait_bCoef').value != "") zet.bCoef = Number(document.getElementById('trait_bCoef').value);
+    if (document.getElementById('trait_radius').value != "") zet.radius = Number(document.getElementById('trait_radius').value);
+    if (document.getElementById('trait_invMass').value != "") zet.invMass = Number(document.getElementById('trait_invMass').value);
+    var zetName = "newTrait";
+    if (document.getElementById('trait_name').value != "") zetName = document.getElementById('trait_name').value;
+    if (document.getElementById('trait_gravity').value != "") {
+      var pstryk = (document.getElementById('trait_gravity').value).split(",");
+      zet.gravity = []
+      zet.gravity[0] = Number(pstryk[0]);
+      zet.gravity[1] = Number(pstryk[1]);
+    }
+    if (document.getElementById('trait_damping').value != "") zet.damping = parseValue({ target: { id: 'damping' }, value: document.getElementById('trait_damping').value });
+    if (document.getElementById('trait_cMask').value != "") zet.cMask = parseValue({ target: { id: 'cMask' }, value: document.getElementById('trait_cMask').value });
+    if (document.getElementById('trait_cGroup').value != "") zet.cGroup = parseValue({ target: { id: 'cGroup' }, value: document.getElementById('trait_cGroup').value });
+    if (document.getElementById('trait_acceleration').value != "") zet.acceleration = Number(document.getElementById('trait_acceleration').value);
+    if (document.getElementById('trait_color').value != "") zet.color = document.getElementById('trait_color').value;
+    stadiumF.traits[zetName] = zet;
+    props.setStadium(stadiumF)
+
+    document.getElementById('trait_bCoef').value = "";
+    document.getElementById('trait_radius').value = "";
+    document.getElementById('trait_name').value = "";
+    document.getElementById('trait_invMass').value = "";
+    document.getElementById('trait_gravity').value = "";
+    document.getElementById('trait_damping').value = "";
+    document.getElementById('trait_cMask').value = "";
+    document.getElementById('trait_cGroup').value = "";
+    document.getElementById('trait_acceleration').value = "";
+    document.getElementById('trait_color').value = "";
+
+    document.getElementById("button_newTrait").innerHTML = "Trait Added!";
+    setTimeout(function () {
+      document.getElementById("button_newTrait").innerHTML = "Add New Trait";
+    }, 1200);
   }
 
   return (
@@ -394,24 +448,24 @@ function PropertiesTab(props) {
                       <option value="false">False</option>
                     </select>
                     <label className="prop" style={{ width: 75 }}>bCoef</label>
-                    <input className="prop" type="text" id="trait_bCoef" />
+                    <input className="prop" type="text" id="trait_bCoef" onChange={handlePropertiesChange} onBlur={handleTraitBlur} />
                     <label className="prop" style={{ width: 75 }}>radius</label>
-                    <input className="prop" type="text" id="trait_radius" />
+                    <input className="prop" type="text" id="trait_radius" onChange={handlePropertiesChange} onBlur={handleTraitBlur} />
                     <label className="prop" style={{ width: 75 }}>invMass</label>
-                    <input className="prop" type="text" id="trait_invMass" />
+                    <input className="prop" type="text" id="trait_invMass" onChange={handlePropertiesChange} onBlur={handleTraitBlur} />
                     <label className="prop" style={{ width: 75 }}>gravity</label>
-                    <input className="prop" type="text" id="trait_gravity" />
+                    <input className="prop" type="text" id="trait_gravity" onChange={handlePropertiesChange} onBlur={handleTraitBlur} />
                     <label className="prop" style={{ width: 75 }}>damping</label>
-                    <input className="prop" type="text" id="trait_damping" />
+                    <input className="prop" type="text" id="trait_damping" onChange={handlePropertiesChange} onBlur={handleTraitBlur} />
                     <label className="prop" style={{ width: 75 }}>cMask</label>
-                    <input className="prop" type="text" id="trait_cMask" />
+                    <input className="prop" type="text" id="trait_cMask" onChange={handlePropertiesChange} onBlur={handleTraitBlur} />
                     <label className="prop" style={{ width: 75 }}>cGroup</label>
-                    <input className="prop" type="text" id="trait_cGroup" />
+                    <input className="prop" type="text" id="trait_cGroup" onChange={handlePropertiesChange} onBlur={handleTraitBlur} />
                     <label className="prop" style={{ width: 75 }}>acceleration</label>
-                    <input className="prop" type="text" id="trait_acceleration" />
+                    <input className="prop" type="text" id="trait_acceleration" onChange={handlePropertiesChange} onBlur={handleTraitBlur} />
                     <label className="prop" style={{ width: 75 }}>color</label>
-                    <input className="prop" type="text" id="trait_color" />
-                    <button id="button_newTrait">Add new trait</button>
+                    <input className="prop" type="text" id="trait_color" onChange={handlePropertiesChange} onBlur={handleTraitBlur} />
+                    <button id="button_newTrait" onClick={addNewTrait}>Add new trait</button>
                   </div>
                 </div>
               </tbody>
