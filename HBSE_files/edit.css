@@ -1,0 +1,461 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+ul,
+li {
+    margin-left: 10px;
+}
+
+body {
+    color: white;
+    font: 14px Noto Sans CJK KR, 맑은 고딕, 나눔고딕, Verdana, sans;
+    line-height: 21px;
+    background: repeating-linear-gradient(315deg,
+            #7b8b5f,
+            #7b8b5f 37px,
+            #76865a 37px,
+            #76865a 74px);
+}
+
+#header {
+    width: 100%;
+    height: 46px;
+    line-height: 46px;
+    font-size: 15px;
+    font-family: Noto Sans CJK KR Light, 맑은 고딕 Semilight, 나눔고딕 Light, Noto Sans CJK KR Regular, 맑은 고딕, 나눔고딕, 'Nobile', arial, sans-serif;
+    text-shadow: 1px 1px 0 black;
+    background-color: #1a2125;
+}
+
+.header {
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    background-color: black;
+    color: #fff;
+    font-family: 'Noto Sans CJK KR Bold', '맑은 고딕 Bold', '나눔고딕 Bold', 'Nobile', arial, sans-serif;
+    font-size: 15px;
+}
+
+.header .title {
+    display: inline-block;
+    height: 35px;
+    background-color: #244967;
+    padding: 0 25px;
+    color: #fff;
+    font-family: 'Noto Sans CJK KR Bold', '맑은 고딕 Bold', '나눔고딕 Bold', 'Nobile', arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.header>* {
+    margin-right: 15px;
+}
+
+ul.menu {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: left;
+}
+
+ul.menu li {
+    display: inline;
+    margin: 0 10px;
+    list-style-type: none;
+}
+
+ul.menu li a.active {
+    color: #D2C2B8;
+}
+
+ul.menu li a {
+    text-decoration: none;
+    color: white;
+}
+
+ul.menu li a:visited {
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+#topbox,
+#leftbox,
+#rightbox,
+#box {
+    background-color: #1a2125;
+    border-radius: 8px;
+    padding: 10px;
+    overflow: auto;
+}
+
+#table {
+    width: 100%;
+    padding: 30px;
+}
+
+#bottomboxes {
+    height: 100px;
+}
+
+#tools {
+    height: 50px;
+    overflow: auto;
+}
+
+#rightbox {
+    width: 280px;
+}
+
+button {
+    color: white;
+    background-color: #244967;
+    border-radius: 8px;
+    border: 1px solid #244967;
+    padding: 0 20px;
+    line-height: 19px;
+    height: 22px;
+    font-family: Noto Sans CJK KR, 맑은 고딕, 나눔고딕, 'Nobile', arial, sans-serif;
+    font-size: 14px;
+    margin: 2px;
+}
+
+button:hover {
+    border: 1px solid #A0887A;
+}
+
+button:active,
+button.active {
+    background-color: #2F5E85;
+}
+
+.underline {
+    border-bottom: 3px solid #c13535;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    border-bottom: 3px solid #244967;
+    margin-top: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #c0c0ff;
+}
+
+a:visited,
+a:hover {}
+
+#input_name {
+    border: 0px;
+    font-size: 24px;
+    width: 100%;
+    color: white;
+    background-color: #1a2125;
+}
+
+#box {
+    margin: 30px;
+    position: relative;
+}
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+textarea {
+    width: 100%;
+    height: 100%;
+    border: 3px solid black;
+    background-color: #2F3C43;
+    color: white;
+}
+
+#canvas_div {
+    position: absolute;
+    left: 100px;
+    right: 100px;
+    overflow: auto;
+}
+
+#canvas_div_placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+#canvas {
+    display: block;
+    height: 150px;
+    width: 300px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 0;
+}
+
+#helpcontents {
+    overflow: auto;
+    height: 500px;
+    clear: right;
+}
+
+#mousepos {
+    display: block;
+    font-family: Noto Sans CJK Mono KR, D2Coding, mono;
+    font-size: 12px;
+    height: 20px;
+    border: 3px solid #244967;
+    border-radius: 8px;
+    background-color: #1a2125;
+    position: absolute;
+    bottom: 178px;
+    width: 150px;
+    line-height: 20px;
+    text-align: right;
+    padding-right: 3px;
+}
+
+#mousepos.left {
+    right: 67px;
+}
+
+#mousepos.right {
+    left: 67px;
+}
+
+#stadium_properties {
+    width: 100%;
+    font-size: 12px;
+}
+
+#traits {
+    font-size: 12px;
+    clear: left;
+}
+
+#button_help_close {
+    float: right;
+}
+
+label.prop {
+    display: block;
+    float: left;
+    height: 22px;
+    line-height: 19px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border: 1px solid #244967;
+    background-color: #244967;
+    clear: left;
+    margin: 2px 0;
+    padding: 0 10px;
+}
+
+input.prop,
+select.prop {
+    display: block;
+    float: left;
+    height: 24px;
+    line-height: 19px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #1a2125;
+    width: 100px;
+    clear: right;
+    border: 3px solid #244967;
+    /* was 3px */
+    margin: 2px 0;
+    color: white;
+    padding: 0 14px;
+}
+
+input.prop.error,
+select.prop.error {
+    border: 3px solid #dd0000;
+}
+
+#left_tabs {
+    border-right: 3px solid #808080;
+    width: 95px;
+}
+
+#tab_parent {
+    height: 86px;
+    overflow: auto;
+}
+
+#tab_sub {
+    height: 30px;
+    overflow: auto;
+}
+
+#left_tabs button {
+    width: 85px;
+    height: 40px;
+    line-height: 19px;
+    margin: 2px 0;
+    padding: 0px;
+}
+
+.property {
+    display: none;
+    float: left;
+    overflow: hidden;
+    font-size: 14px;
+    margin-left: 6px;
+}
+
+table.center-content {
+    width: 100%;
+    height: 100%;
+}
+
+table.center-content td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+#boxlogin,
+#boxregister {
+    width: 100%;
+    height: 100%;
+}
+
+
+label.form {
+    display: inline-block;
+    text-align: right;
+    height: 22px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border: 1px solid #244967;
+    background-color: #244967;
+    padding: 0 10px;
+    width: 150px;
+    margin-bottom: 5px;
+    font-size: 17px;
+}
+
+input.form,
+select.form {
+    display: inline-block;
+    height: 24px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #1a2125;
+    width: 300px;
+    border: 1px solid #244967;
+    color: white;
+    padding: 0 10px;
+    margin-bottom: 5px;
+    font-size: 17px;
+}
+
+input.form.error,
+select.form.error {
+    border: 3px solid #dd0000;
+}
+
+body.logged-in .anonymous {
+    display: none;
+}
+
+body.logged-out .valid-user {
+    display: none;
+}
+
+#button_save.modified {
+    background-color: #a05451;
+}
+
+#library_list tr.active {
+    background-color: #705451;
+}
+
+#library_list td {
+    padding-right: 20px;
+    border-top: 2px solid black;
+}
+
+#librarytable {
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 90%;
+}
+
+/*#boxlibrary, #boxlibrary * {border: 1px solid red;}*/
+
+#libraryright {
+    border: 2px solid black;
+}
+
+#libraryleft {
+    width: 1%;
+}
+
+#libraryright table {
+    width: 100%;
+}
+
+#boxlibrary.owner button.owner {
+    display: inline;
+}
+
+#boxlibrary button.owner {
+    display: none;
+}
+
+.prop_group {
+    border: 3px solid #222c31;
+    border-radius: 8px;
+    overflow: auto;
+    padding: 10px;
+    margin: 10px;
+    padding-top: 0px;
+    float: left;
+}
+
+.prop_group_title {
+    border-radius: 8px;
+    background-color: #1a2125;
+    border: 3px solid #222c31;
+    position: relative;
+    border-top: 0;
+    top: -5px;
+    padding: 5px;
+    padding-top: 10px;
+    float: left;
+}
+
+/*
+     FILE ARCHIVED ON 08:23:54 Nov 28, 2018 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 04:50:58 Mar 23, 2019.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  LoadShardBlock: 50.429 (3)
+  esindex: 0.006
+  captures_list: 69.231
+  CDXLines.iter: 10.165 (3)
+  PetaboxLoader3.datanode: 96.201 (5)
+  exclusion.robots: 0.152
+  exclusion.robots.policy: 0.142
+  RedisCDXSource: 6.203
+  PetaboxLoader3.resolve: 62.735 (2)
+  load_resource: 235.817
+*/
