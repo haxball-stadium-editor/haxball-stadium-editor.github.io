@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.705dea7b.css",
+    "main.js": "/static/js/main.d476f69c.js",
+    "static/media/haxracing.png": "/static/media/haxracing.568a8d05b2abc5cc35c5.png",
+    "index.html": "/index.html",
+    "main.705dea7b.css.map": "/static/css/main.705dea7b.css.map",
+    "main.d476f69c.js.map": "/static/js/main.d476f69c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.705dea7b.css",
+    "static/js/main.d476f69c.js"
+  ]
+}
