@@ -254,6 +254,20 @@ function starting(props) {
   modified(true);
 }
 
+function getLineCoefs(x, y) {
+  var a = (x[1] - y[1]) / (x[0] - y[0]);
+  var b = y[1] - a * y[0];
+  // console.log('linia', x, y, a, b)
+  return { a: a, b: b };
+}
+
+function getQuadraticEquationRoots(a, b, c) {
+  // console.log(a, b, c)
+  var delta = b * b - 4 * a * c;
+  // console.log('delta', b, Math.sqrt(delta))
+  return [(-b - Math.sqrt(delta)) / (2 * a), (-b + Math.sqrt(delta)) / (2 * a)]
+}
+
 function renderbg(st, ctx) {
   var bg = st.bg;
   ctx.save();
@@ -336,29 +350,64 @@ function render_segment_arc(ctx, segment, arc) {
     ctx.stroke();
   }
 
-  if (segment.bias) {
-    var dx, dy;
-    var lineLength = Math.sqrt((arc.a[0] - arc.b[0]) * (arc.a[0] - arc.b[0]) + ((arc.a[1] - arc.b[1]) * (arc.a[1] - arc.b[1])));
-    dx = (arc.b[1] - arc.a[1]) * segment.bias / lineLength;
-    dy = (arc.b[0] - arc.a[0]) * segment.bias / lineLength;
-    ctx.beginPath();
-    ctx.moveTo(arc.a[0], arc.a[1]);
-    ctx.globalAlpha = 0;
-    ctx.lineTo(arc.b[0], arc.b[1]);
-    ctx.globalAlpha = 0.2;
-    if (segment.bias > 0) {
-      ctx.lineTo(arc.b[0] - dx, arc.b[1] + dy);
-      ctx.lineTo(arc.a[0] - dx, arc.a[1] + dy);
+  if (segment.bias && !settings.preview) {
+    if (arc.curve) {
+      ctx.beginPath();
+      if (arc.curve > 0) ctx.moveTo(arc.b[0], arc.b[1])
+      else ctx.moveTo(arc.a[0], arc.a[1])
+      ctx.fillStyle = 'red';
+      if (arc.curve > 0) ctx.arc(arc.center[0], arc.center[1], arc.radius, arc.to, arc.from, true);
+      else ctx.arc(arc.center[0], arc.center[1], arc.radius, arc.from, arc.true, false);
+      ctx.stroke();
+
+      var x = getLineCoefs(arc.a, arc.center);
+      var a = x.a, b = x.b, Sx = arc.a[0], Sy = arc.a[1];
+      var roots = getQuadraticEquationRoots(1 + a * a, -2 * Sx + 2 * a * b - 2 * a * Sy, Sx * Sx + b * b - 2 * b * Sy + Sy * Sy - segment.bias * segment.bias);
+      var x1 = roots[0], x2 = roots[1];
+      var y = a * x1 + b
+
+      if (arc.curve > 0) {
+        if ((x1 > Sx && x1 < arc.center[0]) || (x1 < Sx && x1 < arc.center[0])) x = x2;
+        else x = x1;
+      } else if (arc.curve < 0) {
+        if ((x1 > Sx && x1 < arc.center[0]) || (x1 < Sx && x1 < arc.center[0])) x = x1;
+        else x = x2;
+      }
+      y = a * x + b;
+
+      ctx.strokeStyle = 'blue';
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      if (arc.curve > 0) ctx.arc(arc.center[0], arc.center[1], arc.radius - segment.bias, arc.from, arc.to, false);
+      else ctx.arc(arc.center[0], arc.center[1], arc.radius + segment.bias, arc.to, arc.from, true);
+      ctx.stroke();
+      ctx.strokeStyle = 'red';
+      ctx.lineTo(arc.b[0], arc.b[1]);
+      ctx.stroke();
     } else {
-      ctx.lineTo(arc.b[0] - dx, arc.b[1] + dy);
-      ctx.lineTo(arc.a[0] - dx, arc.a[1] + dy);
+      var dx, dy;
+      var lineLength = Math.sqrt((arc.a[0] - arc.b[0]) * (arc.a[0] - arc.b[0]) + ((arc.a[1] - arc.b[1]) * (arc.a[1] - arc.b[1])));
+      dx = (arc.b[1] - arc.a[1]) * segment.bias / lineLength;
+      dy = (arc.b[0] - arc.a[0]) * segment.bias / lineLength;
+      ctx.beginPath();
+      ctx.moveTo(arc.a[0], arc.a[1]);
+      ctx.globalAlpha = 0;
+      ctx.lineTo(arc.b[0], arc.b[1]);
+      ctx.globalAlpha = 0.2;
+      if (segment.bias > 0) {
+        ctx.lineTo(arc.b[0] - dx, arc.b[1] + dy);
+        ctx.lineTo(arc.a[0] - dx, arc.a[1] + dy);
+      } else {
+        ctx.lineTo(arc.b[0] - dx, arc.b[1] + dy);
+        ctx.lineTo(arc.a[0] - dx, arc.a[1] + dy);
+      }
+      ctx.lineTo(arc.a[0], arc.a[1])
+      ctx.moveTo((arc.a[0] + arc.b[0]) / 2 - (lineLength / 2), (arc.a[1] + arc.b[1]) / 2);
+      ctx.lineTo((arc.a[0] + arc.b[0]) / 2 + (lineLength / 2), (arc.a[1] + arc.b[1]) / 2);
+      ctx.fillStyle = "black";
+      ctx.fill();
+      ctx.globalAlpha = 1;
     }
-    ctx.lineTo(arc.a[0], arc.a[1])
-    ctx.moveTo((arc.a[0] + arc.b[0]) / 2 - (lineLength / 2), (arc.a[1] + arc.b[1]) / 2);
-    ctx.lineTo((arc.a[0] + arc.b[0]) / 2 + (lineLength / 2), (arc.a[1] + arc.b[1]) / 2);
-    ctx.fillStyle = "black";
-    ctx.fill();
-    ctx.globalAlpha = 1;
   }
 }
 
