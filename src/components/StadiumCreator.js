@@ -353,12 +353,9 @@ function render_segment_arc(ctx, segment, arc) {
   if (segment.bias && !settings.preview) {
     if (arc.curve) {
       ctx.beginPath();
-      if (arc.curve > 0) ctx.moveTo(arc.b[0], arc.b[1])
-      else ctx.moveTo(arc.a[0], arc.a[1])
-      ctx.fillStyle = 'red';
+      ctx.moveTo(arc.b[0], arc.b[1])
       if (arc.curve > 0) ctx.arc(arc.center[0], arc.center[1], arc.radius, arc.to, arc.from, true);
-      else ctx.arc(arc.center[0], arc.center[1], arc.radius, arc.from, arc.true, false);
-      ctx.stroke();
+      else ctx.arc(arc.center[0], arc.center[1], arc.radius, arc.from, arc.to, false);
 
       var x = getLineCoefs(arc.a, arc.center);
       var a = x.a, b = x.b, Sx = arc.a[0], Sy = arc.a[1];
@@ -375,15 +372,14 @@ function render_segment_arc(ctx, segment, arc) {
       }
       y = a * x + b;
 
-      ctx.strokeStyle = 'blue';
       ctx.lineTo(x, y);
-      ctx.stroke();
       if (arc.curve > 0) ctx.arc(arc.center[0], arc.center[1], arc.radius - segment.bias, arc.from, arc.to, false);
       else ctx.arc(arc.center[0], arc.center[1], arc.radius + segment.bias, arc.to, arc.from, true);
-      ctx.stroke();
-      ctx.strokeStyle = 'red';
       ctx.lineTo(arc.b[0], arc.b[1]);
-      ctx.stroke();
+      ctx.globalAlpha = 0.2
+      ctx.fillStyle = 'black'
+      ctx.fill();
+      ctx.globalAlpha = 1;
     } else {
       var dx, dy;
       var lineLength = Math.sqrt((arc.a[0] - arc.b[0]) * (arc.a[0] - arc.b[0]) + ((arc.a[1] - arc.b[1]) * (arc.a[1] - arc.b[1])));
