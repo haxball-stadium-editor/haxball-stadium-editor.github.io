@@ -357,24 +357,35 @@ function render_segment_arc(ctx, segment, arc) {
       if (arc.curve > 0) ctx.arc(arc.center[0], arc.center[1], arc.radius, arc.to, arc.from, true);
       else ctx.arc(arc.center[0], arc.center[1], arc.radius, arc.from, arc.to, false);
 
-      var x = getLineCoefs(arc.a, arc.center);
-      var a = x.a, b = x.b, Sx = arc.a[0], Sy = arc.a[1];
-      var roots = getQuadraticEquationRoots(1 + a * a, -2 * Sx + 2 * a * b - 2 * a * Sy, Sx * Sx + b * b - 2 * b * Sy + Sy * Sy - segment.bias * segment.bias);
-      var x1 = roots[0], x2 = roots[1];
-      var y = a * x1 + b
+      // var x = getLineCoefs(arc.a, arc.center);
+      // var a = x.a, b = x.b, Sx = arc.a[0], Sy = arc.a[1];
+      // var roots = getQuadraticEquationRoots(1 + a * a, -2 * Sx + 2 * a * b - 2 * a * Sy, Sx * Sx + b * b - 2 * b * Sy + Sy * Sy - segment.bias * segment.bias);
+      // var x1 = roots[0], x2 = roots[1];
+      // var y = a * x1 + b
+
+      // if (arc.curve > 0) {
+      //   if ((x1 > Sx && x1 < arc.center[0]) || (x1 < Sx && x1 < arc.center[0])) x = x2;
+      //   else x = x1;
+      // } else if (arc.curve < 0) {
+      //   if ((x1 > Sx && x1 < arc.center[0]) || (x1 < Sx && x1 < arc.center[0])) x = x1;
+      //   else x = x2;
+      // }
+      // y = a * x + b;
 
       if (arc.curve > 0) {
-        if ((x1 > Sx && x1 < arc.center[0]) || (x1 < Sx && x1 < arc.center[0])) x = x2;
-        else x = x1;
-      } else if (arc.curve < 0) {
-        if ((x1 > Sx && x1 < arc.center[0]) || (x1 < Sx && x1 < arc.center[0])) x = x1;
-        else x = x2;
+        try {
+          ctx.arc(arc.center[0], arc.center[1], arc.radius - segment.bias, arc.from, arc.to, false)
+        } catch (error) {
+          ctx.lineTo(arc.center[0], arc.center[1])
+        }
+      } else {
+        try {
+          ctx.arc(arc.center[0], arc.center[1], arc.radius + segment.bias, arc.to, arc.from, true)
+        } catch (error) {
+          ctx.lineTo(arc.center[0], arc.center[1])
+        }
       }
-      y = a * x + b;
 
-      ctx.lineTo(x, y);
-      if (arc.curve > 0) ctx.arc(arc.center[0], arc.center[1], arc.radius - segment.bias, arc.from, arc.to, false);
-      else ctx.arc(arc.center[0], arc.center[1], arc.radius + segment.bias, arc.to, arc.from, true);
       ctx.lineTo(arc.b[0], arc.b[1]);
       ctx.globalAlpha = 0.2
       ctx.fillStyle = 'black'
