@@ -2,6 +2,13 @@ import { useEffect } from 'react';
 import Changes from './Changes.js';
 const changelog = [
   {
+    version: '3.0.3',
+    date: '2023-01-10',
+    changes: [
+      'Bias on curves now displays correctly'
+    ]
+  },
+  {
     version: '3.0.2',
     date: '2023-01-08',
     changes: [
