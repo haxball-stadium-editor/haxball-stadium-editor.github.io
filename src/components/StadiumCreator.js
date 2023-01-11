@@ -3326,9 +3326,12 @@ function handleButtonClick(e) {
     duplicate();
     modified();
   } else if (a.startsWith('button_zoom')) {
+    var scroll = [document.getElementById('canvas_div').scrollTop, document.getElementById('canvas_div').scrollLeft, skala];
     skala = Number(a.substring(11));
     resize_canvas();
     renderStadium(stadium);
+    document.getElementById('canvas_div').scrollTop = scroll[0] * skala / scroll[2];
+    document.getElementById('canvas_div').scrollLeft = scroll[1] * skala / scroll[2];
   }
 }
 
