@@ -35,7 +35,7 @@ function App() {
   }, [version]);
 
   return (
-    <body className="logged-out">
+    <div className="logged-out">
       <Header
         version={version}
       />
@@ -73,7 +73,7 @@ function App() {
         version={version}
         setVersion={setVersion}
       />
-    </body >
+    </div >
   );
 }
 

@@ -13,7 +13,6 @@ function HelpTab(props) {
       props.setUpdateStadium(true)
     } else if (e.target.id === 'button_about' || e.target.parentElement.id === 'button_about') {
       alert('v' + props.version.version + ', ' + props.version.year);
-      console.log(Changelog);
     } else if (e.target.id === 'button_contact' || e.target.parentElement.id === 'button_contact') {
       alert('Discord: Falafel#3895\nYou can find me at discord.io/haxracing\nemail: turbofalafel@gmail.com');
     }
@@ -25,7 +24,7 @@ function HelpTab(props) {
         <tr>
           <td colSpan="2" id="topbox" valign="top">
             <table style={{ width: '100%', height: '100%' }}>
-              <tbody>
+              <tbody><tr><td>
                 <div id="boxhelp" style={{ height: '82vh' }}>
                   <button id="button_about" style={{ width: 120 }} onClick={handleClick}>
                     <img src={logoHelp} style={{ height: 12, width: 12 }} alt='img' />
@@ -42,7 +41,7 @@ function HelpTab(props) {
                     <img src={logoClose} style={{ height: 10, width: 14 }} alt='img' onClick={handleClick} /></button>
                   <Changelog hide={false} />
                 </div >
-              </tbody>
+              </td></tr></tbody>
             </table>
           </td>
         </tr>

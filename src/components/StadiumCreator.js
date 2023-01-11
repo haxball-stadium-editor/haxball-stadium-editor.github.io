@@ -3404,7 +3404,7 @@ function StadiumCreator(props) {
   function testFunction() {
     console.log('teeest');
     return;
-    renderStadium(props.stadium);
+    // renderStadium(props.stadium);
   }
 
   function addtoHaxmaps(e) {
@@ -3499,55 +3499,65 @@ function StadiumCreator(props) {
                       </div>
                       <div id="tab_advanced" className="hidden">
                         <table>
-                          <td>
-                            <button id="button_tab_spawnpoints">SpawnPoints</button>
-                            <button id="button_tab_joints">Joints</button>
-                            <button id="button_mirror_mode" onClick={handleButtonClick}>
-                              <img alt='img' src={imgMirror} style={{ height: 12, width: 12 }} />Automatic Mirror
-                            </button>
-                            <button id="pref_preview" onClick={handleButtonClick}>
-                              <img alt='img' src={imgPreview} style={{ height: 12, width: 12 }} />Preview
-                            </button>
-                            {/* <button id="button_tab_haxmaps">HaxMaps</button> */}
-                          </td>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <button id="button_tab_spawnpoints">SpawnPoints</button>
+                                <button id="button_tab_joints">Joints</button>
+                                <button id="button_mirror_mode" onClick={handleButtonClick}>
+                                  <img alt='img' src={imgMirror} style={{ height: 12, width: 12 }} />Automatic Mirror
+                                </button>
+                                <button id="pref_preview" onClick={handleButtonClick}>
+                                  <img alt='img' src={imgPreview} style={{ height: 12, width: 12 }} />Preview
+                                </button>
+                                {/* <button id="button_tab_haxmaps">HaxMaps</button> */}
+                              </td>
+                            </tr>
+                          </tbody>
                         </table>
                       </div>
                       <div id="tab_joints" className="hidden" style={{ width: '100%' }}>
                         <table>
-                          <tr>
-                            <label className="prop" style={{ width: 40 }}>length:</label>
-                            <input className="prop" type="text" id="inputLength" defaultValue="null" />
-                            <label className="prop" style={{ width: 35 }}>color:</label>
-                            <input className="prop" type="text" id="inputColor" defaultValue="transparent" />
-                            <label className="prop" style={{ width: 53 }}>strength:</label>
-                            <input className="prop" type="text" id="inputStrength" defaultValue="rigid" />
-                            <button id="button_addJoint" onClick={handleButtonClick} style={{ backgroundColor: "#696969" }} onMouseOver={jointAlertOn} onMouseOut={jointAlertOff} >
-                              Add Joint
-                            </button>
-                            <label id="joint_alert"></label>
-                          </tr>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <label className="prop" style={{ width: 40 }}>length:</label>
+                                <input className="prop" type="text" id="inputLength" defaultValue="null" />
+                                <label className="prop" style={{ width: 35 }}>color:</label>
+                                <input className="prop" type="text" id="inputColor" defaultValue="transparent" />
+                                <label className="prop" style={{ width: 53 }}>strength:</label>
+                                <input className="prop" type="text" id="inputStrength" defaultValue="rigid" />
+                                <button id="button_addJoint" onClick={handleButtonClick} style={{ backgroundColor: "#696969" }} onMouseOver={jointAlertOn} onMouseOut={jointAlertOff} >
+                                  Add Joint
+                                </button>
+                                <label id="joint_alert"></label>
+                              </td>
+                            </tr>
+                          </tbody>
                         </table>
                       </div>
                       <div id="tab_spawnpoints" className="hidden">
                         <table>
-                          <td>
-                            <label className="prop" style={{ width: 25 }}>x:</label>
-                            <input className="prop" type="text" id="prop_spawnPointX" />
-                            <label className="prop" style={{ width: 25 }}>y:</label>
-                            <input className="prop" type="text" id="prop_spawnPointY" />
-                            <button id="button_redSpawnPoint" onClick={handleButtonClick} style={{ backgroundColor: "#e56e56" }}>
-                              Add Spawn Point
-                            </button>
-                            <button id="button_blueSpawnPoint" onClick={handleButtonClick} style={{ backgroundColor: "#598ae5" }}>
-                              Add Spawn Point
-                            </button>
-                            <button id="button_resetRed" onClick={handleButtonClick} style={{ backgroundColor: "#e56e56", color: 'black' }}>
-                              Reset Spawnpoints
-                            </button>
-                            <button id="button_resetBlue" onClick={handleButtonClick} style={{ backgroundColor: "#598ae5", color: 'black' }}>
-                              Reset Spawnpoints
-                            </button>
-                          </td>
+                          <tbody><tr>
+                            <td>
+                              <label className="prop" style={{ width: 25 }}>x:</label>
+                              <input className="prop" type="text" id="prop_spawnPointX" />
+                              <label className="prop" style={{ width: 25 }}>y:</label>
+                              <input className="prop" type="text" id="prop_spawnPointY" />
+                              <button id="button_redSpawnPoint" onClick={handleButtonClick} style={{ backgroundColor: "#e56e56" }}>
+                                Add Spawn Point
+                              </button>
+                              <button id="button_blueSpawnPoint" onClick={handleButtonClick} style={{ backgroundColor: "#598ae5" }}>
+                                Add Spawn Point
+                              </button>
+                              <button id="button_resetRed" onClick={handleButtonClick} style={{ backgroundColor: "#e56e56", color: 'black' }}>
+                                Reset Spawnpoints
+                              </button>
+                              <button id="button_resetBlue" onClick={handleButtonClick} style={{ backgroundColor: "#598ae5", color: 'black' }}>
+                                Reset Spawnpoints
+                              </button>
+                            </td>
+                          </tr></tbody>
                         </table>
                       </div>
                       {/* <div id="tab_haxmaps" className="hidden">

@@ -139,7 +139,7 @@ function CreatorHeader(props) {
           <tbody>
             <tr>
               <td style={{ width: "100%" }} id="right_tabs">
-                <input id="input_name" value={props.stadium ? props.stadium.name : ''} onChange={handleChange} autocomplete="off" />
+                <input id="input_name" value={props.stadium ? props.stadium.name : ''} onChange={handleChange} autoComplete="off" />
               </td>
               <td></td>
               <td>
