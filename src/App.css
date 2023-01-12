@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 * {
   padding: 0;
   margin: 0;
@@ -58,43 +47,43 @@ body {
 
 .header {
   width: 100%;
-  height: 35px;
-  /* height: 4.5vh; */
-  line-height: 35px;
-  /* line-height: 4.5vh; */
+  /* height: 35px; */
+  height: 4.5vh;
+  /* line-height: 35px; */
+  line-height: 4.5vh;
   background-color: black;
   color: white;
   font-family: 'Noto Sans CJK KR Bold', '맑은 고딕 Bold', '나눔고딕 Bold', 'Nobile', arial, sans-serif;
-  font-size: 15px;
-  /* font-size: 2vh; */
+  /* font-size: 15px; */
+  font-size: 2vh;
   /* display: inline-block; */
   overflow: hidden;
 }
 
 .header-logo {
-  height: 12px;
-  /* height: 1.6vh; */
-  width: 12px;
-  /* width: 1.6vh; */
+  /* height: 12px; */
+  height: 1.6vh;
+  /* width: 12px; */
+  width: 1.6vh;
 }
 
 .header-logoHax {
-  height: 12px;
-  /* height: 1.6vh; */
-  width: 24px;
-  /* width: 3.2vh; */
+  /* height: 12px; */
+  height: 1.6vh;
+  /* width: 24px; */
+  width: 3.2vh;
 }
 
 .header .title {
   display: inline-block;
-  /* height: 4.5vh; */
-  height: 35px;
+  height: 4.5vh;
+  /* height: 35px; */
   background-color: #244967;
-  padding: 0 25px;
+  padding: 0 3.2vh;
   color: #fff;
   font-family: 'Noto Sans CJK KR Bold', '맑은 고딕 Bold', '나눔고딕 Bold', 'Nobile', arial, sans-serif;
-  font-size: 15px;
-  /* font-size: 2vh; */
+  /* font-size: 15px; */
+  font-size: 2vh;
   font-weight: 600;
 }
 
@@ -140,38 +129,58 @@ ul.menu li a:visited {
   background-color: #1a2125;
   border-radius: 8px;
   padding: 10px;
-  overflow: auto;
+  /* overflow: auto; */
+}
+
+#topbox {
+  height: 60vh;
 }
 
 #table {
   width: 100%;
-  padding: 30px;
+  padding: 3vh;
+  /* padding: 30px; */
 }
 
-#bottomboxes {
-  height: 100px;
+#bottomboxes,
+#leftbox,
+#rightbox {
+  height: 12vh;
+  /* height: 100px; */
 }
 
 #tools {
-  height: 50px;
+  height: 6vh;
+  /* height: 50px; */
   overflow: auto;
 }
 
 #rightbox {
-  width: 280px;
+  width: 18vw;
+  /* width: 280px; */
+}
+
+#rightbox button {
+  width: 8.2vw;
 }
 
 button {
   color: white;
   background-color: #244967;
-  border-radius: 8px;
+  border-radius: 1vh;
+  /* border-radius: 8px; */
   border: 1px solid #244967;
-  padding: 0 20px;
-  line-height: 19px;
-  height: 22px;
+  padding: 0 2.5vh;
+  /* padding: 0 20px; */
+  line-height: 2.5vh;
+  /* line-height: 19px; */
+  height: 3vh;
+  /* height: 22px; */
   font-family: Noto Sans CJK KR, 맑은 고딕, 나눔고딕, 'Nobile', arial, sans-serif;
-  font-size: 14px;
-  margin: 2px;
+  font-size: 2vh;
+  /* font-size: 14px; */
+  margin: 0.4vh;
+  /* margin: 2px; */
 }
 
 button:hover {
@@ -269,25 +278,34 @@ textarea {
 #mousepos {
   display: block;
   font-family: Noto Sans CJK Mono KR, D2Coding, mono;
-  font-size: 12px;
-  height: 20px;
+  font-size: 1.5vh;
+  /* font-size: 12px; */
+  height: 2.5vh;
+  /* height: 20px; */
   border: 3px solid #244967;
-  border-radius: 8px;
+  border-radius: 1vh;
+  /* border-radius: 8px; */
   background-color: #1a2125;
   position: absolute;
-  bottom: 178px;
-  width: 150px;
-  line-height: 20px;
+  bottom: 27vh;
+  /* bottom: 178px; */
+  width: 10vw;
+  /* width: 150px; */
+  line-height: 2.5vh;
+  /* line-height: 20px; */
   text-align: right;
   padding-right: 3px;
+  /* padding-right: 3px; */
 }
 
 #mousepos.left {
-  right: 67px;
+  right: 8vw;
+  /* right: 67px; */
 }
 
 #mousepos.right {
-  left: 67px;
+  left: 8vw;
+  /* left: 67px; */
 }
 
 #stadium_properties {
@@ -347,16 +365,19 @@ select.prop.error {
 
 #left_tabs {
   border-right: 3px solid #808080;
-  width: 95px;
+  width: 6vw;
+  /* width: 95px; */
 }
 
 #tab_parent {
-  height: 86px;
+  height: 10vh;
+  /* height: 86px; */
   overflow: auto;
 }
 
 #tab_sub {
-  height: 30px;
+  height: 4vh;
+  /* height: 30px; */
   overflow: auto;
 }
 
@@ -365,9 +386,12 @@ select.prop.error {
 }
 
 #left_tabs button {
-  width: 85px;
-  height: 40px;
-  line-height: 19px;
+  width: 6vw;
+  /* width: 85px; */
+  height: 5vh;
+  /* height: 40px; */
+  line-height: 2.5vh;
+  /* line-height: 19px; */
   margin: 2px 0;
   padding: 0px;
 }

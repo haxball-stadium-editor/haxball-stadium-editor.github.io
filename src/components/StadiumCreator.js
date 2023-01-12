@@ -3485,11 +3485,11 @@ function StadiumCreator(props) {
                 <tr>
                   <td id="left_tabs">
                     <button id="button_tab_properties" className="active">
-                      <img alt='img' src={logoProperties} style={{ height: 12, width: 12 }} />Properties
+                      <img alt='img' src={logoProperties} style={{ height: "1.5vh", width: "1.5vh" }} />Properties
                     </button>
                     {/* <button id="button_tab_edit">Edit</button> */}
                     <button id="button_tab_advanced" >
-                      <img alt='img' src={logoTools} style={{ height: 12, width: 12 }} />Tools
+                      <img alt='img' src={logoTools} style={{ height: "1.5vh", width: "1.5vh" }} />Tools
                     </button>
                     {/* <button id="button_tab_spawnpoints">SpawnPoints</button> */}
                   </td>
@@ -3505,10 +3505,10 @@ function StadiumCreator(props) {
                                 <button id="button_tab_spawnpoints">SpawnPoints</button>
                                 <button id="button_tab_joints">Joints</button>
                                 <button id="button_mirror_mode" onClick={handleButtonClick}>
-                                  <img alt='img' src={imgMirror} style={{ height: 12, width: 12 }} />Automatic Mirror
+                                  <img alt='img' src={imgMirror} style={{ height: "1.5vh", width: "1.5vh" }} />Automatic Mirror
                                 </button>
                                 <button id="pref_preview" onClick={handleButtonClick}>
-                                  <img alt='img' src={imgPreview} style={{ height: 12, width: 12 }} />Preview
+                                  <img alt='img' src={imgPreview} style={{ height: "1.5vh", width: "1.5vh" }} />Preview
                                 </button>
                                 {/* <button id="button_tab_haxmaps">HaxMaps</button> */}
                               </td>
@@ -3613,14 +3613,14 @@ function StadiumCreator(props) {
           </td >
           <td id="rightbox" valign="top">
             <pre id="mousepos" className="right">285, 23</pre>
-            <button id="button_tool_select" className="active" style={{ width: 95 }}><img alt='img' src={logoSelect} style={{ height: 12, width: 12 }} />Select</button>
-            <button id="button_tool_rotate" style={{ width: 100 }}><img alt='img' src={logoRotate} style={{ height: 12, width: 12 }} />Rotate</button>
-            <button id="button_tool_scale" style={{ width: 100 }}><img alt='img' src={logoScale} style={{ height: 12, width: 12 }} />Scale</button>
-            <button id="button_tool_segment" style={{ width: 130 }}><img alt='img' src={logoSegment} style={{ height: 12, width: 12 }} />Segment</button>
-            <button id="button_tool_vertex" style={{ width: 137 }}><img alt='img' src={logoVertex} style={{ height: 12, width: 12 }} />Vertex</button>
-            <button id="button_tool_disc" style={{ width: 95 }}><img alt='img' src={logoDisc} style={{ height: 12, width: 12 }} />Disc</button>
-            <button id="button_tool_goal" style={{ width: 95 }}><img alt='img' src={logoGoal} style={{ height: 12, width: 12 }} />Goal</button>
-            <button id="button_tool_plane" style={{ width: 100 }}><img alt='img' src={logoPlane} style={{ height: 12, width: 12 }} />Plane</button>
+            <button id="button_tool_select" className="active"><img alt='img' src={logoSelect} style={{ height: "0.8vw", width: "0.8vw" }} />Select</button>
+            <button id="button_tool_rotate"><img alt='img' src={logoRotate} style={{ height: "0.8vw", width: "0.8vw" }} />Rotate</button>
+            <button id="button_tool_scale"><img alt='img' src={logoScale} style={{ height: "0.8vw", width: "0.8vw" }} />Scale</button>
+            <button id="button_tool_segment"><img alt='img' src={logoSegment} style={{ height: "0.8vw", width: "0.8vw" }} />Segment</button>
+            <button id="button_tool_vertex"><img alt='img' src={logoVertex} style={{ height: "0.8vw", width: "0.8vw" }} />Vertex</button>
+            <button id="button_tool_disc"><img alt='img' src={logoDisc} style={{ height: "0.8vw", width: "0.8vw" }} />Disc</button>
+            <button id="button_tool_goal"><img alt='img' src={logoGoal} style={{ height: "0.8vw", width: "0.8vw" }} />Goal</button>
+            <button id="button_tool_plane"><img alt='img' src={logoPlane} style={{ height: "0.8vw", width: "0.8vw" }} />Plane</button>
           </td>
         </tr >
       </tbody >
