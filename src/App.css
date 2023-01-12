@@ -122,6 +122,16 @@ ul.menu li a:visited {
   display: none;
 }
 
+
+#right_tabs {
+  height: 4vh;
+  width: 100%;
+}
+
+#creator-header {
+  height: 4vh;
+}
+
 #topbox,
 #leftbox,
 #rightbox,
@@ -193,6 +203,7 @@ button.active {
 }
 
 .underline {
+  height: 4vh;
   border-bottom: 3px solid #c13535;
 }
 
