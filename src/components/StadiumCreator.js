@@ -3359,6 +3359,10 @@ function StadiumCreator(props) {
   }, [props.updateStadium]);
 
   useEffect(() => {
+    if (props.mainMode == 'stadiumCreator') $("#table").fadeTo(300, 1)
+  }, [props.mainMode]);
+
+  useEffect(() => {
     stadium = new_stadium();
     props.setStadium(stadium);
     saveCanvas();
@@ -3448,7 +3452,7 @@ function StadiumCreator(props) {
 
   return (
 
-    <table id="table" cellSpacing="7px" style={{ height: 864 }}>
+    <table id="table" cellSpacing="7px" style={{ height: 864, opacity: 0.01 }}>
       <tbody>
         <tr>
           <td colSpan="2" id="topbox" valign="top">

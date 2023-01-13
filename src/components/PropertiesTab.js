@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CreatorHeader from "./CreatorHeader";
+import $ from 'jquery'
 
 function PropertiesTab(props) {
 
@@ -9,6 +10,10 @@ function PropertiesTab(props) {
     setStadiumProperties(props.stadium);
     // console.log('czy aby na pewno jeszcze raz');
   }, [props.stadium]);
+
+  useEffect(() => {
+    if (props.mainMode == 'propertiesTab') $("#table").fadeTo(300, 1)
+  }, [props.mainMode])
 
   if (props.mainMode !== 'propertiesTab') return null;
 
@@ -182,11 +187,11 @@ function PropertiesTab(props) {
   }
 
   return (
-    <table id="table" cellSpacing="7px" style={{ height: '95vh' }}>
+    <table id="table" cellSpacing="7px" style={{ height: '64vh', opacity: 0.01, overflow: "scroll" }}>
       <tbody>
         <tr>
-          <td colSpan="2" id="topbox" valign="top">
-            <table style={{ width: '100%', height: '100%' }}>
+          <td colSpan="2" id="topbox" valign="top" style={{ height: '64vh', overflow: "scroll" }}>
+            <table >
               <tbody>
                 <CreatorHeader
                   mainMode={props.mainMode}

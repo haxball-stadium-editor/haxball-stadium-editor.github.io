@@ -29,11 +29,6 @@ function App() {
   const [version, setVersion] = useState("2.1.0");
   const [updateStadium, setUpdateStadium] = useState(false);
 
-  useEffect(() => {
-    if (version == '2.1.0') return;
-    alert('Hello, it\'s new version of Haxball Stadium Editor. Whole code has been migrated to React.js and restructured, so you may experience some bugs. If so, please let me know either on Discord Falafel#3895, or report bug on GitHub (link in header). There will be some new features in the near future, like extracting stadium from .hbr recording and automatic map upload to Haxmaps.com. If you prefer to use the old version, it\'s still available - click [Old version] in header. Enjoy :)')
-  }, [version]);
-
   return (
     <div className="logged-out">
       <Header

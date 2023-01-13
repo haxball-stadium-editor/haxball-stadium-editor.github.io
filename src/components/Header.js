@@ -2,11 +2,17 @@ import logoHaxball from '../HBSE_files/top-tools/top-tools_play.png';
 import logoHost from '../HBSE_files/top-tools/top-tools_host.png';
 import logoNews from '../HBSE_files/top-tools/top-tools_news.png';
 import logoHaxRacing from '../HBSE_files/top-tools/haxracing.png';
+import { useEffect } from 'react';
+import $ from 'jquery';
 
 function Header(props) {
 
+  useEffect(() => {
+    $(".header").fadeTo(300, 1)
+  });
+
   return (
-    <div className="header">
+    <div className="header" style={{ opacity: 0.01 }}>
       <span className="title" id="globalTitle">HBSE v{props.version.version}</span>
       <a href="https://www.haxball.com/play" target="_blank" rel='noreferrer'>
         <img src={logoHaxball} alt="Haxball Play" className='header-logo' />HaxBall Play</a>

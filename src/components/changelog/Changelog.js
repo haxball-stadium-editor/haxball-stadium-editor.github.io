@@ -2,6 +2,15 @@ import { useEffect } from 'react';
 import Changes from './Changes.js';
 const changelog = [
   {
+    version: '3.0.4',
+    date: '2023-01-13',
+    changes: [
+      'Zooming in and out doesn\'t reset the scroll position anymore',
+      'Added some animations',
+      'Minor bugfixes'
+    ]
+  },
+  {
     version: '3.0.3',
     date: '2023-01-10',
     changes: [

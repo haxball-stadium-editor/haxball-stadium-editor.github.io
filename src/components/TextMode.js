@@ -212,12 +212,17 @@ function TextMode(props) {
         }
       }
       // props.setStadium(JSON.parse(props.stadiumText));
-      props.setStadium(st);
-      props.setMainMode('stadiumCreator');
+      $("#box").fadeTo(300, 0.01, "linear", function () {
+        props.setStadium(st);
+        props.setMainMode('stadiumCreator');
+      })
     } else if (e.target.id == 'button_import_cancel') {
       props.setStadiumText(pprint(props.stadium));
     } else if (e.target.id == 'button_import_goto') {
       alert('This function is currently in development');
+      // $("#box").fadeTo(1000, 0.001, 'linear', function () {
+      //   props.setMainMode('stadiumCreator');
+      // })
     } else if (e.target.id == 'button_import_clear') {
       var detect_desn = window.confirm('Are you sure?');
       if (detect_desn) props.setStadiumText('');
@@ -271,6 +276,10 @@ function TextMode(props) {
   }, []);
 
   useEffect(() => {
+    if (props.mainMode == 'textMode') $("#box").fadeTo(300, 1)
+  }, [props.mainMode]);
+
+  useEffect(() => {
     // props.setStadium(props.stadium)
     props.setStadiumText(pprint(props.stadium));
     // console.log('zmiana w tekst modzie')
@@ -285,12 +294,12 @@ function TextMode(props) {
 
 
   return (
-    <div id="box" style={{ height: '80vh' }} >
+    <div id="box" style={{ height: '84vh', opacity: 0.01 }} >
       <div id="boximport">
         <table style={{ height: '100%', width: '100%' }}>
           <tbody>
             <tr>
-              <td style={{ height: '75vh' }}><textarea id="textarea_import" value={props.stadiumText} onChange={handleChange}></textarea></td>
+              <td style={{ height: '78vh' }}><textarea id="textarea_import" value={props.stadiumText} onChange={handleChange}></textarea></td>
             </tr>
             <tr>
               <td>

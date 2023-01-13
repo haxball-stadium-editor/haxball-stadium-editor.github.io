@@ -112,17 +112,23 @@ function CreatorHeader(props) {
   function handleClick(e) {
     props.setStadium(props.stadium);
     if (e.target.id === 'button_import' || e.target.parentElement.id === 'button_import') {
-      props.setMainMode('textMode');
-      props.setStadiumText(pprint(props.stadium));
+      $("#table").fadeTo(300, 0.01, "linear", function () {
+        props.setMainMode('textMode');
+        props.setStadiumText(pprint(props.stadium));
+      })
     } else if (e.target.id === 'button_properties' || e.target.parentElement.id === 'button_properties') {
-      if (props.mainMode === 'propertiesTab') {
-        props.setMainMode('stadiumCreator');
-        props.setUpdateStadium(true);
-      } else {
-        props.setMainMode('propertiesTab');
-      }
+      $("#table").fadeTo(300, 0.01, "linear", function () {
+        if (props.mainMode === 'propertiesTab') {
+          props.setMainMode('stadiumCreator');
+          props.setUpdateStadium(true);
+        } else {
+          props.setMainMode('propertiesTab');
+        }
+      })
     } else if (e.target.id === 'button_help' || e.target.parentElement.id === 'button_help') {
-      props.setMainMode('helpTab');
+      $("#table").fadeTo(300, 0.01, "linear", function () {
+        props.setMainMode('helpTab');
+      })
     }
   }
 

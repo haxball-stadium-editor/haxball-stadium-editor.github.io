@@ -2,15 +2,23 @@ import logoHelp from "../HBSE_files/top-tools/top-tools_help.png";
 import logoHaxRacing from "../HBSE_files/top-tools/haxracing.png";
 import logoClose from "../HBSE_files/general/general_close.png"
 import Changelog from "./changelog/Changelog.js";
+import { useEffect } from "react";
+import $ from 'jquery'
 
 function HelpTab(props) {
+
+  useEffect(() => {
+    if (props.mainMode == 'helpTab') $("#table").fadeTo(300, 1)
+  }, [props.mainMode])
 
   if (props.mainMode !== 'helpTab') return null;
 
   function handleClick(e) {
     if (e.target.id === 'button_help_close' || e.target.parentElement.id === 'button_help_close') {
-      props.setMainMode('stadiumCreator');
-      props.setUpdateStadium(true)
+      $("#table").fadeTo(300, 0.01, "linear", function () {
+        props.setMainMode('stadiumCreator');
+        props.setUpdateStadium(true)
+      })
     } else if (e.target.id === 'button_about' || e.target.parentElement.id === 'button_about') {
       alert('v' + props.version.version + ', ' + props.version.year);
     } else if (e.target.id === 'button_contact' || e.target.parentElement.id === 'button_contact') {
@@ -19,7 +27,7 @@ function HelpTab(props) {
   }
 
   return (
-    <table id="table" cellSpacing="7px" style={{ height: '95vh' }}>
+    <table id="table" cellSpacing="7px" style={{ height: '95vh', opacity: 0.01 }}>
       <tbody>
         <tr>
           <td colSpan="2" id="topbox" valign="top">
