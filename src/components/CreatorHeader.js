@@ -104,7 +104,6 @@ function pprint(j, l, tag, parent) {
 
     return ret + indent(l - 1, true) + "}";
   }
-  return "JSON ERROR";
 }
 
 function CreatorHeader(props) {

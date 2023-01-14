@@ -192,7 +192,6 @@ function TextMode(props) {
   function handleClick(e) {
     if (e.target.id == 'button_import_import') {
       var st;
-      // console.log(props.stadiumText)
       try {
         // JSON.parse(props.stadiumText);
         st = eval('[' + props.stadiumText + ']')[0];
@@ -209,6 +208,11 @@ function TextMode(props) {
           if (st.joints[i]._length) {
             st.joints[i].length = st.joints[i]._length;
           }
+        }
+      }
+      if (st.discs) {
+        for (var i = 0; i < st.discs.length; i++) {
+          if (st.discs[i].pos == undefined) st.discs[i].pos = [0, 0];
         }
       }
       // props.setStadium(JSON.parse(props.stadiumText));
@@ -280,18 +284,14 @@ function TextMode(props) {
   }, [props.mainMode]);
 
   useEffect(() => {
-    // props.setStadium(props.stadium)
     props.setStadiumText(pprint(props.stadium));
-    // console.log('zmiana w tekst modzie')
   }, [props.stadium]);
 
   if (props.mainMode !== 'textMode') return null;
 
   function handleChange(e) {
-    // console.log(e);
     props.setStadiumText(e.target.value);
   }
-
 
   return (
     <div id="box" style={{ height: '84vh', opacity: 0.01 }} >

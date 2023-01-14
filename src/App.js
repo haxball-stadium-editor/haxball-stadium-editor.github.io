@@ -7,23 +7,9 @@ import PropertiesTab from './components/PropertiesTab';
 import HelpTab from './components/HelpTab';
 import Changelog from './components/changelog/Changelog';
 
-function useWindowSize() {
-  const [size, setSize] = useState([0, 0]);
-  useLayoutEffect(() => {
-    function updateSize() {
-      setSize([window.innerWidth, window.innerHeight]);
-    }
-    window.addEventListener('resize', updateSize);
-    updateSize();
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-  return size;
-}
-
 function App() {
 
   const [mainMode, setMainMode] = useState('stadiumCreator');
-  const [width, height] = useWindowSize();
   const [stadium, setStadium] = useState("");
   const [stadiumText, setStadiumText] = useState("");
   const [version, setVersion] = useState("2.1.0");
@@ -34,7 +20,6 @@ function App() {
       <Header
         version={version}
       />
-      {/* {width}, {height} */}
       <StadiumCreator
         mainMode={mainMode}
         setMainMode={setMainMode}
