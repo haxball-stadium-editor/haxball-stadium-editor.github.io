@@ -1,14 +1,53 @@
 <h1 id="title" align="center">Haxball Stadium Editor</h1>
-https://haxball-stadium-editor.github.io  
-  
-Tool for creating and editing haxball maps (.hbs). It let you use all new features added in latest [HaxBall](https://www.haxball.com/play) updates - [HaxBall .hbs file wiki](https://github.com/haxball/haxball-issues/wiki/Stadium-(.hbs)-File)
 
-To upload an existing Stadium, click 'Text mode' -> 'Upload .hbs file'  
-  
-![obraz](https://user-images.githubusercontent.com/63745771/161965199-9214a61c-bb47-495d-a4a8-ff26d294c398.png)
-  
-![obraz](https://user-images.githubusercontent.com/63745771/161965266-0189a302-e06e-4e96-81db-07b765257440.png)
+<h4 align="center">https://haxball-stadium-editor.github.io</h4>
 
-![28 12 2022 wejscia](https://user-images.githubusercontent.com/103112562/209797895-ae61da29-5b95-439f-a458-2025a6f8b9e7.png)
+<h4 align="center">Tool for creating and editing haxball maps (.hbs). It let you use all new features added in latest <a href="https://www.haxball.com/play">HaxBall</a> updates - <a href="https://github.com/haxball/haxball-issues/wiki/Stadium-(.hbs)-File">HaxBall .hbs file wiki</a> </h4>
 
-![28 12 2022 kraje](https://user-images.githubusercontent.com/103112562/209797917-6d1e268f-bc3c-4d49-8034-28c8cad84e41.png)
+### Content:
+
+- [Stadium Creator](#stadium-creator)
+- [Text Mode](#docs)
+- [Properties Tab](#how-to-contribute)
+- [HBS wiki](#contributors)
+
+---
+
+<h2 id="stadium-creator">Stadium Creator</h2>
+
+Main page with canvas and all the tools you need to create a new map. If you want to load already existing map, click [Text Mode](#text-mode) button and upload the file.
+
+![stadium creator](https://user-images.githubusercontent.com/103112562/212488744-c732cf76-6bc8-4cdc-85a2-ca25b2565d56.png)
+
+- 1 - Map name, click to edit
+- 2 - Main tabs - Stadium Creator, [Text Mode](#text-mode), [Properties Tab](#properties-tab) and Help tab
+- 3 - Canvas - everything you do with stadium will appear here
+- 4 - Left tools:
+  - Properties - click on any element to change its properties
+  - Tools:
+    - SpawnPoints: you can create them by entering {x,y} coordinates and clickick "Add Red/Blue Spawnpoint". Buttons "Reset spawnpoints" will delete all spawnpoints for choosen team
+    - Joints - tab for creating joints (physical connections between two Discs). 2 discs have to be selected.
+    - Automatic Mirror - everything you create will be mirrored in both X and Y axis. Helpful when creating symmetric stadiums.
+    - Preview - look how your stadium will be displayed in Haxball game
+- 5 - Right tools:
+   - Select - default one, click to select one object, or drag to select multiple elements (if they are fully marked by selection rectangle)
+   - Rotate - move rotation axis and drag to rotate selected objects
+   - Scale - move anchor point and drag to scale selected objects
+   - Segment - line (curved or straight) that connects two vertexes. Discs can collide with segments and they can also be used as decoration. If you start/stop close to existing vertexes, it will use them instead of creating new ones
+   - Vertex - the most basic element of stadium. Point which can collide with discs but cannot move and is not visible. Used to create segments and goal lines
+   - Disc - circular physical objects that are placed in the stadium, they can move and collide with other discs
+   - Goal - lines belonging to a team, when the ball crosses this line the opossite team scores a goal. Draw between two vertexes.
+   - Plane - collision objects that divide the map in two by an infinite line. They are useful for creating the boundaries of the stadium
+- 6 - Bottom tools:
+  - Undo - delete your last change
+  - Redo - well, maybe you deleted it by accident
+  - Copy - copy selected object with all its properties
+  - Paste - paste copied object
+  - Delete - delete all selected objects
+  - Select All
+  - Select None
+  - Inverse Selection
+  - Duplicate - copy and paste all selected objects. They will be pasted in the exactly the same coordinates as parent elements.
+  - Cut - just like Copy, but delete seleced objects
+  - Zoom buttons - zoom out or zoom in
+
