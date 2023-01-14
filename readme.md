@@ -51,3 +51,25 @@ Main page with canvas and all the tools you need to create a new map. If you wan
   - Cut - just like Copy, but delete seleced objects
   - Zoom buttons - zoom out or zoom in
 
+---
+
+<h2 id="text-mode">Text Mode</h2>
+
+Text area, where you can directly change your stadium JSON file, download the .hbs file and upload existing stadium from your computer.
+
+![text mode](https://user-images.githubusercontent.com/103112562/212491329-8545bdf9-48cc-4b40-9193-9fc80e53e4f5.png)
+
+- Save - go back to Stadium Creator
+- Cancel Changes - undo changes. Helpful when you edit some values, that cause an error to be displayed
+- Clear - delete all the text and start from scratch
+- Goto Character - this function is currently under development
+- Copy All - copy all the text area
+- Download .hbs file - your stadium is converted to .hbs file, so you can load it in Haxball
+- Upload .hbs file - loads the existing stadium from your file
+
+---
+
+<h2 id="properties-tab">Properties Tab</h2>
+
+Tbc
+
