@@ -7,7 +7,7 @@
 ### Content:
 
 - [Stadium Creator](#stadium-creator)
-- [Text Mode](#text-area)
+- [Text Mode](#text-mode)
 - [Properties Tab](#properties-tab)
 - [HBS wiki](#wiki)
 
