@@ -7,9 +7,9 @@
 ### Content:
 
 - [Stadium Creator](#stadium-creator)
-- [Text Mode](#docs)
-- [Properties Tab](#how-to-contribute)
-- [HBS wiki](#contributors)
+- [Text Mode](#text-area)
+- [Properties Tab](#properties-tab)
+- [HBS wiki](#wiki)
 
 ---
 
