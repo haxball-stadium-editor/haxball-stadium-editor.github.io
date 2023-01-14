@@ -1,4 +1,4 @@
-# Haxball Stadium Editor
+<h1 id="title" align="center">Haxball Stadium Editor</h1>
 https://haxball-stadium-editor.github.io  
   
 Tool for creating and editing haxball maps (.hbs). It let you use all new features added in latest [HaxBall](https://www.haxball.com/play) updates - [HaxBall .hbs file wiki](https://github.com/haxball/haxball-issues/wiki/Stadium-(.hbs)-File)
