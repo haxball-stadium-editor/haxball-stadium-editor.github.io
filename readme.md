@@ -66,7 +66,7 @@ Text area, where you can directly change your stadium JSON file, download the .h
 - Goto Character - this function is currently under development
 - Copy All - copy all the text area
 - Download .hbs file - your stadium is converted to .hbs file, so you can load it in Haxball
-- Upload .hbs file - loads the existing stadium from your file
+- Upload .hbs file - loads the existing stadium from your computer. You can find them at [HaxMaps](https://haxmaps.com/) or in folder [sample stadiums](https://github.com/haxball-stadium-editor/haxball-stadium-editor.github.io/tree/master/sample%20stadiums)
 
 ---
 
