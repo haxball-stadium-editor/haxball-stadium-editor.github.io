@@ -10,6 +10,7 @@
 - [Text Mode](#text-mode)
 - [Properties Tab](#properties-tab)
 - [HBS wiki](#wiki)
+- [Incoming features](#incoming)
 
 ---
 
@@ -71,5 +72,24 @@ Text area, where you can directly change your stadium JSON file, download the .h
 
 <h2 id="properties-tab">Properties Tab</h2>
 
-Tbc
+![properties tab](https://user-images.githubusercontent.com/103112562/212548576-f4718d66-3ccf-4283-a31d-0d8791e80862.png)
+
+Modify your stadium just like you want. Every property has a built-in error checker, so if you enter a wrong value, it will switch back to previous one. Read more about the stadium properties [HERE](https://github.com/haxball/haxball-issues/wiki/Stadium-(.hbs)-File)
+
+---
+
+<h2 id="wiki"> HBS wiki</h2>
+
+https://github.com/haxball-stadium-editor/haxball-stadium-editor.github.io/wiki - every important information about .hbs format
+
+---
+
+<h2 id="incoming> Incoming features</h2>
+
+Features that I will be working on in the near future:
+- uploading directly to Haxmaps.com
+- increasing zooming capabilities
+- extracting stadiums from .hbr recordings (but I'll limit it to those stadiums, that don't have the 'canBeStored' property set to false)
+- loading basic haxball stadiums
+- spawnpoints - to make them more visible and placeable
 
