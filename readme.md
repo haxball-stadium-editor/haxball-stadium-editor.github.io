@@ -84,7 +84,7 @@ https://github.com/haxball-stadium-editor/haxball-stadium-editor.github.io/wiki 
 
 ---
 
-<h2 id="incoming> Incoming features</h2>
+<h2 id="incoming"> Incoming features</h2>
 
 Features that I will be working on in the near future:
 - uploading directly to Haxmaps.com
