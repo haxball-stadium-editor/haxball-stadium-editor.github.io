@@ -319,7 +319,7 @@ function TextMode(props) {
                   Copy All
                 </button>
                 <button id="button_downloadMap" onClick={handleClick} style={{ backgroundColor: 'green' }}>Download .hbs file</button>
-                <label>{'Upload .hbs file ->'}</label>
+                <label>{'Load .hbs file ->'}</label>
                 <input type="file" id="loadHBS" onChange={handleFileLoad} />
               </td>
             </tr>
