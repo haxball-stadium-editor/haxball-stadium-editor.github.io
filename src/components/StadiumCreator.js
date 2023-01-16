@@ -3234,6 +3234,14 @@ function new_stadium() {
   };
 }
 
+function handleZoomChange(e) {
+  var x = e.target.value;
+  if (x <= 20) skala = x / 20
+  else skala = x - 19;
+  document.getElementById('zoomLabel').innerHTML = 'x' + skala;
+  renderStadium(stadium);
+}
+
 function handleButtonClick(e) {
   var a = e.target.id;
   if (e.target.tagName == 'IMG') a = e.target.parentElement.id;
@@ -3332,6 +3340,9 @@ function handleButtonClick(e) {
     renderStadium(stadium);
     document.getElementById('canvas_div').scrollTop = scroll[0] * skala / scroll[2];
     document.getElementById('canvas_div').scrollLeft = scroll[1] * skala / scroll[2];
+  } else if (a == 'test_button') {
+    document.getElementById("zoom").classList.toggle("hidden");
+    document.getElementById("zoomLabel").classList.toggle("hidden");
   }
 }
 
@@ -3605,10 +3616,10 @@ function StadiumCreator(props) {
                       <button id="button_inverse_selection" onClick={handleButtonClick} style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgInverse} style={{ height: 12, width: 12 }} />Inverse Selection</button>
                       <button id="button_duplicate" onClick={handleButtonClick} style={{ backgroundColor: "#5872A5" }}> <img alt='img' src={imgDuplicate} style={{ height: 12, width: 12 }} />Duplicate</button >
                       <button id="button_cut" onClick={handleButtonClick} style={{ backgroundColor: "#BB2929" }}> <img alt='img' src={imgClear} style={{ height: 12, width: 12 }} />Cut</button >
-                      <button id="button_zoom0.5" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}>Zoom x0.5</button>
-                      <button id="button_zoom1" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}> Zoom x1</button >
-                      <button id="button_zoom2" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}>Zoom x2</button>
-                      <button id="button_zoom3" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}> Zoom x3</button >
+                      <button id="test_button" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}>Zoom</button >
+                      <input className='hidden' onChange={handleZoomChange} style={{ height: 12 }} type="range" id="zoom" name="zoom"
+                        min="1" max="39" defaultValue="20" />
+                      <label className='hidden' id='zoomLabel'>x1</label>
                     </div >
                   </td >
                 </tr >
