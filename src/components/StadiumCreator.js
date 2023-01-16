@@ -584,7 +584,7 @@ function handle_move(ev) {
       update_pos = false;
   }
   if (update_pos)
-    div_mousepos.text(pt[0] + ', ' + pt[1]);
+    div_mousepos.text((pt[0] > Math.floor(pt[0]) ? pt[0].toFixed(2) : pt[0]) + ', ' + (pt[1] > Math.floor(pt[1]) ? pt[1].toFixed(2) : pt[1]));
 }
 
 var tool_select = {
@@ -3237,8 +3237,8 @@ function new_stadium() {
 function handleZoomChange(e) {
   var x = e.target.value;
   if (x <= 20) skala = x / 20
-  else skala = x - 19;
-  document.getElementById('zoomLabel').innerHTML = 'x' + skala;
+  else skala = (x - 18) / 2;
+  document.getElementById('zoomLabel').innerHTML = 'x' + skala.toFixed(2);
   renderStadium(stadium);
 }
 
@@ -3618,7 +3618,7 @@ function StadiumCreator(props) {
                       <button id="button_cut" onClick={handleButtonClick} style={{ backgroundColor: "#BB2929" }}> <img alt='img' src={imgClear} style={{ height: 12, width: 12 }} />Cut</button >
                       <button id="test_button" onClick={handleButtonClick} style={{ backgroundColor: '#9b009b' }}>Zoom</button >
                       <input className='hidden' onChange={handleZoomChange} style={{ height: 12 }} type="range" id="zoom" name="zoom"
-                        min="1" max="39" defaultValue="20" />
+                        min="1" max="39" step="0.1" defaultValue="20" />
                       <label className='hidden' id='zoomLabel'>x1</label>
                     </div >
                   </td >
