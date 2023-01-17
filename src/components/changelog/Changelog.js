@@ -2,6 +2,18 @@ import { useEffect } from 'react';
 import Changes from './Changes.js';
 const changelog = [
   {
+    version: '3.0.5',
+    date: '2023-01-17',
+    changes: [
+      'Improved zooming - range from x0.05 to x10 instead of 4 buttons',
+      'Added basic Haxball stadiums - [Tools] -> [Load Basic Stadiums]',
+      'Fixed spawnpoints\' displaying on Preview mode - now you can see multiple discs based on redSpawnPoints and BlueSpawnPoints properties',
+      'Fixed displaying mouse coordinates on zoomed stadium',
+      'Fixed bug occuring when there were discs with undefined "pos" property - now they display on [0,0], just like in Haxball',
+      'Changed "Upload .hbs file" button to "Load .hbs file" - it might have been confusing, because stadiums aren\'t stored on any database'
+    ]
+  },
+  {
     version: '3.0.4',
     date: '2023-01-13',
     changes: [
