@@ -109,6 +109,7 @@ function pprint(j, l, tag, parent) {
 function CreatorHeader(props) {
 
   function handleClick(e) {
+    console.log(props.stadium)
     props.setStadium(props.stadium);
     if (e.target.id === 'button_import' || e.target.parentElement.id === 'button_import') {
       $("#table").fadeTo(300, 0.01, "linear", function () {

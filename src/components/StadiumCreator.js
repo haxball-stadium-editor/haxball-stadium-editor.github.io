@@ -22,7 +22,8 @@ import imgDuplicate from "../HBSE_files/always-tools/always-tools_CaP.png"
 import imgClear from "../HBSE_files/always-tools/always-tools_cut.png"
 import imgPreview from "../HBSE_files/left-tools/left-tools_preview.png"
 import imgMirror from "../HBSE_files/left-tools/left-tools_mirror.png"
-import $ from 'jquery'
+import $ from 'jquery';
+import basicStadiums from "../basicStadiums";
 
 import { useEffect, useState } from "react";
 
@@ -237,6 +238,7 @@ function starting(props) {
   define_tab('edit');
   define_tab('joints');
   define_tab('spawnpoints');
+  define_tab('basic_stadiums');
   // define_tab('haxmaps')
 
   initialise_properties_css();
@@ -879,13 +881,15 @@ function under_point(st, pt, type) {
   }
 
   if (!type || type == 'joints') {
-    eachRev(st.joints, function (i, joint) {
-      if (joint_contains(st, joint, pt, maximum_click_distance)) {
-        obj = joint;
-        index = i;
-        return false;
-      }
-    });
+    if (st.joints) {
+      eachRev(st.joints, function (i, joint) {
+        if (joint_contains(st, joint, pt, maximum_click_distance)) {
+          obj = joint;
+          index = i;
+          return false;
+        }
+      });
+    }
 
     if (obj) return Shape('joints', obj, index);
   }
@@ -3343,6 +3347,10 @@ function handleButtonClick(e) {
   } else if (a == 'test_button') {
     document.getElementById("zoom").classList.toggle("hidden");
     document.getElementById("zoomLabel").classList.toggle("hidden");
+  } else if (a.startsWith('button_loadBasic')) {
+    stadium = JSON.parse(JSON.stringify(basicStadiums[a.substring(17)]));
+    // load(stadium);
+    customUpdate(stadium);
   }
 }
 
@@ -3390,6 +3398,7 @@ function StadiumCreator(props) {
     define_tab('edit');
     define_tab('joints');
     define_tab('spawnpoints');
+    define_tab('basic_stadiums');
     // define_tab('haxmaps')
 
     initialise_properties_css();
@@ -3525,6 +3534,7 @@ function StadiumCreator(props) {
                                 <button id="pref_preview" onClick={handleButtonClick}>
                                   <img alt='img' src={imgPreview} style={{ height: 12, width: 12 }} />Preview
                                 </button>
+                                <button id="button_tab_basic_stadiums">Load Basic Stadiums</button>
                                 {/* <button id="button_tab_haxmaps">HaxMaps</button> */}
                               </td>
                             </tr>
@@ -3575,6 +3585,26 @@ function StadiumCreator(props) {
                           </tr></tbody>
                         </table>
                       </div>
+
+                      <div id="tab_basic_stadiums" className="hidden">
+                        <table>
+                          <tbody><tr>
+                            <td>
+                              <button id="button_loadBasic_big_easy" onClick={handleButtonClick}>Big Easy</button>
+                              <button id="button_loadBasic_big_hockey" onClick={handleButtonClick}>Big Hockey</button>
+                              <button id="button_loadBasic_big_rounded" onClick={handleButtonClick}>Big Rounded</button>
+                              <button id="button_loadBasic_big" onClick={handleButtonClick}>Big</button>
+                              <button id="button_loadBasic_classic" onClick={handleButtonClick}>Classic</button>
+                              <button id="button_loadBasic_easy" onClick={handleButtonClick}>Easy</button>
+                              <button id="button_loadBasic_hockey" onClick={handleButtonClick}>Hockey</button>
+                              <button id="button_loadBasic_huge" onClick={handleButtonClick}>Huge</button>
+                              <button id="button_loadBasic_rounded" onClick={handleButtonClick}>Rounded</button>
+                              <button id="button_loadBasic_small" onClick={handleButtonClick}>Small</button>
+                            </td>
+                          </tr></tbody>
+                        </table>
+                      </div>
+
                       {/* <div id="tab_haxmaps" className="hidden">
                         <table>
                           <td>
