@@ -106,6 +106,75 @@ function pprint(j, l, tag, parent) {
   }
 }
 
+function checkStadium(stadium) {
+  var defaultStadium = {
+    name: "New Stadium",
+    width: 420,
+    height: 200,
+    cameraWidth: 0,
+    cameraHeight: 0,
+    maxViewWidth: 0,
+    cameraFollow: "ball",
+    spawnDistance: 170,
+    redSpawnPoints: [],
+    blueSpawnPoints: [],
+    canBeStored: true,
+    kickOffReset: "partial",
+    bg: { "color": "718C5A" },
+    traits: {
+      "ballArea": { "vis": false, "bCoef": 1, "cMask": ["ball"] },
+      "goalPost": { "radius": 8, "invMass": 0, "bCoef": 0.5 },
+      "goalNet": { "vis": true, "bCoef": 0.1, "cMask": ["ball"] },
+      "kickOffBarrier": { "vis": false, "bCoef": 0.1, "cGroup": ["redKO", "blueKO"], "cMask": ["red", "blue"] }
+    },
+    vertexes: [],
+    segments: [],
+    goals: [],
+    discs: [],
+    planes: [],
+    joints: [],
+
+    "playerPhysics": {
+      "radius": 15,
+      "bCoef": 0.5,
+      "invMass": 0.5,
+      "damping": 0.96,
+      "cGroup": ["red", "blue"],
+      "acceleration": 0.1,
+      "gravity": [0, 0],
+      "kickingAcceleration": 0.07,
+      "kickingDamping": 0.96,
+      "kickStrength": 5,
+      "kickback": 0,
+
+    },
+
+    "ballPhysics": {
+      "radius": 10,
+      "bCoef": 0.5,
+      "cMask": ["all"
+      ],
+      "damping": 0.99,
+      "invMass": 1,
+      "gravity": [0, 0],
+      "color": "ffffff",
+      "cGroup": ["ball"]
+    }
+  }
+  var keys = Object.keys(defaultStadium);
+  for (let key of keys) {
+    if (stadium[key] == undefined) stadium[key] = defaultStadium[key];
+  }
+  keys = Object.keys(defaultStadium.playerPhysics);
+  for (let key of keys) {
+    if (stadium.playerPhysics[key] == undefined) stadium.playerPhysics[key] = defaultStadium.playerPhysics[key];
+  }
+  keys = Object.keys(defaultStadium.ballPhysics);
+  for (let key of keys) {
+    if (stadium.ballPhysics[key] == undefined) stadium.ballPhysics[key] = defaultStadium.ballPhysics[key];
+  }
+}
+
 function CreatorHeader(props) {
 
   function handleClick(e) {
@@ -121,6 +190,7 @@ function CreatorHeader(props) {
           props.setMainMode('stadiumCreator');
           props.setUpdateStadium(true);
         } else {
+          checkStadium(props.stadium)
           props.setMainMode('propertiesTab');
         }
       })

@@ -8,11 +8,10 @@ function PropertiesTab(props) {
 
   useEffect(() => {
     setStadiumProperties(props.stadium);
-    // console.log('czy aby na pewno jeszcze raz');
   }, [props.stadium]);
 
   useEffect(() => {
-    if (props.mainMode == 'propertiesTab') $("#table").fadeTo(300, 1)
+    if (props.mainMode == 'propertiesTab') $("#table").fadeTo(300, 1);
   }, [props.mainMode])
 
   if (props.mainMode !== 'propertiesTab') return null;
