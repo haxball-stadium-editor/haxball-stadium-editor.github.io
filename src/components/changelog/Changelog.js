@@ -2,6 +2,14 @@ import { useEffect } from 'react';
 import Changes from './Changes.js';
 const changelog = [
   {
+    version: '3.0.6',
+    date: '2023-01-17',
+    changes: [
+      'Fixed bug - loading stadium without playerPhysics or ballPhysics properties',
+      'Fixed bug - Undo button, Redo button and loading basic stadiums were causing an incorrect displaying of properties'
+    ]
+  },
+  {
     version: '3.0.5',
     date: '2023-01-17',
     changes: [
