@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.d637f345.css",
-    "main.js": "/static/js/main.fcc661f1.js",
+    "main.js": "/static/js/main.592661d0.js",
     "static/media/haxracing.png": "/static/media/haxracing.568a8d05b2abc5cc35c5.png",
     "index.html": "/index.html",
     "main.d637f345.css.map": "/static/css/main.d637f345.css.map",
-    "main.fcc661f1.js.map": "/static/js/main.fcc661f1.js.map"
+    "main.592661d0.js.map": "/static/js/main.592661d0.js.map"
   },
   "entrypoints": [
     "static/css/main.d637f345.css",
-    "static/js/main.fcc661f1.js"
+    "static/js/main.592661d0.js"
   ]
 }
