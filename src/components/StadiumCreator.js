@@ -3143,7 +3143,6 @@ function renderStadium(st) {
   if (settings.preview) {
     // TODO: use exact colors and sizes
 
-    // 미리 보기 그리기
     ctx.beginPath();
     ctx.arc(0, 0, 10, 0, Math.PI * 2, true);
     ctx.fillStyle = 'rgb(255,255,255)';
@@ -3152,21 +3151,49 @@ function renderStadium(st) {
     ctx.fill();
     ctx.stroke();
 
-    // 레드 그리기
-    ctx.beginPath();
-    ctx.arc(-st.spawnDistance, 0, 15, 0, Math.PI * 2, true);
-    ctx.fillStyle = 'rgb(229,110,86)';
-    ctx.lineWidth = 2.5;
-    ctx.fill();
-    ctx.stroke();
+    if (st.redSpawnPoints && st.redSpawnPoints.length > 0) {
+      for (var i = 0; i < st.redSpawnPoints.length; i++) {
+        ctx.beginPath();
+        ctx.arc(st.redSpawnPoints[i][0], st.redSpawnPoints[i][1], 15, 0, Math.PI * 2, true);
+        ctx.fillStyle = 'rgb(229,110,86)';
+        ctx.lineWidth = 2.5;
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 15px Arial';
+        var odl = (i + 1).toString().length > 1 ? 7.5 : 3.75
+        ctx.fillText('' + (i + 1), st.redSpawnPoints[i][0] - odl, st.redSpawnPoints[i][1] + 3.75)
+      }
+    } else {
+      ctx.beginPath();
+      ctx.arc(-st.spawnDistance, 0, 15, 0, Math.PI * 2, true);
+      ctx.fillStyle = 'rgb(229,110,86)';
+      ctx.lineWidth = 2.5;
+      ctx.fill();
+      ctx.stroke();
+    }
 
-    // 블루 그리기
-    ctx.beginPath();
-    ctx.arc(st.spawnDistance, 0, 15, 0, Math.PI * 2, true);
-    ctx.fillStyle = 'rgb(86,137,229)';
-    ctx.lineWidth = 2.5;
-    ctx.fill();
-    ctx.stroke();
+    if (st.blueSpawnPoints && st.blueSpawnPoints.length > 0) {
+      for (var i = 0; i < st.blueSpawnPoints.length; i++) {
+        ctx.beginPath();
+        ctx.arc(st.blueSpawnPoints[i][0], st.blueSpawnPoints[i][1], 15, 0, Math.PI * 2, true);
+        ctx.fillStyle = 'rgb(86,137,229)';
+        ctx.lineWidth = 2.5;
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 15px Arial';
+        var odl = (i + 1).toString().length > 1 ? 7.5 : 3.75
+        ctx.fillText('' + (i + 1), st.blueSpawnPoints[i][0] - odl, st.blueSpawnPoints[i][1] + 3.75)
+      }
+    } else {
+      ctx.beginPath();
+      ctx.arc(st.spawnDistance, 0, 15, 0, Math.PI * 2, true);
+      ctx.fillStyle = 'rgb(86,137,229)';
+      ctx.lineWidth = 2.5;
+      ctx.fill();
+      ctx.stroke();
+    }
 
   }
 
