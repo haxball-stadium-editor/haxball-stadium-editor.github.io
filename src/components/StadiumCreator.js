@@ -223,6 +223,7 @@ var min = Math.min;
 
 var czyTekst = false;
 var customUpdate;
+var initialiseProperties = true;
 
 function starting(props) {
   resize();
@@ -241,8 +242,10 @@ function starting(props) {
   define_tab('basic_stadiums');
   // define_tab('haxmaps')
 
-  initialise_properties_css();
-  populate_tab_properties();
+  if (initialiseProperties) {
+    initialise_properties_css();
+    populate_tab_properties();
+  } else initialiseProperties = true;
 
   add_tool(tool_select);
   add_tool(tool_segment);
@@ -1623,6 +1626,7 @@ function undo() {
   redo_savepoints.unshift(undo_savepoints.shift());
   redo_savepoints.splice(undo_levels);
   load(undo_savepoints[0]);
+  initialiseProperties = false;
   customUpdate(undo_savepoints[0]);
   modified(true);
   return true;
@@ -1635,6 +1639,7 @@ function redo() {
   undo_savepoints.unshift(state1);
   undo_savepoints.splice(undo_levels);
   load(state1);
+  initialiseProperties = false;
   customUpdate(undo_savepoints[0]);
   modified(true);
   return true;
@@ -3377,6 +3382,7 @@ function handleButtonClick(e) {
   } else if (a.startsWith('button_loadBasic')) {
     stadium = JSON.parse(JSON.stringify(basicStadiums[a.substring(17)]));
     // load(stadium);
+    initialiseProperties = false;
     customUpdate(stadium);
   }
 }
