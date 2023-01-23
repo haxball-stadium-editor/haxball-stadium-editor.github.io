@@ -261,7 +261,7 @@ function TextMode(props) {
       for (let joint of stadium.joints) if (joint.length == "null") joint.length = null;
       if (stadium.canBeStored == "true" || stadium.canBestored == true) stadium.canBeStored = true;
       else stadium.canBeStored = false;
-      var blob = new Blob([JSON.stringify(stadium)], { type: 'text' });
+      var blob = new Blob([JSON.stringify(stadium, null, "\t")], { type: 'text' });
       var a = window.document.createElement("a");
       a.href = window.URL.createObjectURL(blob);
       a.download = stadium.name + ".hbs";
