@@ -259,8 +259,10 @@ function TextMode(props) {
     } else if (e.target.id == 'button_downloadMap') {
       var stadium = props.stadium;
       for (let joint of stadium.joints) if (joint.length == "null") joint.length = null;
-      if (stadium.canBeStored == "true" || stadium.canBestored == true) stadium.canBeStored = true;
+      console.log('canbe', stadium.canBeStored)
+      if (stadium.canBeStored == "true" || stadium.canBeStored == true) stadium.canBeStored = true;
       else stadium.canBeStored = false;
+      console.log('canbe', stadium.canBeStored)
       var blob = new Blob([JSON.stringify(stadium, null, "\t")], { type: 'text' });
       var a = window.document.createElement("a");
       a.href = window.URL.createObjectURL(blob);
