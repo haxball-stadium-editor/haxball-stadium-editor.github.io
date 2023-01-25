@@ -3490,13 +3490,16 @@ function StadiumCreator(props) {
     // for (let joint of stadium.joints) if (joint.length == "null") joint.length = null;
     // if (stadium.canBeStored == "true" || stadium.canBestored == true) stadium.canBeStored = true;
     // else stadium.canBeStored = false;
-    // var blob = new Blob([JSON.stringify(stadium)], { type: 'application/octet-stream' });
+    // var blob = new Blob([JSON.stringify(stadium)], { type: 'text/plain' });
+    // const file = new File([blob], "Test Stadium.hbs", {
+    //   type: "text/plain",
+    // });
     // var a = window.document.createElement("a");
     // a.href = window.URL.createObjectURL(blob);
     // a.download = stadium.name + ".hbs";
     // document.body.appendChild(a);
     // console.log(a);
-    // $('#map').val = blob
+    // $('#map').val = file
     if (err == 0) $('#upload').submit();
     // $('#upload').submit();
   }
