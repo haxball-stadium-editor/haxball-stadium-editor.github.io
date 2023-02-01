@@ -3465,15 +3465,15 @@ function StadiumCreator(props) {
   }
 
   function addtoHaxmaps(e) {
-    e.preventDefault();
-    console.log(e);
-    var err = 0;
+    // e.preventDefault();
+    // console.log(e);
+    // var err = 0;
 
-    if ($('#map-name').val() == 'Name:' || $('#map-name').val() == '' || $('#map-name').val() == 'Goal Name/Owner:') {
-      $('#map-name').css("border", "1px solid red");
-      err = 1;
-    } else
-      $('#map-name').css("border", "1px solid #3C312B");
+    // if ($('#map-name').val() == 'Name:' || $('#map-name').val() == '' || $('#map-name').val() == 'Goal Name/Owner:') {
+    //   $('#map-name').css("border", "1px solid red");
+    //   err = 1;
+    // } else
+    //   $('#map-name').css("border", "1px solid #3C312B");
 
     // if ($('#map').val() != '') {
     //   if ($('#map').val().indexOf($('#map').attr('rel')) == -1) {
@@ -3491,6 +3491,48 @@ function StadiumCreator(props) {
     // if (stadium.canBeStored == "true" || stadium.canBestored == true) stadium.canBeStored = true;
     // else stadium.canBeStored = false;
     // var blob = new Blob([JSON.stringify(stadium)], { type: 'text/plain' });
+
+    // const formData = new FormData();
+    // formData.append('map-name', 'Test map by HBSE');
+    // formData.append('authornick', 'Haxball Stadium Editor');
+    // formData.append('description', 'Map made and uploaded by Haxball Stadium Editor');
+
+    // formData.append("map", blob, 'testStadium.hbs');
+
+    // const request = new XMLHttpRequest();
+    // request.open("POST", "https://haxmaps.com/hb/form");
+    // request.send(formData);
+
+    // request.onreadystatechange = function () {
+    //   if (request.readyState === 4) {
+    //     console.log(request.status);
+    //     console.log(request.responseText);
+    //   }
+    // };
+
+
+    // <form id="upload" action="https://haxmaps.com/hb/form" method="post" enctype="multipart/form-data">
+    //   <input type="text" name="map-name" id="map-name" defaultValue="Name:" />
+    //   <input type="text" name="authornick" id="authornick" defaultValue="Author (optional):" />
+    //   <textarea name="description" id="description">About (optional):</textarea>
+    //   <div className="hidden3">
+    //     <input type="file" name="map" id="map" rel=".hbs" accept=".hbs" />
+    //   </div>
+    //   <div class="upload">
+    //     Choose Map (.hbs)
+    //   </div>
+    //   <input type="file" name="map" id="map" rel=".hbs" accept=".hbs" />
+    //   <p></p><center>
+    //     <h2>If you want to update one of your maps, please use the "Update map" button bellow the map instead.</h2>
+    //   </center><p></p>
+    //   <p></p><center>You can also connect with <a href="https://haxrec.com">HaxRec</a> or <a href="https://haxcolors.com">HaxColors</a>.</center><p></p>
+    //   <div className="hidden">
+    //     <input type="text" name="goal" value="Enter Replay ID from HaxRec.com (Optional):" onfocus="if(this.value=='Enter Replay ID from HaxRec.com (Optional):') this.value='';" onblur="if(this.value=='') this.value='Enter Replay ID from HaxRec.com (Optional):';" />
+    //     <input type="text" name="color" value="Enter Color ID from HaxColors.com (Optional):" onfocus="if(this.value=='Enter Color ID from HaxColors.com (Optional):') this.value='';" onblur="if(this.value=='') this.value='Enter Color ID from HaxColors.com (Optional):';" />
+    //   </div>
+    //   <input value="Upload" class="submit" type="button" onClick={addtoHaxmaps} />
+    // </form>
+
     // const file = new File([blob], "Test Stadium.hbs", {
     //   type: "text/plain",
     // });
@@ -3500,7 +3542,7 @@ function StadiumCreator(props) {
     // document.body.appendChild(a);
     // console.log(a);
     // $('#map').val = file
-    if (err == 0) $('#upload').submit();
+    // if (err == 0) $('#upload').submit();
     // $('#upload').submit();
   }
 
@@ -3641,10 +3683,11 @@ function StadiumCreator(props) {
                         </table>
                       </div>
 
-                      {/* <div id="tab_haxmaps" className="hidden">
+                      <div id="tab_haxmaps" className="hidden">
                         <table>
                           <td>
-                            <form id="upload" action="https://haxmaps.com/hb/form" method="post" enctype="multipart/form-data">
+                            <button onClick={addtoHaxmaps}></button>
+                            {/* <form id="upload" action="https://haxmaps.com/hb/form" method="post" enctype="multipart/form-data">
                               <input type="text" name="map-name" id="map-name" defaultValue="Name:" />
                               <input type="text" name="authornick" id="authornick" defaultValue="Author (optional):" />
                               <textarea name="description" id="description">About (optional):</textarea>
@@ -3664,10 +3707,10 @@ function StadiumCreator(props) {
                                 <input type="text" name="color" value="Enter Color ID from HaxColors.com (Optional):" onfocus="if(this.value=='Enter Color ID from HaxColors.com (Optional):') this.value='';" onblur="if(this.value=='') this.value='Enter Color ID from HaxColors.com (Optional):';" />
                               </div>
                               <input value="Upload" class="submit" type="button" onClick={addtoHaxmaps} />
-                            </form>
+                            </form> */}
                           </td>
                         </table>
-                      </div>*/}
+                      </div>
                     </div>
                   </td>
                   <td>
