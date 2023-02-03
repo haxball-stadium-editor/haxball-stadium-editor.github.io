@@ -25,19 +25,16 @@ import imgMirror from "../HBSE_files/left-tools/left-tools_mirror.png"
 import $ from 'jquery';
 import basicStadiums from "../basicStadiums";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { editStadium, editStadiumText } from "../reducers/stadiumSlice";
 
 var current_tool;
-
-// $(canvas).mousedown(handle_down);
-// $(canvas).mouseup(handle_up);
-// $(canvas).mousemove(handle_move);
-// $(document).bind('keydown', handle_key);
 
 // cached canvas size info
 var canvas_rect = [-150, -75, 150, 75];
 
-var skala = 1;
+var zoomScale = 1;
 var canvas = document.getElementById('canvas');
 var stadium;
 
@@ -51,13 +48,10 @@ var minimum_drag_distance = 4;
 // maximum distance from which an object can be clicked
 var maximum_click_distance = 5;
 
-// distance from which to snap to nearby objects
-var snap_distance = 5;
-
 // number of undo savepoints to keep
 var undo_levels = 500;
 
-// colors of objects that invisible in haxball
+// colors of objects that are invisible in haxball
 var colors = {
   selected: 'rgba(256,256,0,0.8)',
   vertex: 'rgba(256,0,256,1)',
@@ -150,7 +144,6 @@ var defaults = {
 // Maximums
 var maximum_curve = 340;
 
-
 // the position from which to drag
 var drag_start_pos;
 
@@ -183,9 +176,6 @@ var debug_render = [];
 // Functions that populate input fields when a new stadium is loaded
 var field_setters = [];
 
-// can leave without prompt
-var can_leave = true;
-
 // Triggers
 
 var triggers = {
@@ -207,13 +197,11 @@ var window_width = 800;
 // cached mouse position
 var current_mouse_position = false;
 
-// 거울 모드
 var mirror_mode = false;
 var mirror_directions = ['horizontal', 'vertical', 'across'];
 
 // directions in which mirroring is disabled
 var disabled_mirroring = {};
-
 
 var pi = Math.PI;
 var abs = Math.abs;
@@ -221,18 +209,17 @@ var round = Math.round;
 var max = Math.max;
 var min = Math.min;
 
-var czyTekst = false;
 var customUpdate;
 var initialiseProperties = true;
 
-function starting(props) {
+function starting() {
   resize();
-  load(props.stadium);
+  load(stadium);
   // console.log('próbuję zmienić', props.stadium)
   canvas = document.getElementById('canvas');
-  customUpdate = props.setStadium;
+  // customUpdate = props.setStadium;
 
-  props.setStadium(props.stadium);
+  // props.setStadium(props.stadium);
 
   define_tab('properties');
   define_tab('advanced');
@@ -472,11 +459,11 @@ function handle_down(ev) {
   current_tool.down(pt, ev);
   return false;
 }
-var skala = 1;
+zoomScale = 1;
 function translate_coords(p) {
   var off = $(canvas).offset();
-  var pt = [Math.round(p[0] - off.left + canvas_rect[0]) / skala,
-  Math.round(p[1] - off.top + canvas_rect[1]) / skala];
+  var pt = [Math.round(p[0] - off.left + canvas_rect[0]) / zoomScale,
+  Math.round(p[1] - off.top + canvas_rect[1]) / zoomScale];
   return pt;
 }
 
@@ -499,7 +486,7 @@ function handle_up(ev) {
 
 function handle_key(ev) {
   //console.log('key', ev.which);
-  if (ev.ctrlKey && ev.which == 67 && czyTekst) {
+  if (ev.ctrlKey && ev.which == 67) {
     // console.log(document.getElementById("boximport"));
     alert("Keep in mind that stadium might not be copied properly using that method. Please use \"Copy All\" button");
   }
@@ -1010,7 +997,6 @@ function select_rect(st, a, b) {
           //console.log(shape);
           shape_set_selected(shape, true);
           count++;
-          console.log("Zaznaczyłeś dżojnta");
         }
         break;
     }
@@ -1627,7 +1613,7 @@ function undo() {
   redo_savepoints.splice(undo_levels);
   load(undo_savepoints[0]);
   initialiseProperties = false;
-  customUpdate(undo_savepoints[0]);
+  // customUpdate(undo_savepoints[0]);
   modified(true);
   return true;
 }
@@ -1640,7 +1626,7 @@ function redo() {
   undo_savepoints.splice(undo_levels);
   load(state1);
   initialiseProperties = false;
-  customUpdate(undo_savepoints[0]);
+  // customUpdate(undo_savepoints[0]);
   modified(true);
   return true;
 }
@@ -2018,7 +2004,7 @@ function resize_canvas() {
   var st = stadium;
   var rect;
 
-  rect = [-st.width * skala, -st.height * skala, st.width * skala, st.height * skala];
+  rect = [-st.width * zoomScale, -st.height * zoomScale, st.width * zoomScale, st.height * zoomScale];
 
   var consider = function (pt, r) {
     var x = pt[0];
@@ -3015,11 +3001,11 @@ function renderStadium(st) {
   /*
   if (stadium.discs.length==5) {
       ctx.scale(2,2);
-      skala=2;
-  } else skala=1;
+      zoomScale=2;
+  } else zoomScale=1;
   *////
 
-  ctx.scale(skala, skala);
+  ctx.scale(zoomScale, zoomScale);
 
   if (settings.preview) {
     ctx.beginPath();
@@ -3272,9 +3258,9 @@ function new_stadium() {
 
 function handleZoomChange(e) {
   var x = e.target.value;
-  if (x <= 20) skala = x / 20
-  else skala = (x - 18) / 2;
-  document.getElementById('zoomLabel').innerHTML = 'x' + skala.toFixed(2);
+  if (x <= 20) zoomScale = x / 20
+  else zoomScale = (x - 18) / 2;
+  document.getElementById('zoomLabel').innerHTML = 'x' + zoomScale.toFixed(2);
   renderStadium(stadium);
 }
 
@@ -3370,61 +3356,62 @@ function handleButtonClick(e) {
     duplicate();
     modified();
   } else if (a.startsWith('button_zoom')) {
-    var scroll = [document.getElementById('canvas_div').scrollTop, document.getElementById('canvas_div').scrollLeft, skala];
-    skala = Number(a.substring(11));
+    var scroll = [document.getElementById('canvas_div').scrollTop, document.getElementById('canvas_div').scrollLeft, zoomScale];
+    zoomScale = Number(a.substring(11));
     resize_canvas();
     renderStadium(stadium);
-    document.getElementById('canvas_div').scrollTop = scroll[0] * skala / scroll[2];
-    document.getElementById('canvas_div').scrollLeft = scroll[1] * skala / scroll[2];
+    document.getElementById('canvas_div').scrollTop = scroll[0] * zoomScale / scroll[2];
+    document.getElementById('canvas_div').scrollLeft = scroll[1] * zoomScale / scroll[2];
   } else if (a == 'test_button') {
     document.getElementById("zoom").classList.toggle("hidden");
     document.getElementById("zoomLabel").classList.toggle("hidden");
   } else if (a.startsWith('button_loadBasic')) {
     stadium = JSON.parse(JSON.stringify(basicStadiums[a.substring(17)]));
-    // load(stadium);
+    load(stadium);
     initialiseProperties = false;
-    customUpdate(stadium);
   }
 }
 
-function StadiumCreator(props) {
+function StadiumCreator() {
 
   const [counter, setCounter] = useState(0);
+  const stadiumState = useSelector((state) => state.stadium.value);
+  const mainMode = useSelector((state) => state.mainMode.value);
+  const dispatch = useDispatch();
+
+  // stadium = { ...stadiumState };
+  stadium = JSON.parse(JSON.stringify(stadiumState))
 
   useEffect(() => {
-    // console.log('zmiana w stadionieeee');
-    // console.log(counter);
     var can = document.getElementById('canvas');
-    // console.log(counter, can)
     if (can == null) return;
     setCounter(counter + 1);
     if (counter > 1) {
-      starting(props);
+      starting();
     }
-  }, [props.stadium]);
+  }, [stadiumState]);
+
+  // useEffect(() => {
+  //   if (props.updateStadium) {
+  //     props.setUpdateStadium(false);
+  //     starting(props);
+  //   }
+  // }, [props.updateStadium]);
 
   useEffect(() => {
-    if (props.updateStadium) {
-      props.setUpdateStadium(false);
-      starting(props);
+    if (mainMode == 'stadiumCreator') $("#table").fadeTo(300, 1)
+  }, [mainMode]);
+
+  useEffect(() => {
+    if (stadium == '') {
+      stadium = new_stadium();
+      dispatch(editStadium(stadium));
     }
-  }, [props.updateStadium]);
-
-  useEffect(() => {
-    if (props.mainMode == 'stadiumCreator') $("#table").fadeTo(300, 1)
-  }, [props.mainMode]);
-
-  useEffect(() => {
-    stadium = new_stadium();
-    props.setStadium(stadium);
     saveCanvas();
     load_tile('grass');
     load_tile('hockey');
 
-    customUpdate = props.setStadium;
-
     $(document).bind('keydown', handle_key);
-
 
     define_tab('properties');
     define_tab('advanced');
@@ -3439,10 +3426,11 @@ function StadiumCreator(props) {
 
     reset_selection();
 
-    resize();
-    $(window).resize(resize);
+    window.addEventListener('resize', resize)
 
-    load(new_stadium());
+    resize();
+
+    load(stadium);
     modified();
 
     add_tool(tool_select);
@@ -3458,10 +3446,8 @@ function StadiumCreator(props) {
 
   }, []);
 
-  function testFunction() {
-    console.log('teeest');
-    return;
-    // renderStadium(props.stadium);
+  function updateStadium() {
+    dispatch(editStadium(stadium));
   }
 
   function addtoHaxmaps(e) {
@@ -3546,8 +3532,6 @@ function StadiumCreator(props) {
     // $('#upload').submit();
   }
 
-  if (props.mainMode !== 'stadiumCreator') return null;
-
   return (
 
     <table id="table" cellSpacing="7px" style={{ height: 864, opacity: 0.01 }}>
@@ -3556,16 +3540,7 @@ function StadiumCreator(props) {
           <td colSpan="2" id="topbox" valign="top">
             <table style={{ width: '100%', height: '100%' }}>
               <tbody>
-                <CreatorHeader
-                  mainMode={props.mainMode}
-                  setMainMode={props.setMainMode}
-                  stadium={stadium}
-                  setStadium={props.setStadium}
-                  stadiumText={props.stadiumText}
-                  setStadiumText={props.setStadiumText}
-                  updateStadium={props.updateStadium}
-                  setUpdateStadium={props.setUpdateStadium}
-                />
+                <CreatorHeader updateStadium={updateStadium} />
                 <tr>
                   <td style={{ height: "100%" }}>
                     <div id="canvas_div_placeholder">
@@ -3684,7 +3659,7 @@ function StadiumCreator(props) {
                       </div>
 
                       <div id="tab_haxmaps" className="hidden">
-                        <table>
+                        <table><tbody><tr>
                           <td>
                             <button onClick={addtoHaxmaps}></button>
                             {/* <form id="upload" action="https://haxmaps.com/hb/form" method="post" enctype="multipart/form-data">
@@ -3709,6 +3684,7 @@ function StadiumCreator(props) {
                               <input value="Upload" class="submit" type="button" onClick={addtoHaxmaps} />
                             </form> */}
                           </td>
+                        </tr></tbody>
                         </table>
                       </div>
                     </div>

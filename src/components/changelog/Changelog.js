@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
 import Changes from './Changes.js';
+import { useDispatch } from 'react-redux';
+import { setVersion } from '../../reducers/versionSlice.js';
+
 const changelog = [
   {
     version: '3.0.6',
@@ -69,13 +72,15 @@ const newChanges = changelog.map(change => <Changes key={change.version} change=
 
 function Changelog(props) {
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (props.hide) {
       var version = {
         version: changelog[0].version,
         year: changelog[0].date.substring(0, 4)
       }
-      props.setVersion(version);
+      dispatch(setVersion(version))
     }
   }, [])
 

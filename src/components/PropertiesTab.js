@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
 import CreatorHeader from "./CreatorHeader";
-import $ from 'jquery'
+import $ from 'jquery';
+import { useSelector, useDispatch } from "react-redux";
+import { editStadium } from "../reducers/stadiumSlice";
 
-function PropertiesTab(props) {
+function PropertiesTab() {
 
-  const [stadiumProperties, setStadiumProperties] = useState(props.stadium);
+  const stadium = useSelector((state) => state.stadium.value);
+  const mainMode = useSelector((state) => state.mainMode.value);
+  const dispatch = useDispatch();
+
+  var stadiumF = JSON.parse(JSON.stringify(stadium));
+  stadiumF = checkStadium(stadiumF);
+
+  const [stadiumProperties, setStadiumProperties] = useState(stadiumF);
+  // setStadiumProperties(checkStadium(stadiumProperties));
+
+  // useEffect(() => {
+  //   setStadiumProperties(props.stadium);
+  // }, [props.stadium]);
 
   useEffect(() => {
-    setStadiumProperties(props.stadium);
-  }, [props.stadium]);
-
-  useEffect(() => {
-    if (props.mainMode == 'propertiesTab') $("#table").fadeTo(300, 1);
-  }, [props.mainMode])
-
-  if (props.mainMode !== 'propertiesTab') return null;
-
-  var stadiumF = { ...props.stadium };
-  // var stadiumF = props.stadium;
+    if (mainMode === 'propertiesTab') $("#table").fadeTo(300, 1);
+  }, [mainMode])
 
   function parseValue(target) {
     if (target.id.endsWith('gravity')) {
@@ -41,6 +46,76 @@ function PropertiesTab(props) {
     }
   }
 
+  function checkStadium(stadiumF) {
+    var defaultStadium = {
+      name: "New Stadium",
+      width: 420,
+      height: 200,
+      cameraWidth: 0,
+      cameraHeight: 0,
+      maxViewWidth: 0,
+      cameraFollow: "ball",
+      spawnDistance: 170,
+      redSpawnPoints: [],
+      blueSpawnPoints: [],
+      canBeStored: true,
+      kickOffReset: "partial",
+      bg: { "color": "718C5A" },
+      traits: {
+        "ballArea": { "vis": false, "bCoef": 1, "cMask": ["ball"] },
+        "goalPost": { "radius": 8, "invMass": 0, "bCoef": 0.5 },
+        "goalNet": { "vis": true, "bCoef": 0.1, "cMask": ["ball"] },
+        "kickOffBarrier": { "vis": false, "bCoef": 0.1, "cGroup": ["redKO", "blueKO"], "cMask": ["red", "blue"] }
+      },
+      vertexes: [],
+      segments: [],
+      goals: [],
+      discs: [],
+      planes: [],
+      joints: [],
+
+      "playerPhysics": {
+        "radius": 15,
+        "bCoef": 0.5,
+        "invMass": 0.5,
+        "damping": 0.96,
+        "cGroup": ["red", "blue"],
+        "acceleration": 0.1,
+        "gravity": [0, 0],
+        "kickingAcceleration": 0.07,
+        "kickingDamping": 0.96,
+        "kickStrength": 5,
+        "kickback": 0,
+
+      },
+
+      "ballPhysics": {
+        "radius": 10,
+        "bCoef": 0.5,
+        "cMask": ["all"
+        ],
+        "damping": 0.99,
+        "invMass": 1,
+        "gravity": [0, 0],
+        "color": "ffffff",
+        "cGroup": ["ball"]
+      }
+    }
+    var keys = Object.keys(defaultStadium);
+    for (let key of keys) {
+      if (stadiumF[key] == undefined) stadiumF[key] = defaultStadium[key];
+    }
+    keys = Object.keys(defaultStadium.playerPhysics);
+    for (let key of keys) {
+      if (stadiumF.playerPhysics[key] == undefined) stadiumF.playerPhysics[key] = defaultStadium.playerPhysics[key];
+    }
+    keys = Object.keys(defaultStadium.ballPhysics);
+    for (let key of keys) {
+      if (stadiumF.ballPhysics[key] == undefined) stadiumF.ballPhysics[key] = defaultStadium.ballPhysics[key];
+    }
+    return stadiumF;
+  }
+
   function handlePropertiesChange(e) {
     // console.log(e)
     if (e.target.id.startsWith('trait')) {
@@ -60,7 +135,7 @@ function PropertiesTab(props) {
       prop = 'playerPhysics';
     }
     // console.log(prop, secondProp, parseValue(e.target));
-    if (e.target.type == 'text') {
+    if (e.target.type === 'text') {
       if (parseValue(e.target)) {
         e.target.classList.remove('error');
       } else {
@@ -104,7 +179,6 @@ function PropertiesTab(props) {
       } else {
         stadiumF[prop] = v;
       }
-      props.setStadium(stadiumF);
       e.target.classList.remove('error');
       if (secondProp) {
         setStadiumProperties(prevState => {
@@ -129,17 +203,15 @@ function PropertiesTab(props) {
 
   function handleSelect(e) {
     var prop = e.target.id.substring(5);
-    if (prop == "bg_type") {
+    if (prop === "bg_type") {
       stadiumF.bg = { ...stadiumF.bg, ['type']: e.target.value }
       if (stadiumF.bg.type == 'grass') stadiumF.bg.color = '718C5A'
       else if (stadiumF.bg.type == 'hockey') stadiumF.bg.color = '555555'
-      props.setStadium(stadiumF);
       setStadiumProperties(prevState => {
         return { ...prevState, bg: { ...prevState.bg, ['type']: e.target.value } }
       });
     } else {
       stadiumF[prop] = e.target.value;
-      props.setStadium(stadiumF);
       setStadiumProperties(stadiumF);
     }
   }
@@ -166,7 +238,6 @@ function PropertiesTab(props) {
     if (document.getElementById('trait_acceleration').value != "") zet.acceleration = Number(document.getElementById('trait_acceleration').value);
     if (document.getElementById('trait_color').value != "") zet.color = document.getElementById('trait_color').value;
     stadiumF.traits[zetName] = zet;
-    props.setStadium(stadiumF)
 
     document.getElementById('trait_bCoef').value = "";
     document.getElementById('trait_radius').value = "";
@@ -185,6 +256,10 @@ function PropertiesTab(props) {
     }, 1200);
   }
 
+  function updateStadium() {
+    dispatch(editStadium(stadiumProperties))
+  }
+
   return (
     <table id="table" cellSpacing="7px" style={{ height: '64vh', opacity: 0.01, overflow: "scroll" }}>
       <tbody>
@@ -192,16 +267,7 @@ function PropertiesTab(props) {
           <td colSpan="2" id="topbox" valign="top" style={{ height: '64vh', overflow: "scroll" }}>
             <table >
               <tbody>
-                <CreatorHeader
-                  mainMode={props.mainMode}
-                  setMainMode={props.setMainMode}
-                  stadium={props.stadium}
-                  setStadium={props.setStadium}
-                  stadiumText={props.stadiumText}
-                  setStadiumText={props.setStadiumText}
-                  updateStadium={props.updateStadium}
-                  setUpdateStadium={props.setUpdateStadium}
-                />
+                <CreatorHeader updateStadium={updateStadium} />
                 <tr><td>
                   <div id="stadium_properties" >
                     <div className="prop_group">

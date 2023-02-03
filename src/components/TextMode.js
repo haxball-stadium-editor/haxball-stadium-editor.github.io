@@ -1,7 +1,15 @@
 import $ from 'jquery';
 import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { editStadium, editStadiumText } from '../reducers/stadiumSlice';
+import { setMainMode } from '../reducers/mainModeSlice';
 
-function TextMode(props) {
+function TextMode() {
+
+  const stadium = useSelector((state) => state.stadium.value);
+  const stadiumText = useSelector((state) => state.stadium.toText);
+  const dispatch = useDispatch();
+  const mainMode = useSelector((state) => state.mainMode.value)
 
   function new_stadium() {
 
@@ -181,8 +189,8 @@ function TextMode(props) {
         } catch (error) {
           return alert("Incorrect file content - not a JSON Object")
         }
-        props.setStadium(JSON.parse(reader.result));
-        props.setStadiumText(pprint(JSON.parse(reader.result)));
+        dispatch(editStadium(JSON.parse(reader.result)));
+        dispatch(editStadiumText(pprint(JSON.parse(reader.result))));
       } else {
         alert('Incorrect extension, file name should end with .hbs');
       }
@@ -190,19 +198,23 @@ function TextMode(props) {
   }
 
   function handleClick(e) {
-    if (e.target.id == 'button_import_import') {
+    if (e.target.id === 'button_import_import') {
       var st;
       try {
         // JSON.parse(props.stadiumText);
-        st = eval('[' + props.stadiumText + ']')[0];
+        st = eval('[' + stadiumText + ']')[0];
       } catch (error) {
         st = 0;
       }
-      if (st == 0) {
+      if (st === 0) {
         alert('Can not load changes - text is not a proper JSON Object. Please fix errors or click button Cancel Changes');
         return;
       }
       // st = JSON.parse(props.stadiumText);
+      if (st === undefined) {
+        alert('Can not load changes - text is not a proper JSON Object. Please fix errors or click button Cancel Changes');
+        return;
+      }
       if (st.joints) {
         for (var i = 0; i < st.joints.length; i++) {
           if (st.joints[i]._length) {
@@ -212,37 +224,37 @@ function TextMode(props) {
       }
       if (st.discs) {
         for (var i = 0; i < st.discs.length; i++) {
-          if (st.discs[i].pos == undefined) st.discs[i].pos = [0, 0];
+          if (st.discs[i].pos === undefined) st.discs[i].pos = [0, 0];
         }
       }
       // props.setStadium(JSON.parse(props.stadiumText));
       $("#box").fadeTo(300, 0.01, "linear", function () {
-        props.setStadium(st);
-        props.setMainMode('stadiumCreator');
+        dispatch(editStadium(st));
+        dispatch(setMainMode('stadiumCreator'));
       })
-    } else if (e.target.id == 'button_import_cancel') {
-      props.setStadiumText(pprint(props.stadium));
-    } else if (e.target.id == 'button_import_goto') {
+    } else if (e.target.id === 'button_import_cancel') {
+      dispatch(editStadiumText(pprint(stadium)));
+    } else if (e.target.id === 'button_import_goto') {
       alert('This function is currently in development');
       // $("#box").fadeTo(1000, 0.001, 'linear', function () {
       //   props.setMainMode('stadiumCreator');
       // })
-    } else if (e.target.id == 'button_import_clear') {
+    } else if (e.target.id === 'button_import_clear') {
       var detect_desn = window.confirm('Are you sure?');
-      if (detect_desn) props.setStadiumText('');
+      if (detect_desn) dispatch(editStadiumText(''));
       else return false;
-    } else if (e.target.id == 'button_import_select_all') {
-      var stadium = props.stadiumText;
+    } else if (e.target.id === 'button_import_select_all') {
+      var stadiumToCopy = stadiumText;
       try {
-        JSON.parse(stadium);
+        JSON.parse(stadiumToCopy);
       } catch (error) {
         return alert('Can not copy stadium - text is not a proper JSON Object. Please fix errors or click button Cancel Changes');
       }
-      stadium = JSON.parse(stadium);
-      for (let joint of stadium.joints) if (joint.length == "null") joint.length = null;
-      if (stadium.canBeStored == "true" || stadium.canBestored == true) stadium.canBeStored = true;
-      else stadium.canBeStored = false;
-      var toCopy = JSON.stringify(stadium);
+      stadiumToCopy = JSON.parse(stadiumToCopy);
+      for (let joint of stadiumToCopy.joints) if (joint.length == "null") joint.length = null;
+      if (stadiumToCopy.canBeStored == "true" || stadiumToCopy.canBestored == true) stadiumToCopy.canBeStored = true;
+      else stadiumToCopy.canBeStored = false;
+      var toCopy = JSON.stringify(stadiumToCopy);
       const el = document.createElement('textarea');
       el.value = toCopy;
       document.body.appendChild(el);
@@ -253,46 +265,45 @@ function TextMode(props) {
       setTimeout(function () {
         document.getElementById("button_import_select_all").innerHTML = "Copy All";
       }, 2000);
-      if (stadium.canBeStored == true) stadium.canBeStored = "true";
-      else stadium.canBeStored = "false";
-      for (let joint of stadium.joints) if (joint.length == null) joint.length = "null";
+      if (stadiumToCopy.canBeStored == true) stadiumToCopy.canBeStored = "true";
+      else stadiumToCopy.canBeStored = "false";
+      for (let joint of stadiumToCopy.joints) if (joint.length == null) joint.length = "null";
     } else if (e.target.id == 'button_downloadMap') {
-      var stadium = props.stadium;
-      for (let joint of stadium.joints) if (joint.length == "null") joint.length = null;
-      console.log('canbe', stadium.canBeStored)
-      if (stadium.canBeStored == "true" || stadium.canBeStored == true) stadium.canBeStored = true;
-      else stadium.canBeStored = false;
-      console.log('canbe', stadium.canBeStored)
-      var blob = new Blob([JSON.stringify(stadium, null, "\t")], { type: 'text' });
+      var stadiumToCopy = JSON.parse(JSON.stringify(stadium));
+      for (let joint of stadiumToCopy.joints) if (joint.length == "null") joint.length = null;
+      if (stadiumToCopy.canBeStored == "true" || stadiumToCopy.canBeStored == true) stadiumToCopy.canBeStored = true;
+      else stadiumToCopy.canBeStored = false;
+      var blob = new Blob([JSON.stringify(stadiumToCopy, null, "\t")], { type: 'text' });
       var a = window.document.createElement("a");
       a.href = window.URL.createObjectURL(blob);
-      a.download = stadium.name + ".hbs";
+      a.download = stadiumToCopy.name + ".hbs";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      if (stadium.canBeStored == true) stadium.canBeStored = "true";
-      else stadium.canBeStored = "false";
-      for (let joint of stadium.joints) if (joint.length == null) joint.length = "null";
+      if (stadiumToCopy.canBeStored == true) stadiumToCopy.canBeStored = "true";
+      else stadiumToCopy.canBeStored = "false";
+      for (let joint of stadiumToCopy.joints) if (joint.length == null) joint.length = "null";
     }
   }
 
-  useEffect(() => {
-    props.setStadium(new_stadium);
-    props.setStadiumText(pprint(new_stadium()));
-  }, []);
+  // useEffect(() => {
+  //   props.setStadium(new_stadium);
+  //   props.setStadiumText(pprint(new_stadium()));
+  // }, []);
 
   useEffect(() => {
-    if (props.mainMode == 'textMode') $("#box").fadeTo(300, 1)
-  }, [props.mainMode]);
+    if (mainMode === 'textMode') {
+      dispatch(editStadiumText(pprint(stadium)));
+      $("#box").fadeTo(300, 1);
+    }
+  }, [mainMode]);
 
-  useEffect(() => {
-    props.setStadiumText(pprint(props.stadium));
-  }, [props.stadium]);
-
-  if (props.mainMode !== 'textMode') return null;
+  // useEffect(() => {
+  //   props.setStadiumText(pprint(props.stadium));
+  // }, [props.stadium]);
 
   function handleChange(e) {
-    props.setStadiumText(e.target.value);
+    dispatch(editStadiumText(e.target.value));
   }
 
   return (
@@ -301,7 +312,7 @@ function TextMode(props) {
         <table style={{ height: '100%', width: '100%' }}>
           <tbody>
             <tr>
-              <td style={{ height: '78vh' }}><textarea id="textarea_import" value={props.stadiumText} onChange={handleChange}></textarea></td>
+              <td style={{ height: '78vh' }}><textarea id="textarea_import" value={stadiumText} onChange={handleChange}></textarea></td>
             </tr>
             <tr>
               <td>

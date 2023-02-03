@@ -3,9 +3,12 @@ import logoHost from '../HBSE_files/top-tools/top-tools_host.png';
 import logoNews from '../HBSE_files/top-tools/top-tools_news.png';
 import logoHaxRacing from '../HBSE_files/top-tools/haxracing.png';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import $ from 'jquery';
 
-function Header(props) {
+function Header() {
+
+  const version = useSelector((state) => state.version.version)
 
   useEffect(() => {
     $(".header").fadeTo(300, 1)
@@ -13,7 +16,7 @@ function Header(props) {
 
   return (
     <div className="header" style={{ opacity: 0.01 }}>
-      <span className="title" id="globalTitle">HBSE v{props.version.version}</span>
+      <span className="title" id="globalTitle">HBSE v{version}</span>
       <a href="https://www.haxball.com/play" target="_blank" rel='noreferrer'>
         <img src={logoHaxball} alt="Haxball Play" className='header-logo' />HaxBall Play</a>
       <a href="https://www.haxball.com/headless" target="_blank" rel='noreferrer'>

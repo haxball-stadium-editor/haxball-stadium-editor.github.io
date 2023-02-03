@@ -2,6 +2,10 @@ import logoTextMode from '../HBSE_files/top-tools/top-tools_text.png';
 import logoProperties from '../HBSE_files/top-tools/top-tools_pr.png';
 import logoHelp from "../HBSE_files/top-tools/top-tools_help.png";
 import $ from 'jquery'
+import { editStadium, editStadiumText } from '../reducers/stadiumSlice';
+import { setMainMode } from '../reducers/mainModeSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 var escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
 var meta = {
@@ -106,105 +110,46 @@ function pprint(j, l, tag, parent) {
   }
 }
 
-function checkStadium(stadium) {
-  var defaultStadium = {
-    name: "New Stadium",
-    width: 420,
-    height: 200,
-    cameraWidth: 0,
-    cameraHeight: 0,
-    maxViewWidth: 0,
-    cameraFollow: "ball",
-    spawnDistance: 170,
-    redSpawnPoints: [],
-    blueSpawnPoints: [],
-    canBeStored: true,
-    kickOffReset: "partial",
-    bg: { "color": "718C5A" },
-    traits: {
-      "ballArea": { "vis": false, "bCoef": 1, "cMask": ["ball"] },
-      "goalPost": { "radius": 8, "invMass": 0, "bCoef": 0.5 },
-      "goalNet": { "vis": true, "bCoef": 0.1, "cMask": ["ball"] },
-      "kickOffBarrier": { "vis": false, "bCoef": 0.1, "cGroup": ["redKO", "blueKO"], "cMask": ["red", "blue"] }
-    },
-    vertexes: [],
-    segments: [],
-    goals: [],
-    discs: [],
-    planes: [],
-    joints: [],
-
-    "playerPhysics": {
-      "radius": 15,
-      "bCoef": 0.5,
-      "invMass": 0.5,
-      "damping": 0.96,
-      "cGroup": ["red", "blue"],
-      "acceleration": 0.1,
-      "gravity": [0, 0],
-      "kickingAcceleration": 0.07,
-      "kickingDamping": 0.96,
-      "kickStrength": 5,
-      "kickback": 0,
-
-    },
-
-    "ballPhysics": {
-      "radius": 10,
-      "bCoef": 0.5,
-      "cMask": ["all"
-      ],
-      "damping": 0.99,
-      "invMass": 1,
-      "gravity": [0, 0],
-      "color": "ffffff",
-      "cGroup": ["ball"]
-    }
-  }
-  var keys = Object.keys(defaultStadium);
-  for (let key of keys) {
-    if (stadium[key] == undefined) stadium[key] = defaultStadium[key];
-  }
-  keys = Object.keys(defaultStadium.playerPhysics);
-  for (let key of keys) {
-    if (stadium.playerPhysics[key] == undefined) stadium.playerPhysics[key] = defaultStadium.playerPhysics[key];
-  }
-  keys = Object.keys(defaultStadium.ballPhysics);
-  for (let key of keys) {
-    if (stadium.ballPhysics[key] == undefined) stadium.ballPhysics[key] = defaultStadium.ballPhysics[key];
-  }
-}
-
 function CreatorHeader(props) {
 
+  const dispatch = useDispatch();
+  const stadiumState = useSelector((state) => state.stadium.value);
+  const stadium = JSON.parse(JSON.stringify(stadiumState))
+  const mainMode = useSelector((state) => state.mainMode.value);
+  const [stadiumName, setStadiumName] = useState(stadium.name)
+
+  useEffect(() => {
+    setStadiumName(stadiumState.name)
+  }, [stadiumState]);
+
   function handleClick(e) {
-    props.setStadium(props.stadium);
+    props.updateStadium();
     if (e.target.id === 'button_import' || e.target.parentElement.id === 'button_import') {
       $("#table").fadeTo(300, 0.01, "linear", function () {
-        props.setMainMode('textMode');
-        props.setStadiumText(pprint(props.stadium));
+        dispatch(setMainMode('textMode'));
+        // dispatch(editStadiumText(pprint(stadium)));
       })
     } else if (e.target.id === 'button_properties' || e.target.parentElement.id === 'button_properties') {
       $("#table").fadeTo(300, 0.01, "linear", function () {
-        if (props.mainMode === 'propertiesTab') {
-          props.setMainMode('stadiumCreator');
-          props.setUpdateStadium(true);
+        if (mainMode === 'propertiesTab') {
+          dispatch(setMainMode('stadiumCreator'));
         } else {
-          checkStadium(props.stadium)
-          props.setMainMode('propertiesTab');
+          // console.log('druga zmiana', checkStadium(stadiumState).discs)
+          // dispatch(editStadium(checkStadium(stadium)));
+          dispatch(setMainMode('propertiesTab'));
         }
       })
     } else if (e.target.id === 'button_help' || e.target.parentElement.id === 'button_help') {
       $("#table").fadeTo(300, 0.01, "linear", function () {
-        props.setMainMode('helpTab');
+        dispatch(setMainMode('helpTab'));
       })
     }
   }
 
   function handleChange(e) {
-    props.setStadium(prevState => {
-      return { ...prevState, name: e.target.value }
-    });
+    setStadiumName(e.target.value);
+    stadium.name = e.target.value;
+    dispatch(editStadium(stadium));
   }
 
   return (
@@ -214,7 +159,7 @@ function CreatorHeader(props) {
           <tbody>
             <tr>
               <td style={{ width: "100%" }} id="right_tabs">
-                <input id="input_name" value={props.stadium ? props.stadium.name : ''} onChange={handleChange} autoComplete="off" />
+                <input id="input_name" value={stadiumName} onChange={handleChange} autoComplete="off" />
               </td>
               <td></td>
               <td>
@@ -226,7 +171,7 @@ function CreatorHeader(props) {
               <td>
                 <button id="button_properties" style={{ width: 125 }} onClick={handleClick}>
                   <img alt='img' src={logoProperties} style={{ height: 12, width: 12 }} />
-                  {props.mainMode == 'propertiesTab' ? 'Creator' : 'Properties'}
+                  {mainMode === 'propertiesTab' ? 'Creator' : 'Properties'}
                 </button>
               </td>
               <td>

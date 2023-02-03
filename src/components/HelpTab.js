@@ -4,20 +4,22 @@ import logoClose from "../HBSE_files/general/general_close.png"
 import Changelog from "./changelog/Changelog.js";
 import { useEffect } from "react";
 import $ from 'jquery'
+import { useSelector, useDispatch } from "react-redux";
+import { setMainMode } from "../reducers/mainModeSlice";
 
-function HelpTab(props) {
+function HelpTab() {
+
+  const mainMode = useSelector((state) => state.mainMode.value);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (props.mainMode == 'helpTab') $("#table").fadeTo(300, 1)
-  }, [props.mainMode])
-
-  if (props.mainMode !== 'helpTab') return null;
+    if (mainMode === 'helpTab') $("#table").fadeTo(300, 1)
+  }, [mainMode])
 
   function handleClick(e) {
     if (e.target.id === 'button_help_close' || e.target.parentElement.id === 'button_help_close') {
       $("#table").fadeTo(300, 0.01, "linear", function () {
-        props.setMainMode('stadiumCreator');
-        props.setUpdateStadium(true)
+        dispatch(setMainMode('stadiumCreator'));
       })
     } else if (e.target.id === 'button_contact' || e.target.parentElement.id === 'button_contact') {
       alert('Discord: Falafel#3895\nYou can find me at discord.io/haxracing\nemail: turbofalafel@gmail.com');
