@@ -11,64 +11,6 @@ function TextMode() {
   const dispatch = useDispatch();
   const mainMode = useSelector((state) => state.mainMode.value)
 
-  function new_stadium() {
-
-    return {
-      name: "New Stadium",
-      width: 420,
-      height: 200,
-      cameraWidth: 0,
-      cameraHeight: 0,
-      maxViewWidth: 0,
-      cameraFollow: "ball",
-      spawnDistance: 170,
-      redSpawnPoints: [],
-      blueSpawnPoints: [],
-      canBeStored: true,
-      kickOffReset: "partial",
-      bg: { "color": "718C5A" },
-      traits: {
-        "ballArea": { "vis": false, "bCoef": 1, "cMask": ["ball"] },
-        "goalPost": { "radius": 8, "invMass": 0, "bCoef": 0.5 },
-        "goalNet": { "vis": true, "bCoef": 0.1, "cMask": ["ball"] },
-        "kickOffBarrier": { "vis": false, "bCoef": 0.1, "cGroup": ["redKO", "blueKO"], "cMask": ["red", "blue"] }
-      },
-      vertexes: [],
-      segments: [],
-      goals: [],
-      discs: [],
-      planes: [],
-      joints: [],
-
-      "playerPhysics": {
-        "radius": 15,
-        "bCoef": 0.5,
-        "invMass": 0.5,
-        "damping": 0.96,
-        "cGroup": ["red", "blue"],
-        "acceleration": 0.1,
-        "gravity": [0, 0],
-        "kickingAcceleration": 0.07,
-        "kickingDamping": 0.96,
-        "kickStrength": 5,
-        "kickback": 0,
-
-      },
-
-      "ballPhysics": {
-        "radius": 10,
-        "bCoef": 0.5,
-        "cMask": ["all"
-        ],
-        "damping": 0.99,
-        "invMass": 1,
-        "gravity": [0, 0],
-        "color": "ffffff",
-        "cGroup": ["ball"]
-      }
-    };
-  }
-
   var escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
   var meta = {
     '\b': '\\b',
@@ -111,17 +53,14 @@ function TextMode() {
     var okeys = [];
     $.each(order, function (i, k) {
       if ($.inArray(k, keys) != -1) {
-        //console.log('order', k);
         okeys.push(k);
       }
     });
     $.each(keys, function (i, k) {
       if ($.inArray(k, order) == -1) {
-        //console.log('other', k);
         okeys.push(k);
       }
     });
-    //console.log(parent, order, keys, okeys);
     return okeys;
   }
 
@@ -172,7 +111,6 @@ function TextMode() {
         }
       });
 
-      //j.traits = stadium.traits;
       return ret + indent(l - 1, true) + "}";
     }
     return "JSON ERROR";
@@ -227,7 +165,6 @@ function TextMode() {
           if (st.discs[i].pos === undefined) st.discs[i].pos = [0, 0];
         }
       }
-      // props.setStadium(JSON.parse(props.stadiumText));
       $("#box").fadeTo(300, 0.01, "linear", function () {
         dispatch(editStadium(st));
         dispatch(setMainMode('stadiumCreator'));
@@ -236,9 +173,6 @@ function TextMode() {
       dispatch(editStadiumText(pprint(stadium)));
     } else if (e.target.id === 'button_import_goto') {
       alert('This function is currently in development');
-      // $("#box").fadeTo(1000, 0.001, 'linear', function () {
-      //   props.setMainMode('stadiumCreator');
-      // })
     } else if (e.target.id === 'button_import_clear') {
       var detect_desn = window.confirm('Are you sure?');
       if (detect_desn) dispatch(editStadiumText(''));
@@ -286,21 +220,12 @@ function TextMode() {
     }
   }
 
-  // useEffect(() => {
-  //   props.setStadium(new_stadium);
-  //   props.setStadiumText(pprint(new_stadium()));
-  // }, []);
-
   useEffect(() => {
     if (mainMode === 'textMode') {
       dispatch(editStadiumText(pprint(stadium)));
       $("#box").fadeTo(300, 1);
     }
   }, [mainMode]);
-
-  // useEffect(() => {
-  //   props.setStadiumText(pprint(props.stadium));
-  // }, [props.stadium]);
 
   function handleChange(e) {
     dispatch(editStadiumText(e.target.value));

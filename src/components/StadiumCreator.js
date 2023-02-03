@@ -27,7 +27,7 @@ import basicStadiums from "../basicStadiums";
 
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { editStadium, editStadiumText } from "../reducers/stadiumSlice";
+import { editStadium } from "../reducers/stadiumSlice";
 
 var current_tool;
 
@@ -209,17 +209,12 @@ var round = Math.round;
 var max = Math.max;
 var min = Math.min;
 
-var customUpdate;
 var initialiseProperties = true;
 
 function starting() {
   resize();
   load(stadium);
-  // console.log('próbuję zmienić', props.stadium)
   canvas = document.getElementById('canvas');
-  // customUpdate = props.setStadium;
-
-  // props.setStadium(props.stadium);
 
   define_tab('properties');
   define_tab('advanced');
@@ -250,14 +245,11 @@ function starting() {
 function getLineCoefs(x, y) {
   var a = (x[1] - y[1]) / (x[0] - y[0]);
   var b = y[1] - a * y[0];
-  // console.log('linia', x, y, a, b)
   return { a: a, b: b };
 }
 
 function getQuadraticEquationRoots(a, b, c) {
-  // console.log(a, b, c)
   var delta = b * b - 4 * a * c;
-  // console.log('delta', b, Math.sqrt(delta))
   return [(-b - Math.sqrt(delta)) / (2 * a), (-b + Math.sqrt(delta)) / (2 * a)]
 }
 
@@ -271,7 +263,6 @@ function renderbg(st, ctx) {
     if (bg.color) {
       if (bg.color.match('^[A-Fa-f0-9]{6}$')) ctx.fillStyle = '#' + bg.color;
     }
-    //ctx.fillStyle = prop_bg_color;
     ctx.fillRect(-st.width, -st.height,
       2 * st.width, 2 * st.height);
 
@@ -281,7 +272,6 @@ function renderbg(st, ctx) {
     if (bg.kickOffRadius == undefined) bg.kickOffRadius = 0;
 
     ctx.moveTo(-bg.width + bg.cornerRadius, -bg.height);
-    // TODO: this border doesn't render well in iceweasel
     ctx.arcTo(bg.width, -bg.height, bg.width, -bg.height + bg.cornerRadius, bg.cornerRadius);
     ctx.arcTo(bg.width, bg.height, bg.width - bg.cornerRadius, bg.height, bg.cornerRadius);
     ctx.arcTo(-bg.width, bg.height, -bg.width, bg.height - bg.cornerRadius, bg.cornerRadius);
@@ -349,22 +339,6 @@ function render_segment_arc(ctx, segment, arc) {
       ctx.moveTo(arc.b[0], arc.b[1])
       if (arc.curve > 0) ctx.arc(arc.center[0], arc.center[1], arc.radius, arc.to, arc.from, true);
       else ctx.arc(arc.center[0], arc.center[1], arc.radius, arc.from, arc.to, false);
-
-      // var x = getLineCoefs(arc.a, arc.center);
-      // var a = x.a, b = x.b, Sx = arc.a[0], Sy = arc.a[1];
-      // var roots = getQuadraticEquationRoots(1 + a * a, -2 * Sx + 2 * a * b - 2 * a * Sy, Sx * Sx + b * b - 2 * b * Sy + Sy * Sy - segment.bias * segment.bias);
-      // var x1 = roots[0], x2 = roots[1];
-      // var y = a * x1 + b
-
-      // if (arc.curve > 0) {
-      //   if ((x1 > Sx && x1 < arc.center[0]) || (x1 < Sx && x1 < arc.center[0])) x = x2;
-      //   else x = x1;
-      // } else if (arc.curve < 0) {
-      //   if ((x1 > Sx && x1 < arc.center[0]) || (x1 < Sx && x1 < arc.center[0])) x = x1;
-      //   else x = x2;
-      // }
-      // y = a * x + b;
-
       if (arc.curve > 0) {
         try {
           ctx.arc(arc.center[0], arc.center[1], arc.radius - segment.bias, arc.from, arc.to, false)
@@ -419,7 +393,6 @@ function complete(st, o) {
 }
 
 function complete_shape_object(st, shape) {
-  // TODO: replace all instances of complete(st, shape.object) with a call to this function
   var ret = {};
   if (defaults[shape.type]) {
     $.extend(ret, defaults[shape.type]);
@@ -450,8 +423,6 @@ function normalise(v) {
 
 function handle_down(ev) {
   $(document.activeElement).blur();
-  // if (ev.which != 1)
-  //   return;
   mouse_left_down = true;
   mouse_dragging = false;
   var pt = translate_coords([ev.pageX, ev.pageY]);
@@ -469,9 +440,6 @@ function translate_coords(p) {
 
 
 function handle_up(ev) {
-  var ret;
-  // if (ev.which != 1)
-  //   return;
   mouse_left_down = false;
   var pt = translate_coords([ev.pageX, ev.pageY]);
   if (mouse_dragging) {
@@ -485,9 +453,7 @@ function handle_up(ev) {
 }
 
 function handle_key(ev) {
-  //console.log('key', ev.which);
   if (ev.ctrlKey && ev.which == 67) {
-    // console.log(document.getElementById("boximport"));
     alert("Keep in mind that stadium might not be copied properly using that method. Please use \"Copy All\" button");
   }
 
@@ -553,9 +519,7 @@ function handle_key(ev) {
 function handle_move(ev) {
   var div_mousepos = $('#mousepos');
   var pt = translate_coords([ev.pageX, ev.pageY]);
-  // console.log('move ', pt)
   current_mouse_position = pt;
-  // console.log('current_tool', current_tool.name)
   if (window_width < ev.pageX * 2) {
     div_mousepos.removeClass('left').addClass('right');
   } else {
@@ -622,7 +586,6 @@ var tool_select = {
       }
     }
     update_savepoint();
-    // savepoint();
     if (total_selected_by_type.discs == 2) allowJoint();
     else disallowJoint();
   },
@@ -633,7 +596,6 @@ var tool_select = {
     if (!shape) {
       select_rect(stadium, from, to);
       update_savepoint();
-      // savepoint();
     } else if (shape.type == 'segments') {
       curve_segment_to_point(stadium, shape.object, to);
       modified();
@@ -660,10 +622,6 @@ var tool_select = {
     if (this.drag_type == 'select') {
       $('#mousepos').text(Math.abs(from[0] - to[0]) + ' x ' + Math.abs(from[1] - to[1]));
       return false;
-    } else if (this.drag_type == 'move') {
-      // bad idea
-      //$('#mousepos').text('V '+(to[0]-from[0])+', '+(to[1]-from[1]));
-      //return false;
     } else if (this.drag_type == 'segment') {
       return false;
     }
@@ -779,16 +737,6 @@ function select_shape(st, shape) {
       shape_set_selected(Shape('vertexes', st.vertexes[s.v0], s.v0), 'segment');
     if (!selected(st.vertexes[s.v1]))
       shape_set_selected(Shape('vertexes', st.vertexes[s.v1], s.v1), 'segment');
-  }
-}
-
-function toggle_select_shape(st, shape) {
-  if (selected(shape.object)) {
-    unselect_shape(st, shape);
-    return false;
-  } else {
-    select_shape(st, shape);
-    return true;
   }
 }
 
@@ -921,7 +869,6 @@ function trigger(name, a, b) {
 
 function queue_render() {
   // if this function gets called too much, add a minimum delay between calls to render
-  // console.log('222', stadium)
   renderStadium(stadium);
 }
 
@@ -994,11 +941,12 @@ function select_rect(st, a, b) {
 
       case 'joints':
         if (selected(st.discs[o.d0 - 1]) && selected(st.discs[o.d1 - 1])) {
-          //console.log(shape);
           shape_set_selected(shape, true);
           count++;
         }
         break;
+      default:
+        console.warn('Unexpected shape type')
     }
 
   });
@@ -1122,7 +1070,6 @@ function can_mirror_segment(a, b, dir) {
 }
 
 function add_vertex(st, pt, no_mirror) {
-  var n = st.vertexes.length;
   var obj = {
     x: pt[0],
     y: pt[1]
@@ -1284,7 +1231,6 @@ function calculate_arc(a, b, curve) {
     return arc;
   }
 
-  // |a-b| / sin A = r / sin (90 - A/2)
   var angle = curve * Math.PI / 180;
   var spa2 = Math.sin(Math.PI / 2 - angle / 2);
   var radius = Math.abs(nc * spa2 / Math.sin(angle));
@@ -1336,7 +1282,6 @@ function segment_contains(st, segment, pt, d) {
 }
 
 function joint_contains(st, joint, pt, d) {
-  var s = complete(st, joint);
   var joi = joint_points(st, joint);
   return point_next_to_line(pt, joi.a, joi.b, d);
 }
@@ -1380,7 +1325,6 @@ function three_point_angle(a, o, b) {
 }
 
 function circumcenter(a, b, c) {
-  // http://en.wikipedia.org/wiki/Circumscribed_circle
 
   var d = 2 * (a[0] * (b[1] - c[1]) + b[0] * (c[1] - a[1]) + c[0] * (a[1] - b[1]));
 
@@ -1398,7 +1342,6 @@ function circumcenter(a, b, c) {
 }
 
 function segment_arc_to_point(st, segment, pt) {
-  var s = complete(st, segment);
   var arc = segment_arc(st, segment);
   var o = circumcenter(pt, arc.a, arc.b);
   var new_arc = { a: arc.a, b: arc.b };
@@ -1474,8 +1417,6 @@ function plane_extremes_helper(st, normal, dist) {
   var ext = {};
 
   dist = - dist;
-
-  // ax + by = p
 
   if (normal[0] === 0 && normal[1] === 0) {
     normal = [1, 0];
@@ -1558,10 +1499,7 @@ function dot_product(a, b) {
 
 // Replace the current stadium with a new stadium
 function load(st) {
-  //var trejts = stadium.traits;
   stadium = st;
-  //stadium.traits = trejts;
-  // console.log(stadium.discs)
 
   if (!st.bg) st.bg = {};
   if (!st.vertexes) st.vertexes = {};
@@ -1573,8 +1511,6 @@ function load(st) {
   if (!st.joints) st.joints = [];
   if (!st.redSpawnPoints) st.redSpawnPoints = [];
   if (!st.blueSpawnPoints) st.blueSpawnPoints = [];
-  //if(!st.joints) st.joints = {};
-
 
   field_setters = $.grep(field_setters, function (f) { return f(); });
 
@@ -1613,7 +1549,6 @@ function undo() {
   redo_savepoints.splice(undo_levels);
   load(undo_savepoints[0]);
   initialiseProperties = false;
-  // customUpdate(undo_savepoints[0]);
   modified(true);
   return true;
 }
@@ -1626,13 +1561,11 @@ function redo() {
   undo_savepoints.splice(undo_levels);
   load(state1);
   initialiseProperties = false;
-  // customUpdate(undo_savepoints[0]);
   modified(true);
   return true;
 }
 
 function delete_selected(st) {
-  //console.log(st.discs);
   for (var i = 0; i < st.discs.length; i++) {
     var a = st.discs[i];
     if (a._selected) {
@@ -1640,7 +1573,6 @@ function delete_selected(st) {
         var b = stadium.joints[j];
         if (b.d0 - 1 == i || b.d1 - 1 == i) {
           stadium.joints[j] = "kasuj";
-          //console.log("usunięto jointa");
           continue;
         }
         console.log(i, a, j, b);
@@ -1945,6 +1877,8 @@ function update_mirrored_geometry_selected(st) {
               sh2.object.normal = mirror_point(obj.normal, dir);
               sh2.object.dist = obj.dist;
               break;
+            default:
+              console.warn('Unexpected shape type')
           }
         } else {
           if (selected(dat[dir].object)) {
@@ -1972,12 +1906,6 @@ function update_mirrored_geometry_selected(st) {
 function projected_dist(normal, pt) {
   var n = normalise(normal);
   return norm(pt) * Math.sin(Math.PI / 2 - three_point_angle(n, [0, 0], pt));
-}
-
-function height_plane_point(st, plane, pt) {
-  // TODO: there must a more efficient way to do this
-  var ext = plane_extremes(st, plane);
-  return height_line_point(ext.a, ext.b, pt);
 }
 
 function add_tool(tool) {
@@ -2068,10 +1996,6 @@ function resize_canvas() {
   queue_render();
 }
 
-// function midpoint(a, b) {
-//     return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
-// }
-
 var tool_scale = {
   name: 'scale',
   cursor: 'default',
@@ -2144,16 +2068,6 @@ function snap_for_scale(o, from, to) {
 
   var k = (abs(v[0]) + abs(v[1])) / 2;
 
-  /*
-    if(abs(abs(b[0])-abs(a[0])) <= 5) v[0] = sign(b[0]) * sign(a[0]) * 1;
-    if(abs(abs(b[1])-abs(a[1])) <= 5) v[1] = sign(b[1]) * sign(a[1]) * 1;
-
-    if(abs(sin(three_point_angle(first_quadrant(from), first_quadrant(o), first_quadrant(to))))
-    <= 10 / dist(o, to)){
-    v[0] = sign(v[0]) * k;
-    v[1] = sign(v[1]) * k;
-    } */
-
   var angle = abs(abs(angle_to([0, 0], b)) - pi / 2);
 
   if (angle < pi / 8) {
@@ -2166,10 +2080,6 @@ function snap_for_scale(o, from, to) {
   }
 
   return v;
-}
-
-function first_quadrant(pt) {
-  return [abs(pt[0]), abs(pt[1])];
 }
 
 function scale_selected(st, c, v) {
@@ -2257,14 +2167,6 @@ function intersect_lines(p1, p2, p3, p4) {
     (k * (p3[0] - p4[0]) - (p1[0] - p2[0]) * l) / d,
     (k * (p3[1] - p4[1]) - (p1[1] - p2[1]) * l) / d
   ];
-}
-
-function debug_show_point(pt, style) {
-  if (!style) style = 'rgb(255,0,0)';
-  debug_render.push(function (ctx) {
-    ctx.fillStyle = style;
-    ctx.fillRect(pt[0] - 2, pt[1] - 2, 4, 4);
-  });
 }
 
 function midpoint(a, b) {
@@ -2390,6 +2292,8 @@ function get_prop_val(prop, def) {
       if (m == 'true') return true;
       if (m == 'false') return false;
       break;
+    default:
+      console.warn('Unexpected type')
   }
   if (val !== '') {
     inp.addClass('error');
@@ -2430,6 +2334,8 @@ function set_prop_val(prop, val) {
     case 'layers':
       inp.val(val.join(','));
       break;
+    default:
+      console.warn('Unexpected type')
   }
 }
 
@@ -2572,7 +2478,7 @@ function duplicate() {
 }
 
 function clone_selected(st) {
-  // TODO: also clone traits, and on pasting iif traits don't exist, create them with cloned properties
+  // TODO: also clone traits, and on pasting if traits don't exist, create them with cloned properties
   var snip = {
     shapes: []
   };
@@ -2630,40 +2536,6 @@ function eachRev(l, f) {
   $.each(l.slice().reverse(), function (i, v) {
     return f(n - i - 1, v);
   });
-}
-
-function set_selection_range(el, start, end) {
-
-  /* https://github.com/furf/jquery-textselection/blob/master/Selection-1.0.js */
-
-  var value, range;
-
-  el.focus();
-
-  if (end === undefined)
-    end = start;
-
-  if (typeof end === 'undefined') {
-    end = start;
-  }
-
-  // Mozilla / Safari
-  if (typeof el.selectionStart !== 'undefined') {
-
-    el.setSelectionRange(start, end);
-
-    // IE
-  } else {
-
-    value = el.value;
-    range = el.createTextRange();
-    end -= start + value.slice(start + 1, end).split("\n").length - 1;
-    start -= value.slice(0, start).split("\n").length - 1;
-    range.move('character', start);
-    range.moveEnd('character', end);
-    range.select();
-
-  }
 }
 
 function mirror_data(object) {
@@ -2747,6 +2619,8 @@ function reset_mirror_data(st) {
             }
           });
           break;
+        default:
+          console.warn('Unexpected shape type')
       }
     });
   });
@@ -2766,6 +2640,8 @@ function mirror_point(pt, type) {
       return [pt[0], -pt[1]];
     case 'across':
       return [-pt[0], -pt[1]];
+    default:
+      console.warn('unexpected type')
   }
 }
 
@@ -2812,6 +2688,8 @@ function shape_switch_ends(sh) {
       sh.object.p0 = sh.object.p1;
       sh.object.p1 = tmp;
       break;
+    default:
+      console.warn('unexpected type')
   }
 }
 
@@ -2897,20 +2775,10 @@ function object_clone(obj) {
 
 function allowJoint() {
   document.getElementById("button_addJoint").style = "background-color: #347c40";
-  //$('#button_addJoint').removeClass('hidden');
-  /*$('#labelRigid').removeClass('hidden');
-  $('#inputRigid').removeClass('hidden');
-  $('#labelRigid').removeClass('prop');
-  $('#inputRigid').removeClass('prop');*/
 }
 
 function disallowJoint() {
   document.getElementById("button_addJoint").style = "background-color: #696969";
-  //$('#button_addJoint').addClass('hidden');
-  /*$('#labelRigid').addClass('hidden');
-  $('#inputRigid').addClass('hidden');
-  $('#labelRigid').addClass('prop');
-  $('#inputRigid').addClass('prop');*/
 }
 
 function jointAlertOn() {
@@ -2953,17 +2821,13 @@ function plane_extremes(st, plane) {
 // handler for the window resize event
 function resize() {
   var h = $(window).height();
-  // console.log(h, document.getElementById('table'));
   $('#table').height(h - 96);
-  // console.log(document.getElementById('table'))
   $('#box').height(h - 126);
   var w = $(window).width();
   window_width = w;
-  // console.log('eee', document.getElementById('canvas_div'))
   var cdp = $('#canvas_div_placeholder');
   var off = cdp.offset();
   var cd = $('#canvas_div');
-  // console.log('e', cd, off)
   cd.css(off);
   w = cdp.width();
   cd.width(w);
@@ -2974,8 +2838,6 @@ function resize() {
 
 
 function renderStadium(st) {
-
-  // console.log('funkcja renderStadium');
 
   var transform;
   canvas = document.getElementById('canvas');
@@ -2990,20 +2852,12 @@ function renderStadium(st) {
   }
 
   var ctx = canvas.getContext('2d');
-  //console.log(ctx.canvas.width);
 
   ctx.setTransform(1, 0, 0, 1, 0, 0);
 
   ctx.clearRect(0, 0, canvas_rect[2] - canvas_rect[0], canvas_rect[3] - canvas_rect[1]);
 
   ctx.translate(-canvas_rect[0], -canvas_rect[1]);
-
-  /*
-  if (stadium.discs.length==5) {
-      ctx.scale(2,2);
-      zoomScale=2;
-  } else zoomScale=1;
-  *////
 
   ctx.scale(zoomScale, zoomScale);
 
@@ -3073,10 +2927,7 @@ function renderStadium(st) {
     });
   });
 
-  ///////////////////////
-
   $.each(st.joints, function (i, joint) {
-    //console.log("Pętla dla jakiegoś jointa");
     transform(Shape('joints', joint, i), function () {
       joint = complete(st, joint);
       ctx.beginPath();
@@ -3100,11 +2951,8 @@ function renderStadium(st) {
         ctx.strokeStyle = colors.invisible_thin;
         ctx.stroke();
       }
-      //console.log("Wykonałem transformację");
     });
   });
-
-  ////////////////////////
 
   $.each(st.discs, function (i, disc) {
     transform(Shape('discs', disc, i), function () {
@@ -3290,8 +3138,6 @@ function handleButtonClick(e) {
     stadium.blueSpawnPoints.push([Number(xxx), Number(yyy)]);
   } else if (a == 'button_resetRed') {
     stadium.redSpawnPoints = [];
-    //console.log(button_resetRed);
-    //console.log(document.getElementById("button_resetRed"));
     document.getElementById("button_resetRed").innerHTML = "Spawnpoints resetted!";
     setTimeout(function () {
       document.getElementById("button_resetRed").innerHTML = "Reset Spawnpoints";
@@ -3320,7 +3166,7 @@ function handleButtonClick(e) {
       }
     }
     var le = document.getElementById("inputLength").value;
-    if (le = "null") joint.length = "null";
+    if (le == "null") joint.length = "null";
     else {
       var tap = le.split(",");
       if (tap.length == 2) {
@@ -3379,7 +3225,6 @@ function StadiumCreator() {
   const mainMode = useSelector((state) => state.mainMode.value);
   const dispatch = useDispatch();
 
-  // stadium = { ...stadiumState };
   stadium = JSON.parse(JSON.stringify(stadiumState))
 
   useEffect(() => {
@@ -3390,13 +3235,6 @@ function StadiumCreator() {
       starting();
     }
   }, [stadiumState]);
-
-  // useEffect(() => {
-  //   if (props.updateStadium) {
-  //     props.setUpdateStadium(false);
-  //     starting(props);
-  //   }
-  // }, [props.updateStadium]);
 
   useEffect(() => {
     if (mainMode == 'stadiumCreator') $("#table").fadeTo(300, 1)

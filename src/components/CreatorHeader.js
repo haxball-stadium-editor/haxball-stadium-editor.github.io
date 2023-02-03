@@ -2,7 +2,7 @@ import logoTextMode from '../HBSE_files/top-tools/top-tools_text.png';
 import logoProperties from '../HBSE_files/top-tools/top-tools_pr.png';
 import logoHelp from "../HBSE_files/top-tools/top-tools_help.png";
 import $ from 'jquery'
-import { editStadium, editStadiumText } from '../reducers/stadiumSlice';
+import { editStadium } from '../reducers/stadiumSlice';
 import { setMainMode } from '../reducers/mainModeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -29,7 +29,7 @@ function quote(string) {
 }
 
 function indent(l, b) {
-  return l === 0 ? "\n" : l == 1 ? "\n\n\t" : l == 2 && !b ? "\n\t\t" : l == 3 || b ? " " : "";
+  return l === 0 ? "\n" : l === 1 ? "\n\n\t" : l === 2 && !b ? "\n\t\t" : l === 3 || b ? " " : "";
 }
 
 var type_properties = {
@@ -48,66 +48,16 @@ function order_keys(parent, keys) {
   }
   var okeys = [];
   $.each(order, function (i, k) {
-    if ($.inArray(k, keys) != -1) {
+    if ($.inArray(k, keys) !== -1) {
       okeys.push(k);
     }
   });
   $.each(keys, function (i, k) {
-    if ($.inArray(k, order) == -1) {
+    if ($.inArray(k, order) === -1) {
       okeys.push(k);
     }
   });
   return okeys;
-}
-
-function pprint(j, l, tag, parent) {
-  if (!l) l = 0;
-  if (parent == "length" && j == null) return j;
-  if (parent == "canBeStored") {
-    if (j == "true" || j == true) return true;
-    else return false;
-  }
-  if (j.substr) {
-    return quote(j);
-  } else if (typeof j == 'number') {
-    return j.toString();
-  } else if (typeof j == 'boolean') {
-    return j.toString();
-  } else if (j instanceof Array) {
-    l++;
-    var trait = j[0] ? j[0].trait : "";
-    var ret = "[" + indent(l);
-    var first = true;
-
-    $.each(j, function (i, x) {
-      var d = "";
-      if (x.trait != trait) {
-        d = indent(l);
-        trait = x.trait;
-      }
-      ret += (first ? "" : "," + d + indent(l)) + (tag ? "/* " + i + " */ " : "") + pprint(x, l, false, parent);
-      first = false;
-    });
-
-    return ret + indent(l - 1) + "]";
-  } else {
-    l++;
-    var ret = "{" + indent(l);
-    var first = true;
-
-    var keys = order_keys(parent, Object.keys(j));
-
-    $.each(keys, function (i, k) {
-      var v = j[k];
-      if (v !== undefined && k != '_data') {
-        var i = k == 'bg' ? 2 : l;
-        ret += (first ? "" : "," + indent(l)) + quote(k) + " : " + pprint(v, i, k == 'vertexes' && i < 10, k);
-        first = false;
-      }
-    });
-
-    return ret + indent(l - 1, true) + "}";
-  }
 }
 
 function CreatorHeader(props) {
@@ -127,15 +77,12 @@ function CreatorHeader(props) {
     if (e.target.id === 'button_import' || e.target.parentElement.id === 'button_import') {
       $("#table").fadeTo(300, 0.01, "linear", function () {
         dispatch(setMainMode('textMode'));
-        // dispatch(editStadiumText(pprint(stadium)));
       })
     } else if (e.target.id === 'button_properties' || e.target.parentElement.id === 'button_properties') {
       $("#table").fadeTo(300, 0.01, "linear", function () {
         if (mainMode === 'propertiesTab') {
           dispatch(setMainMode('stadiumCreator'));
         } else {
-          // console.log('druga zmiana', checkStadium(stadiumState).discs)
-          // dispatch(editStadium(checkStadium(stadium)));
           dispatch(setMainMode('propertiesTab'));
         }
       })

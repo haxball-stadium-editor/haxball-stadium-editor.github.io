@@ -14,11 +14,6 @@ function PropertiesTab() {
   stadiumF = checkStadium(stadiumF);
 
   const [stadiumProperties, setStadiumProperties] = useState(stadiumF);
-  // setStadiumProperties(checkStadium(stadiumProperties));
-
-  // useEffect(() => {
-  //   setStadiumProperties(props.stadium);
-  // }, [props.stadium]);
 
   useEffect(() => {
     if (mainMode === 'propertiesTab') $("#table").fadeTo(300, 1);
@@ -27,7 +22,7 @@ function PropertiesTab() {
   function parseValue(target) {
     if (target.id.endsWith('gravity')) {
       var a = target.value.split(',')
-      if (a.length == 2) {
+      if (a.length === 2) {
         if (!isNaN(a[0]) && !isNaN(a[1])) return [Number(a[0], Number(a[1]))];
       }
       return false;
@@ -103,21 +98,20 @@ function PropertiesTab() {
     }
     var keys = Object.keys(defaultStadium);
     for (let key of keys) {
-      if (stadiumF[key] == undefined) stadiumF[key] = defaultStadium[key];
+      if (stadiumF[key] === undefined) stadiumF[key] = defaultStadium[key];
     }
     keys = Object.keys(defaultStadium.playerPhysics);
     for (let key of keys) {
-      if (stadiumF.playerPhysics[key] == undefined) stadiumF.playerPhysics[key] = defaultStadium.playerPhysics[key];
+      if (stadiumF.playerPhysics[key] === undefined) stadiumF.playerPhysics[key] = defaultStadium.playerPhysics[key];
     }
     keys = Object.keys(defaultStadium.ballPhysics);
     for (let key of keys) {
-      if (stadiumF.ballPhysics[key] == undefined) stadiumF.ballPhysics[key] = defaultStadium.ballPhysics[key];
+      if (stadiumF.ballPhysics[key] === undefined) stadiumF.ballPhysics[key] = defaultStadium.ballPhysics[key];
     }
     return stadiumF;
   }
 
   function handlePropertiesChange(e) {
-    // console.log(e)
     if (e.target.id.startsWith('trait')) {
       var prop = e.target.id.substring(6);
     } else {
@@ -134,7 +128,6 @@ function PropertiesTab() {
       secondProp = prop.substring(3);
       prop = 'playerPhysics';
     }
-    // console.log(prop, secondProp, parseValue(e.target));
     if (e.target.type === 'text') {
       if (parseValue(e.target)) {
         e.target.classList.remove('error');
@@ -143,8 +136,6 @@ function PropertiesTab() {
       }
     }
 
-    // stadiumF[prop] = e.target.value;
-    // console.log(stadiumF)
     if (secondProp) {
       setStadiumProperties(prevState => {
         return { ...prevState, [prop]: { ...prevState[prop], [secondProp]: e.target.value } }
@@ -219,24 +210,24 @@ function PropertiesTab() {
   function addNewTrait() {
     var zet = {};
     zet.vis = document.getElementById('trait_vis').value;
-    if (zet.vis == "true") zet.vis = true;
+    if (zet.vis === "true") zet.vis = true;
     else zet.vis = false;
-    if (document.getElementById('trait_bCoef').value != "") zet.bCoef = Number(document.getElementById('trait_bCoef').value);
-    if (document.getElementById('trait_radius').value != "") zet.radius = Number(document.getElementById('trait_radius').value);
-    if (document.getElementById('trait_invMass').value != "") zet.invMass = Number(document.getElementById('trait_invMass').value);
+    if (document.getElementById('trait_bCoef').value !== "") zet.bCoef = Number(document.getElementById('trait_bCoef').value);
+    if (document.getElementById('trait_radius').value !== "") zet.radius = Number(document.getElementById('trait_radius').value);
+    if (document.getElementById('trait_invMass').value !== "") zet.invMass = Number(document.getElementById('trait_invMass').value);
     var zetName = "newTrait";
-    if (document.getElementById('trait_name').value != "") zetName = document.getElementById('trait_name').value;
-    if (document.getElementById('trait_gravity').value != "") {
+    if (document.getElementById('trait_name').value !== "") zetName = document.getElementById('trait_name').value;
+    if (document.getElementById('trait_gravity').value !== "") {
       var pstryk = (document.getElementById('trait_gravity').value).split(",");
       zet.gravity = []
       zet.gravity[0] = Number(pstryk[0]);
       zet.gravity[1] = Number(pstryk[1]);
     }
-    if (document.getElementById('trait_damping').value != "") zet.damping = parseValue({ target: { id: 'damping' }, value: document.getElementById('trait_damping').value });
-    if (document.getElementById('trait_cMask').value != "") zet.cMask = parseValue({ target: { id: 'cMask' }, value: document.getElementById('trait_cMask').value });
-    if (document.getElementById('trait_cGroup').value != "") zet.cGroup = parseValue({ target: { id: 'cGroup' }, value: document.getElementById('trait_cGroup').value });
-    if (document.getElementById('trait_acceleration').value != "") zet.acceleration = Number(document.getElementById('trait_acceleration').value);
-    if (document.getElementById('trait_color').value != "") zet.color = document.getElementById('trait_color').value;
+    if (document.getElementById('trait_damping').value !== "") zet.damping = parseValue({ target: { id: 'damping' }, value: document.getElementById('trait_damping').value });
+    if (document.getElementById('trait_cMask').value !== "") zet.cMask = parseValue({ target: { id: 'cMask' }, value: document.getElementById('trait_cMask').value });
+    if (document.getElementById('trait_cGroup').value !== "") zet.cGroup = parseValue({ target: { id: 'cGroup' }, value: document.getElementById('trait_cGroup').value });
+    if (document.getElementById('trait_acceleration').value !== "") zet.acceleration = Number(document.getElementById('trait_acceleration').value);
+    if (document.getElementById('trait_color').value !== "") zet.color = document.getElementById('trait_color').value;
     stadiumF.traits[zetName] = zet;
 
     document.getElementById('trait_bCoef').value = "";
