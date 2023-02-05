@@ -35,6 +35,7 @@ var current_tool;
 var canvas_rect = [-150, -75, 150, 75];
 
 var zoomScale = 1;
+var zoomFactor = 1.03; // zoomScale multiplier when mouse wheel is used
 var canvas = document.getElementById('canvas');
 var stadium;
 
@@ -2837,7 +2838,7 @@ function resize() {
 }
 
 
-function renderStadium(st) {
+function renderStadium(st, zoomed = false) {
 
   var transform;
   canvas = document.getElementById('canvas');
@@ -2860,6 +2861,14 @@ function renderStadium(st) {
   ctx.translate(-canvas_rect[0], -canvas_rect[1]);
 
   ctx.scale(zoomScale, zoomScale);
+
+  // if (zoomed) {
+  //   // console.log(current_mouse_position)
+  //   const x = -current_mouse_position[0];
+  //   const y = -current_mouse_position[1];
+  //   // ctx.translate(x / zoomFactor, y / zoomFactor)
+  //   ctx.translate(200, 200)
+  // }
 
   if (settings.preview) {
     ctx.beginPath();
@@ -3282,6 +3291,10 @@ function StadiumCreator() {
 
     set_tool(tool_select);
 
+    window.addEventListener("wheel", handleWheel, { passive: false })
+
+    return () => window.removeEventListener('wheel', handleWheel);
+
   }, []);
 
   function updateStadium() {
@@ -3369,6 +3382,49 @@ function StadiumCreator() {
     // if (err == 0) $('#upload').submit();
     // $('#upload').submit();
   }
+
+  function handleWheel(e) {
+    if (e.target.id === 'canvas') {
+      // console.log('stary', e.target.parentElement.scrollLeft / zoomScale)
+
+      var oldZoom = zoomScale;
+      if (e.deltaY > 0) zoomScale /= zoomFactor;
+      else zoomScale *= zoomFactor;
+      // console.log('scroll', e.target.parentElement.scrollLeft, current_mouse_position, canvas_rect)
+
+      var pozycjaMyszkiNaMapie = current_mouse_position[0] + stadium.width;
+      var staryScrollLeft = (e.target.parentElement.scrollLeft - stadium.width) / oldZoom;
+      var nowyScrollLeft = (e.target.parentElement.scrollLeft - stadium.width) / zoomScale;
+      // console.log(staryScrollLeft, nowyScrollLeft)
+      var przesuniecie = nowyScrollLeft - staryScrollLeft;
+      var trzebaPrzesunac = przesuniecie * zoomScale // albo podzielic
+
+      // ale od razu przesuwaj, niech zoomuje zgodnie z pozycją myszki
+      renderStadium(stadium, true);
+
+
+      // prawdziwa nowa długość stadionu
+      var x = stadium.width / zoomScale
+      // console.log('prawdziwa', x)
+
+      // prawdziwy moment skrolu
+      // console.log('jest', nowyScrollLeft, ' powinno być ', staryScrollLeft);
+      var y = (e.target.parentElement.scrollLeft - stadium.width - przesuniecie) / zoomScale;
+      // console.log('chyba o tyle przesunac', y)
+
+      console.log('na mapie', staryScrollLeft, nowyScrollLeft);
+      // console.log('scroll', e.target.parentElement.scrollLeft, e.target.parentElement.scrollLeft - trzebaPrzesunac)
+      console.log('chyba przesunę z ', nowyScrollLeft, ' na ', (e.target.parentElement.scrollLeft - stadium.width) / zoomScale - trzebaPrzesunac * zoomScale)
+      // e.target.parentElement.scrollLeft -= trzebaPrzesunac * zoomScale; // może da się poprawić
+      e.target.parentElement.scrollLeft -= trzebaPrzesunac;
+
+      // console.log('nowy', e.target.parentElement.scrollLeft)
+
+      e.preventDefault();
+    }
+  }
+
+  // do przesuwania będzie handle_down i ev.which == 2 i style.cursor.move albo .grab
 
   return (
 
