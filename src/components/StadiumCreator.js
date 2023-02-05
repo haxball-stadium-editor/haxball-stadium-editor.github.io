@@ -3385,40 +3385,31 @@ function StadiumCreator() {
 
   function handleWheel(e) {
     if (e.target.id === 'canvas') {
-      // console.log('stary', e.target.parentElement.scrollLeft / zoomScale)
-
+      console.log(e)
       var oldZoom = zoomScale;
       if (e.deltaY > 0) zoomScale /= zoomFactor;
       else zoomScale *= zoomFactor;
-      // console.log('scroll', e.target.parentElement.scrollLeft, current_mouse_position, canvas_rect)
+
+      // var pozycjaMyszkiNaMapie = current_mouse_position[0] + stadium.width;
+      // var staryScrollLeft = (e.target.parentElement.scrollLeft - stadium.width) / oldZoom;
+      // var nowyScrollLeft = (e.target.parentElement.scrollLeft - stadium.width) / zoomScale;
+      // var przesuniecie = nowyScrollLeft - staryScrollLeft;
+      // var trzebaPrzesunac = przesuniecie * zoomScale
 
       var pozycjaMyszkiNaMapie = current_mouse_position[0] + stadium.width;
-      var staryScrollLeft = (e.target.parentElement.scrollLeft - stadium.width) / oldZoom;
-      var nowyScrollLeft = (e.target.parentElement.scrollLeft - stadium.width) / zoomScale;
-      // console.log(staryScrollLeft, nowyScrollLeft)
+      var staryScrollLeft = current_mouse_position[0];
+      var nowyScrollLeft = (e.target.parentElement.scrollLeft - stadium.width + e.layerX) / zoomScale; // layerX to są chyba cordy całej płachty
       var przesuniecie = nowyScrollLeft - staryScrollLeft;
-      var trzebaPrzesunac = przesuniecie * zoomScale // albo podzielic
+      var trzebaPrzesunac = przesuniecie * zoomScale
 
-      // ale od razu przesuwaj, niech zoomuje zgodnie z pozycją myszki
+      console.log(staryScrollLeft, nowyScrollLeft)
+
       renderStadium(stadium, true);
 
-
-      // prawdziwa nowa długość stadionu
       var x = stadium.width / zoomScale
-      // console.log('prawdziwa', x)
-
-      // prawdziwy moment skrolu
-      // console.log('jest', nowyScrollLeft, ' powinno być ', staryScrollLeft);
       var y = (e.target.parentElement.scrollLeft - stadium.width - przesuniecie) / zoomScale;
-      // console.log('chyba o tyle przesunac', y)
 
-      console.log('na mapie', staryScrollLeft, nowyScrollLeft);
-      // console.log('scroll', e.target.parentElement.scrollLeft, e.target.parentElement.scrollLeft - trzebaPrzesunac)
-      console.log('chyba przesunę z ', nowyScrollLeft, ' na ', (e.target.parentElement.scrollLeft - stadium.width) / zoomScale - trzebaPrzesunac * zoomScale)
-      // e.target.parentElement.scrollLeft -= trzebaPrzesunac * zoomScale; // może da się poprawić
-      e.target.parentElement.scrollLeft -= trzebaPrzesunac;
-
-      // console.log('nowy', e.target.parentElement.scrollLeft)
+      // e.target.parentElement.scrollLeft -= trzebaPrzesunac;
 
       e.preventDefault();
     }
