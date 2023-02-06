@@ -7,59 +7,6 @@ import { setMainMode } from '../reducers/mainModeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-var escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
-var meta = {
-  '\b': '\\b',
-  '\t': '\\t',
-  '\n': '\\n',
-  '\f': '\\f',
-  '\r': '\\r',
-  '"': '\\"',
-  '\\': '\\\\'
-};
-
-function quote(string) {
-  escapable.lastIndex = 0;
-  return escapable.test(string) ? '"' +
-    string.replace(escapable, function (a) {
-      var c = meta[a];
-      return typeof c === 'string' ? c
-        : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-    }) + '"' : '"' + string + '"';
-}
-
-function indent(l, b) {
-  return l === 0 ? "\n" : l === 1 ? "\n\n\t" : l === 2 && !b ? "\n\t\t" : l === 3 || b ? " " : "";
-}
-
-var type_properties = {
-  vertexes: ['x', 'y', 'bCoef', 'cMask', 'cGroup', 'trait'],
-  segments: ['v0', 'v1', 'curve', 'vis', 'color', 'bCoef', 'cMask', 'cGroup', 'trait', 'bias'],
-  planes: ['normal', 'dist', 'bCoef', 'cMask', 'cGroup', 'trait'],
-  discs: ['radius', 'invMass', 'pos', 'color', 'bCoef', 'cMask', 'cGroup', 'trait', 'damping', 'speed', 'gravity'],
-  goals: ['p0', 'p1', 'team'],
-  joints: ['d0', 'd1', '_length', 'strength', 'color']
-};
-
-function order_keys(parent, keys) {
-  var order = type_properties[parent];
-  if (!order) {
-    return keys
-  }
-  var okeys = [];
-  $.each(order, function (i, k) {
-    if ($.inArray(k, keys) !== -1) {
-      okeys.push(k);
-    }
-  });
-  $.each(keys, function (i, k) {
-    if ($.inArray(k, order) === -1) {
-      okeys.push(k);
-    }
-  });
-  return okeys;
-}
-
 function CreatorHeader(props) {
 
   const dispatch = useDispatch();

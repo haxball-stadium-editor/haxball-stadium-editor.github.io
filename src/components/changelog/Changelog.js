@@ -5,6 +5,17 @@ import { setVersion } from '../../reducers/versionSlice.js';
 
 const changelog = [
   {
+    version: '3.0.7',
+    date: '2023-02-06',
+    changes: [
+      'Zoom the map with the mousewheel, press the mousewheel to move around the map',
+      'Map will center in [0,0] point after being loaded',
+      'Map preview will show actual color and radius of the ball disc, instead of default values',
+      'Downloading stadium will give prettier files - with indentations and linebreaks',
+      'Fixed bug - downloaded map always had "canBeStored" property set to false',
+      'If you want to extract map from .hbr recording, you can do it on Haxball Replay Analyzer'
+    ]
+  }, {
     version: '3.0.6',
     date: '2023-01-17',
     changes: [

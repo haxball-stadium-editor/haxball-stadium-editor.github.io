@@ -3,7 +3,7 @@ import Header from './components/Header'
 import StadiumCreator from './components/StadiumCreator';
 import TextMode from './components/TextMode';
 import React from "react";
-import PropertiesTab from './components/PropertiesTab';
+import PropertiesTab from './components/properties/PropertiesTab';
 import HelpTab from './components/HelpTab';
 import Changelog from './components/changelog/Changelog';
 import { useSelector } from 'react-redux';
