@@ -35,7 +35,7 @@ var current_tool;
 var canvas_rect = [-150, -75, 150, 75];
 
 var zoomScale = 1;
-var zoomFactor = 1.03; // zoomScale multiplier when mouse wheel is used
+var zoomFactor = 1.08; // zoomScale multiplier when mouse wheel is used
 var canvas = document.getElementById('canvas');
 var stadium;
 
@@ -423,6 +423,7 @@ function normalise(v) {
 }
 
 function handle_down(ev) {
+  if (ev.button !== undefined && ev.button === 1) return;
   $(document.activeElement).blur();
   mouse_left_down = true;
   mouse_dragging = false;
@@ -551,6 +552,7 @@ var tool_select = {
     this.drag_type = false;
   },
   down: function (pt, ev) {
+    if (ev.which === 2) return;
     var shape = under_point(stadium, pt);
     this.shape = shape;
     if (!shape) {
@@ -1933,7 +1935,7 @@ function resize_canvas() {
   var st = stadium;
   var rect;
 
-  rect = [-st.width * zoomScale, -st.height * zoomScale, st.width * zoomScale, st.height * zoomScale];
+  rect = [-st.width, -st.height, st.width, st.height];
 
   var consider = function (pt, r) {
     var x = pt[0];
@@ -1971,12 +1973,14 @@ function resize_canvas() {
   var cd = $('#canvas_div');
   var canvas_div_size = [cd.innerWidth() - 20, cd.innerHeight() - 20];
 
-  rect = [
+  var rectBeforeZoom = [
     round(min(rect[0] - margin, -canvas_div_size[0] / 2)),
     round(min(rect[1] - margin, -canvas_div_size[1] / 2)),
     round(max(rect[2] + margin, canvas_div_size[0] / 2)),
     round(max(rect[3] + margin, canvas_div_size[1] / 2))
   ];
+
+  rect = rectBeforeZoom.map(el => el * zoomScale)
 
   if (rect[2] - rect[0] >= 65500 || rect[3] - rect[1] >= 65500) {
     alert("Map is too big, it will be displayed in a limited way (8000x8000). Limits: height:65535, width:65535");
@@ -2842,6 +2846,10 @@ function renderStadium(st, zoomed = false) {
 
   var transform;
   canvas = document.getElementById('canvas');
+  // canvas.width = st.width * 2 * zoomScale;
+  // canvas.height = st.height * 2 * zoomScale;
+  // console.log('kanwas', canvas.width, canvas.height)
+  // console.log('a w teorii', 2 * st.width * zoomScale, 2 * st.height * zoomScale)
   if (current_tool && current_tool.transform) {
     transform = function (shape, draw) {
       ctx.save();
@@ -2854,7 +2862,14 @@ function renderStadium(st, zoomed = false) {
 
   var ctx = canvas.getContext('2d');
 
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  try {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+  } catch (error) {
+    alert('You can\'t zoom in any more');
+    zoomScale /= zoomFactor;
+    resize_canvas()
+    return;
+  }
 
   ctx.clearRect(0, 0, canvas_rect[2] - canvas_rect[0], canvas_rect[3] - canvas_rect[1]);
 
@@ -3385,7 +3400,7 @@ function StadiumCreator() {
 
   function handleWheel(e) {
     if (e.target.id === 'canvas') {
-      console.log(e)
+      // console.log(e)
       var oldZoom = zoomScale;
       if (e.deltaY > 0) zoomScale /= zoomFactor;
       else zoomScale *= zoomFactor;
@@ -3398,18 +3413,33 @@ function StadiumCreator() {
 
       var pozycjaMyszkiNaMapie = current_mouse_position[0] + stadium.width;
       var staryScrollLeft = current_mouse_position[0];
-      var nowyScrollLeft = (e.target.parentElement.scrollLeft - stadium.width + e.layerX) / zoomScale; // layerX to są chyba cordy całej płachty
+      var nowyScrollLeft = (e.layerX - canvas_rect[2] * zoomScale / oldZoom) / zoomScale;
+      // var nowyScrollLeft = (e.target.parentElement.scrollLeft - stadium.width + e.layerX) / zoomScale; // layerX to są chyba cordy całej płachty
       var przesuniecie = nowyScrollLeft - staryScrollLeft;
       var trzebaPrzesunac = przesuniecie * zoomScale
 
-      console.log(staryScrollLeft, nowyScrollLeft)
+      ////////////////// dla Y
 
+      var staryScrollLeftY = current_mouse_position[1];
+      var nowyScrollLeftY = (e.layerY - canvas_rect[3] * zoomScale / oldZoom) / zoomScale;
+      var przesuniecieY = nowyScrollLeftY - staryScrollLeftY;
+      var trzebaPrzesunacY = przesuniecieY * zoomScale
+
+      //// EEEEE WSZYSTKO DZIAŁA, WYHACZA SIĘ DOPIERO GDY JEST ZOOM < 1, CHYBA PROBLEMY Z CANVASEM WTEDY
+
+      // console.log(e.layerX, zoomScale, canvas_rect)
+
+      // console.log((e.layerX - canvas_rect[2]) / oldZoom)
+      // console.log(staryScrollLeft, nowyScrollLeft)
+
+      resize_canvas();
       renderStadium(stadium, true);
 
       var x = stadium.width / zoomScale
       var y = (e.target.parentElement.scrollLeft - stadium.width - przesuniecie) / zoomScale;
 
-      // e.target.parentElement.scrollLeft -= trzebaPrzesunac;
+      e.target.parentElement.scrollLeft -= trzebaPrzesunac;
+      e.target.parentElement.scrollTop -= trzebaPrzesunacY;
 
       e.preventDefault();
     }
