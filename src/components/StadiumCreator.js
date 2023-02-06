@@ -2978,8 +2978,9 @@ function renderStadium(st) {
     // TODO: use exact colors and sizes
 
     ctx.beginPath();
-    ctx.arc(0, 0, 10, 0, Math.PI * 2, true);
+    ctx.arc(0, 0, (stadium.ballPhysics?.radius ?? 10), 0, Math.PI * 2, true);
     ctx.fillStyle = 'rgb(255,255,255)';
+    if (stadium.ballPhysics.color !== undefined) ctx.fillStyle = '#' + stadium.ballPhysics.color;
     ctx.strokeStyle = 'rgb(0,0,0)';
     ctx.lineWidth = 2;
     ctx.fill();
@@ -3218,6 +3219,7 @@ function handleButtonClick(e) {
   } else if (a.startsWith('button_loadBasic')) {
     stadium = JSON.parse(JSON.stringify(basicStadiums[a.substring(17)]));
     load(stadium);
+    reloadStadium();
     initialiseProperties = false;
   }
 }
