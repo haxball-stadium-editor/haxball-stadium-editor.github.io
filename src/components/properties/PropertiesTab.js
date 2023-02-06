@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import CreatorHeader from "./CreatorHeader";
+import CreatorHeader from "../CreatorHeader";
 import $ from 'jquery';
 import { useSelector, useDispatch } from "react-redux";
-import { editStadium } from "../reducers/stadiumSlice";
+import { editStadium } from "../../reducers/stadiumSlice";
+import Properties from "./Properties";
 
 function PropertiesTab() {
 
@@ -195,11 +196,11 @@ function PropertiesTab() {
   function handleSelect(e) {
     var prop = e.target.id.substring(5);
     if (prop === "bg_type") {
-      stadiumF.bg = { ...stadiumF.bg, ['type']: e.target.value }
-      if (stadiumF.bg.type == 'grass') stadiumF.bg.color = '718C5A'
-      else if (stadiumF.bg.type == 'hockey') stadiumF.bg.color = '555555'
+      stadiumF.bg = { ...stadiumF.bg, type: e.target.value }
+      if (stadiumF.bg.type === 'grass') stadiumF.bg.color = '718C5A'
+      else if (stadiumF.bg.type === 'hockey') stadiumF.bg.color = '555555'
       setStadiumProperties(prevState => {
-        return { ...prevState, bg: { ...prevState.bg, ['type']: e.target.value } }
+        return { ...prevState, bg: { ...prevState.bg, type: e.target.value } }
       });
     } else {
       stadiumF[prop] = e.target.value;
@@ -299,63 +300,27 @@ function PropertiesTab() {
                         <option value="grass">grass</option>
                         <option value="hockey">hockey</option>
                       </select>
-                      <label className="prop" style={{ width: 78 }}>Height:</label>
-                      <input className="prop" type="text" id="prop_bg_height" value={stadiumProperties.bg.height} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 78 }}>Width:</label>
-                      <input className="prop" type="text" id="prop_bg_width" value={stadiumProperties.bg.width} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 78 }}>cornerRadius:</label>
-                      <input className="prop" type="text" id="prop_bg_cornerRadius" value={stadiumProperties.bg.cornerRadius} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 78 }}>kickOffRadius:</label>
-                      <input className="prop" type="text" id="prop_bg_kickOffRadius" value={stadiumProperties.bg.kickOffRadius} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 78 }}>Color:</label>
-                      <input className="prop" type="text" id="prop_bg_color" value={stadiumProperties.bg.color} onChange={handlePropertiesChange} onBlur={handleBlur} />
+                      <Properties
+                        type='text' width='78' ids='prop_bg_' valuesFrom={stadiumProperties.bg} onChange={handlePropertiesChange} onBlur={handleBlur}
+                        names={['height', 'width', 'cornerRadius', 'kickOffRadius', 'color']} />
                     </div>
                     <div className="prop_group">
                       <div className="prop_group_title">Player Physics</div>
-                      <label className="prop" style={{ width: 75 }}>Gravity</label>
-                      <input className="prop" type="text" id="prop_pp_gravity" value={stadiumProperties.playerPhysics.gravity} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>Radius</label>
-                      <input className="prop" type="text" id="prop_pp_radius" value={stadiumProperties.playerPhysics.radius} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>bCoef</label>
-                      <input className="prop" type="text" id="prop_pp_bCoef" value={stadiumProperties.playerPhysics.bCoef} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>InvMass</label>
-                      <input className="prop" type="text" id="prop_pp_invMass" value={stadiumProperties.playerPhysics.invMass} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>Damping</label>
-                      <input className="prop" type="text" id="prop_pp_damping" value={stadiumProperties.playerPhysics.damping} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>CGroup</label>
-                      <input className="prop" type="text" id="prop_pp_cGroup" value={stadiumProperties.playerPhysics.cGroup} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>Acceleration</label>
-                      <input className="prop" type="text" id="prop_pp_acceleration" value={stadiumProperties.playerPhysics.acceleration} onChange={handlePropertiesChange} onBlur={handleBlur} />
+                      <Properties
+                        type='text' width='75' ids='prop_pp_' valuesFrom={stadiumProperties.playerPhysics} onChange={handlePropertiesChange} onBlur={handleBlur}
+                        names={['gravity', 'radius', 'bCoef', 'invMass', 'damping', 'cGroup', 'acceleration']} />
                     </div>
                     <div className="prop_group">
                       <div className="prop_group_title">Player Physics (Kick)</div>
-                      <label className="prop" style={{ width: 75 }}>kickingAcceleration</label>
-                      <input className="prop" type="text" id="prop_pp_kickingAcceleration" value={stadiumProperties.playerPhysics.kickingAcceleration} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>kickingDamping</label>
-                      <input className="prop" type="text" id="prop_pp_kickingDamping" value={stadiumProperties.playerPhysics.kickingDamping} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>kickStrength</label>
-                      <input className="prop" type="text" id="prop_pp_kickStrength" value={stadiumProperties.playerPhysics.kickStrength} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>kickback</label>
-                      <input className="prop" type="text" id="prop_pp_kickback" value={stadiumProperties.playerPhysics.kickback} onChange={handlePropertiesChange} onBlur={handleBlur} />
+                      <Properties
+                        type='text' width='95' ids='prop_pp_' valuesFrom={stadiumProperties.playerPhysics} onChange={handlePropertiesChange} onBlur={handleBlur}
+                        names={['kickingAcceleration', 'kickingDamping', 'kickStrength', 'kickback']} />
                     </div>
                     <div className="prop_group">
                       <div className="prop_group_title">Ball Physics</div>
-                      <label className="prop" style={{ width: 75 }}>Gravity</label>
-                      <input className="prop" type="text" id="prop_bp_gravity" value={stadiumProperties.ballPhysics.gravity} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>Radius</label>
-                      <input className="prop" type="text" id="prop_bp_radius" value={stadiumProperties.ballPhysics.radius} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>bCoef</label>
-                      <input className="prop" type="text" id="prop_bp_bCoef" value={stadiumProperties.ballPhysics.bCoef} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>invMass</label>
-                      <input className="prop" type="text" id="prop_bp_invMass" value={stadiumProperties.ballPhysics.invMass} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>Damping</label>
-                      <input className="prop" type="text" id="prop_bp_damping" value={stadiumProperties.ballPhysics.damping} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>Color</label>
-                      <input className="prop" type="text" id="prop_bp_color" value={stadiumProperties.ballPhysics.color} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>cMask</label>
-                      <input className="prop" type="text" id="prop_bp_cMask" value={stadiumProperties.ballPhysics.cMask} onChange={handlePropertiesChange} onBlur={handleBlur} />
-                      <label className="prop" style={{ width: 75 }}>cGroup</label>
-                      <input className="prop" type="text" id="prop_bp_cGroup" value={stadiumProperties.ballPhysics.cGroup} onChange={handlePropertiesChange} onBlur={handleBlur} />
+                      <Properties
+                        type='text' width='75' ids='prop_bp_' valuesFrom={stadiumProperties.ballPhysics} onChange={handlePropertiesChange} onBlur={handleBlur}
+                        names={['gravity', 'radius', 'bCoef', 'invMass', 'damping', 'color', 'cMask', 'cGroup']} />
                     </div>
                     <div className="prop_group">
                       <div className="prop_group_title">Color Codes</div>
