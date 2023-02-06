@@ -1,29 +1,11 @@
 /* eslint-disable eqeqeq */
 import CreatorHeader from "./CreatorHeader";
-import logoSelect from "../HBSE_files/right-tools/right-tools_select.png"
-import logoRotate from "../HBSE_files/right-tools/right-tools_rotate.png"
-import logoDisc from "../HBSE_files/right-tools/right-tools_disc.png"
-import logoScale from "../HBSE_files/right-tools/right-tools_scale.png"
-import logoSegment from "../HBSE_files/right-tools/right-tools_segment.png"
-import logoVertex from "../HBSE_files/right-tools/right-tools_vertex.png"
-import logoGoal from "../HBSE_files/right-tools/right-tools_goal.png"
-import logoPlane from "../HBSE_files/right-tools/right-tools_plane.png"
-import logoProperties from "../HBSE_files/left-tools/left-tools_pr.png"
-import logoTools from "../HBSE_files/left-tools/left-tools_board.png"
-import imgUndo from "../HBSE_files/always-tools/always-tools_undo.png"
-import imgRedo from "../HBSE_files/always-tools/always-tools_redo.png"
-import imgCopy from "../HBSE_files/always-tools/always-tools_copy.png"
-import imgPaste from "../HBSE_files/always-tools/always-tools_paste.png"
-import imgDelete from "../HBSE_files/always-tools/always-tools_del.png"
-import imgSelectAll from "../HBSE_files/always-tools/always-tools_all.png"
-import imgSelectNone from "../HBSE_files/always-tools/always-tools_cancel.png"
-import imgInverse from "../HBSE_files/always-tools/always-tools_inverse.png"
-import imgDuplicate from "../HBSE_files/always-tools/always-tools_CaP.png"
-import imgClear from "../HBSE_files/always-tools/always-tools_cut.png"
-import imgPreview from "../HBSE_files/left-tools/left-tools_preview.png"
-import imgMirror from "../HBSE_files/left-tools/left-tools_mirror.png"
 import $ from 'jquery';
-import basicStadiums from "../basicStadiums";
+
+import {
+  logoSelect, logoRotate, logoDisc, logoScale, logoSegment, logoVertex, logoGoal, logoPlane, logoProperties, logoTools, imgClear,
+  imgCopy, imgDelete, imgDuplicate, imgInverse, imgMirror, imgPaste, imgPreview, imgRedo, imgSelectAll, imgSelectNone, imgUndo, basicStadiums
+} from './imports'
 
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
@@ -36,6 +18,7 @@ var canvas_rect = [-150, -75, 150, 75];
 
 var zoomScale = 1;
 var zoomFactor = 1.08; // zoomScale multiplier when mouse wheel is used
+
 var canvas = document.getElementById('canvas');
 var stadium;
 
@@ -243,16 +226,16 @@ function starting() {
   modified(true);
 }
 
-function getLineCoefs(x, y) {
-  var a = (x[1] - y[1]) / (x[0] - y[0]);
-  var b = y[1] - a * y[0];
-  return { a: a, b: b };
-}
+// function getLineCoefs(x, y) {
+//   var a = (x[1] - y[1]) / (x[0] - y[0]);
+//   var b = y[1] - a * y[0];
+//   return { a: a, b: b };
+// }
 
-function getQuadraticEquationRoots(a, b, c) {
-  var delta = b * b - 4 * a * c;
-  return [(-b - Math.sqrt(delta)) / (2 * a), (-b + Math.sqrt(delta)) / (2 * a)]
-}
+// function getQuadraticEquationRoots(a, b, c) {
+//   var delta = b * b - 4 * a * c;
+//   return [(-b - Math.sqrt(delta)) / (2 * a), (-b + Math.sqrt(delta)) / (2 * a)]
+// }
 
 function renderbg(st, ctx) {
   var bg = st.bg;
@@ -432,7 +415,7 @@ function handle_down(ev) {
   current_tool.down(pt, ev);
   return false;
 }
-zoomScale = 1;
+
 function translate_coords(p) {
   var off = $(canvas).offset();
   var pt = [Math.round(p[0] - off.left + canvas_rect[0]) / zoomScale,
@@ -1845,7 +1828,6 @@ function rotate_obj(st, shape, center, cos, sin) {
     var nn = point_rotate(no, [0, 0], cos, sin);
     var pt = point_rotate([no[0] * o.dist, no[1] * o.dist], center, cos, sin);
     var d = projected_dist(nn, pt);
-    // var d = dist([0,0], pt) * Math.sin(Math.PI/2 - three_point_angle([-nn[0], -nn[1]], [0,0], pt));
     obj.normal = nn;
     obj.dist = d;
   }
@@ -2842,14 +2824,11 @@ function resize() {
 }
 
 
-function renderStadium(st, zoomed = false) {
+function renderStadium(st) {
 
   var transform;
   canvas = document.getElementById('canvas');
-  // canvas.width = st.width * 2 * zoomScale;
-  // canvas.height = st.height * 2 * zoomScale;
-  // console.log('kanwas', canvas.width, canvas.height)
-  // console.log('a w teorii', 2 * st.width * zoomScale, 2 * st.height * zoomScale)
+
   if (current_tool && current_tool.transform) {
     transform = function (shape, draw) {
       ctx.save();
@@ -2876,14 +2855,6 @@ function renderStadium(st, zoomed = false) {
   ctx.translate(-canvas_rect[0], -canvas_rect[1]);
 
   ctx.scale(zoomScale, zoomScale);
-
-  // if (zoomed) {
-  //   // console.log(current_mouse_position)
-  //   const x = -current_mouse_position[0];
-  //   const y = -current_mouse_position[1];
-  //   // ctx.translate(x / zoomFactor, y / zoomFactor)
-  //   ctx.translate(200, 200)
-  // }
 
   if (settings.preview) {
     ctx.beginPath();
@@ -3068,6 +3039,15 @@ function renderStadium(st, zoomed = false) {
 
 function saveCanvas() {
   canvas = document.getElementById('canvas');
+}
+
+function reloadStadium() {
+  zoomScale = 1;
+  resize_canvas();
+  renderStadium(stadium);
+  var el = document.getElementById('canvas_div');
+  el.scrollLeft = canvas_rect[2] - el.clientWidth / 2;
+  el.scrollTop = canvas_rect[3] - el.clientHeight / 2;
 }
 
 function new_stadium() {
@@ -3294,6 +3274,7 @@ function StadiumCreator() {
 
     load(stadium);
     modified();
+    reloadStadium();
 
     add_tool(tool_select);
     add_tool(tool_segment);
@@ -3308,8 +3289,10 @@ function StadiumCreator() {
 
     window.addEventListener("wheel", handleWheel, { passive: false })
 
-    return () => window.removeEventListener('wheel', handleWheel);
-
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('resize', resize)
+    }
   }, []);
 
   function updateStadium() {
@@ -3362,29 +3345,6 @@ function StadiumCreator() {
     //   }
     // };
 
-
-    // <form id="upload" action="https://haxmaps.com/hb/form" method="post" enctype="multipart/form-data">
-    //   <input type="text" name="map-name" id="map-name" defaultValue="Name:" />
-    //   <input type="text" name="authornick" id="authornick" defaultValue="Author (optional):" />
-    //   <textarea name="description" id="description">About (optional):</textarea>
-    //   <div className="hidden3">
-    //     <input type="file" name="map" id="map" rel=".hbs" accept=".hbs" />
-    //   </div>
-    //   <div class="upload">
-    //     Choose Map (.hbs)
-    //   </div>
-    //   <input type="file" name="map" id="map" rel=".hbs" accept=".hbs" />
-    //   <p></p><center>
-    //     <h2>If you want to update one of your maps, please use the "Update map" button bellow the map instead.</h2>
-    //   </center><p></p>
-    //   <p></p><center>You can also connect with <a href="https://haxrec.com">HaxRec</a> or <a href="https://haxcolors.com">HaxColors</a>.</center><p></p>
-    //   <div className="hidden">
-    //     <input type="text" name="goal" value="Enter Replay ID from HaxRec.com (Optional):" onfocus="if(this.value=='Enter Replay ID from HaxRec.com (Optional):') this.value='';" onblur="if(this.value=='') this.value='Enter Replay ID from HaxRec.com (Optional):';" />
-    //     <input type="text" name="color" value="Enter Color ID from HaxColors.com (Optional):" onfocus="if(this.value=='Enter Color ID from HaxColors.com (Optional):') this.value='';" onblur="if(this.value=='') this.value='Enter Color ID from HaxColors.com (Optional):';" />
-    //   </div>
-    //   <input value="Upload" class="submit" type="button" onClick={addtoHaxmaps} />
-    // </form>
-
     // const file = new File([blob], "Test Stadium.hbs", {
     //   type: "text/plain",
     // });
@@ -3400,52 +3360,28 @@ function StadiumCreator() {
 
   function handleWheel(e) {
     if (e.target.id === 'canvas') {
-      // console.log(e)
       var oldZoom = zoomScale;
       if (e.deltaY > 0) zoomScale /= zoomFactor;
       else zoomScale *= zoomFactor;
 
-      // var pozycjaMyszkiNaMapie = current_mouse_position[0] + stadium.width;
-      // var staryScrollLeft = (e.target.parentElement.scrollLeft - stadium.width) / oldZoom;
-      // var nowyScrollLeft = (e.target.parentElement.scrollLeft - stadium.width) / zoomScale;
-      // var przesuniecie = nowyScrollLeft - staryScrollLeft;
-      // var trzebaPrzesunac = przesuniecie * zoomScale
+      var oldScrollLeft = {}, newScrollLeft = {}, moveScroll = {};
+      oldScrollLeft.x = current_mouse_position[0];
+      newScrollLeft.x = (e.layerX - canvas_rect[2] * zoomScale / oldZoom) / zoomScale;
+      moveScroll.x = (newScrollLeft.x - oldScrollLeft.x) * zoomScale;
 
-      var pozycjaMyszkiNaMapie = current_mouse_position[0] + stadium.width;
-      var staryScrollLeft = current_mouse_position[0];
-      var nowyScrollLeft = (e.layerX - canvas_rect[2] * zoomScale / oldZoom) / zoomScale;
-      // var nowyScrollLeft = (e.target.parentElement.scrollLeft - stadium.width + e.layerX) / zoomScale; // layerX to są chyba cordy całej płachty
-      var przesuniecie = nowyScrollLeft - staryScrollLeft;
-      var trzebaPrzesunac = przesuniecie * zoomScale
-
-      ////////////////// dla Y
-
-      var staryScrollLeftY = current_mouse_position[1];
-      var nowyScrollLeftY = (e.layerY - canvas_rect[3] * zoomScale / oldZoom) / zoomScale;
-      var przesuniecieY = nowyScrollLeftY - staryScrollLeftY;
-      var trzebaPrzesunacY = przesuniecieY * zoomScale
-
-      //// EEEEE WSZYSTKO DZIAŁA, WYHACZA SIĘ DOPIERO GDY JEST ZOOM < 1, CHYBA PROBLEMY Z CANVASEM WTEDY
-
-      // console.log(e.layerX, zoomScale, canvas_rect)
-
-      // console.log((e.layerX - canvas_rect[2]) / oldZoom)
-      // console.log(staryScrollLeft, nowyScrollLeft)
+      oldScrollLeft.y = current_mouse_position[1];
+      newScrollLeft.y = (e.layerY - canvas_rect[3] * zoomScale / oldZoom) / zoomScale;
+      moveScroll.y = (newScrollLeft.y - oldScrollLeft.y) * zoomScale;
 
       resize_canvas();
-      renderStadium(stadium, true);
+      renderStadium(stadium);
 
-      var x = stadium.width / zoomScale
-      var y = (e.target.parentElement.scrollLeft - stadium.width - przesuniecie) / zoomScale;
-
-      e.target.parentElement.scrollLeft -= trzebaPrzesunac;
-      e.target.parentElement.scrollTop -= trzebaPrzesunacY;
+      e.target.parentElement.scrollLeft -= moveScroll.x;
+      e.target.parentElement.scrollTop -= moveScroll.y;
 
       e.preventDefault();
     }
   }
-
-  // do przesuwania będzie handle_down i ev.which == 2 i style.cursor.move albo .grab
 
   return (
 
