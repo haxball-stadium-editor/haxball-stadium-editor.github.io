@@ -5,6 +5,12 @@ import { setVersion } from '../../reducers/versionSlice.js';
 
 const changelog = [
   {
+    version: '3.0.8',
+    date: '2023-02-17',
+    changes: [
+      'Bug fixed - users were unable to load some maps'
+    ]
+  }, {
     version: '3.0.7',
     date: '2023-02-06',
     changes: [

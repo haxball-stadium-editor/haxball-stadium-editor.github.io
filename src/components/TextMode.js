@@ -122,13 +122,17 @@ function TextMode() {
     reader.readAsBinaryString(plik.files[0]);
     reader.onload = function () {
       if (plik.value.endsWith(".hbs")) {
+        const regex = /\/*.*\*\//
+        const x = reader.result.split(regex);
+        const y = x.join('');
         try {
-          JSON.parse(reader.result);
+          JSON.parse(y);
         } catch (error) {
+          console.log(error)
           return alert("Incorrect file content - not a JSON Object")
         }
-        dispatch(editStadium(JSON.parse(reader.result)));
-        dispatch(editStadiumText(pprint(JSON.parse(reader.result))));
+        dispatch(editStadium(JSON.parse(y)));
+        dispatch(editStadiumText(pprint(JSON.parse(y))));
       } else {
         alert('Incorrect extension, file name should end with .hbs');
       }
